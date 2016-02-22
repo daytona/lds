@@ -1,0 +1,15 @@
+# Libraries
+node_modules
+*/node_modules
+
+# Logs
+*.log
+/log/*
+!/log/.keep
+
+# Dist
+dist
+*/dist
+
+#Other
+.DS_Store

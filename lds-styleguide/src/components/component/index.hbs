@@ -1,0 +1,55 @@
+<section class="Component js-component" id="Component-{{name}}" {{#if template}}data-url="/component/{{name}}"{{/if}} data-controller="[{ &quot;Component&quot;: {&quot;data&quot;:{{jsonLine data}}{{#config}}, &quot;config&quot;: {{jsonLine .}}{{/config}} }}]">
+  <header class="Component-header">
+    {{#if info}}
+      {{{markdown info}}}
+    {{else}}
+      <h2>{{name}}</h2>
+    {{/if}}
+    {{#if config.version}}
+      <span class="Component-versionTag">{{config.version}}</span>
+    {{/if}}
+  </header>
+  <div class="Grid">
+    <div class="Grid-cell">
+      <div class="Component-container{{#config.fullwidth}} Component-container--full{{/config.fullwidth}} js-container"></div>
+    </div>
+    <div class="Grid-cell">
+      {{#if config.schema}}
+        <form class="Component-editForm js-editForm">
+          {{#each config.schema}}
+            <label class="Component-editLabel">
+              {{@key}}:
+              <select class="Component-editField" name="{{@key}}">
+                {{#each this}}
+                  <option value="{{#if value}}{{jsonLine value}}{{else}}{{this}}{{/if}}" {{#equals value (getProperty ../../data @../key)}} selected="selected"{{/equals}}{{#equals this (getProperty ../../data @../key)}} selected="selected"{{/equals}}>{{#if key}}{{key}}{{else}}{{.}}{{/if}}</option>
+                {{/each}}
+              </select>
+            </label>
+          {{/each}}
+        </form>
+      {{/if}}
+    </div>
+  </div>
+  <footer class="Component-footer">
+    {{#if data}}
+    {{#unless (isEmpty data)}}
+      <div class="Details Component-code Component-code--data" data-controller="Details">
+        <h3 class="Details-summary js-details-summary">Data</h3>
+        <div class="Details-content js-details-content">
+          <pre><code>{{indent (json data)}}</code></pre>
+        </div>
+      </div>
+    {{/unless}}
+    {{/if}}
+    {{#if config.revisions}}
+      <div class="Details Component-code Component-code--revisions" data-controller="Details">
+        <h3 class="Details-summary js-details-summary">Revisions</h3>
+        <div class="Details-content js-details-content">
+          {{#each config.revisions}}
+            <div>{{this}}</div>
+          {{/each}}
+        </div>
+      </div>
+    {{/if}}
+  </footer>
+</section>

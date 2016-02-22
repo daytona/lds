@@ -1,0 +1,24 @@
+:root {
+  --color-blue: #333;
+  --color-green: #444;
+  --color-brown: #555;
+}
+.Component {
+
+}
+.Component-code {
+  margin: 20px 0;
+  background: pink;
+  padding: 10px;
+  font-size: 12px;
+  font-family: courier;
+  border: 1px solid red;
+}
+.Component-editForm {
+  border: 1px solid #333;
+  padding: 20px;
+  margin: 20px 0;
+}
+.Component-editLabel {
+  display: block;
+}
