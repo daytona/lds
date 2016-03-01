@@ -1,11 +1,14 @@
 {
   "name": "testlds",
   "version": "1.0.0",
-  "description": "",
+  "description": "example ui of LDS",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "eslint",
+    "start": "npm run watch & lds start",
+    "watch": "npm run watch:scripts & npm run watch:styles",
+    "watch:styles": "nodemon -w src -q -e 'css' --exec 'lds build styles'",
+    "watch:scripts": "nodemon -w src -q -e 'js' --exec 'lds build script'"
   },
-  "author": "",
   "license": "ISC",
   "dependencies": {
     "babel-core": "^6.5.2",
