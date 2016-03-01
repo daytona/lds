@@ -1,40 +1,50 @@
-import path from 'path';
-import fs from 'fs';
-import handlebars from 'handlebars';
-import koa from 'koa';
-import koaHandlebars from 'koa-handlebars';
-import serve from 'koa-static';
-import mount from 'koa-mount';
-import assignDeep from 'assign-deep';
-import styleguide from 'lds-styleguide';
-import router from './router';
-import session from './session';
-import parseLdsComponents from './components';
+var path = require('path');
+var fs = require('fs');
+var handlebars = require('handlebars');
+var koa = require('koa');
+var koaHandlebars = require('koa-handlebars');
+var serve = require('koa-static');
+var mount = require('koa-mount');
+var assignDeep = require('assign-deep');
+var styleguide = require('lds-styleguide').config;
+var router = require('./router');
+var session = require('./session');
+var parseLdsComponents = require('./components');
 
-export default function Server(appConfig = {}) {
+function* parseComponents (next) {
+  session.lds = parseLdsComponents(session.config);
+  session.styleguide.components = parseLdsComponents(session.styleguide.config, {prefix: 'lds'});
+
+  yield next;
+}
+
+function Server(appConfig) {
   let newChanges = false;
+
+  // Merge helpers from both app and styleguide
+  const koaHelpers = Object.assign({}, appConfig.helpers, styleguide.helpers);
+
   // Parse all components of LDS and register on instance Handlebars
   if (!session.config || session.config.version !== appConfig.version) {
     session.config = assignDeep({path: {dirname: process.cwd()}}, appConfig);
-    session.lds = parseLdsComponents(session.config);
     newChanges = true;
   }
 
   // Parse all components of Styleguide and register on instance Handlebars
   if (!session.styleguide || session.styleguide.config.version !== styleguide.version) {
     session.styleguide = {
-      config: styleguide,
-      components: parseLdsComponents(styleguide, {prefix: 'lds'}),
+      config: styleguide
     };
     newChanges = true;
   }
+
 
   if (false && newChanges) {
     const cache = {
       lds: session.lds,
       styleguide: session.styleguide,
     };
-    fs.writeFile(path.join(__dirname, 'session.js'), `export default ${JSON.stringify(cache, false, 2)};`, 'utf-8', (err) => {
+    fs.writeFile(path.join(__dirname, 'session.js'), `module.exports = ${JSON.stringify(cache, false, 2)};`, 'utf-8', (err) => {
       if (err) {
         throw err;
       }
@@ -53,7 +63,7 @@ export default function Server(appConfig = {}) {
     handlebars,
     defaultLayout: "default",
     extension: [ "hbs" ],
-    helpers: session.config.helpers || {},
+    helpers: koaHelpers,
     layoutsDir: session.config.path.layouts,
 
     // When requesting a layoutpath beginning with "styleguide:", look for it in styleguide
@@ -74,13 +84,10 @@ export default function Server(appConfig = {}) {
         return id + '/index';
       }
     },
-    // partialsDir: session.config.path.components,
-    // partialId(file) {
-    //   return file.replace(/\/index.hbs$/, '');
-    // },
   }));
 
   app
+    .use(parseComponents)
     .use(router.routes())
     .use(router.allowedMethods());
 
@@ -89,3 +96,5 @@ export default function Server(appConfig = {}) {
   console.log('HTTP-Server running at port ', process.env.PORT || session.config.port || 4000);
   return app;
 };
+
+module.exports = Server;

@@ -1,15 +1,15 @@
-import path from 'path';
-import trace from './trace';
-import postcss from 'postcss';
+var path = require('path');
+var trace = require('./trace');
+var postcss = require('postcss');
 
-const components = {};
-export default function parseComponents(config) {
+var components = {};
+function parseComponents(config) {
 
   if (components.length) {
     return components;
   }
 
-  const componentsTree = trace(path.join(config.path.dirname, config.path.components));
+  var componentsTree = trace(path.join(config.path.dirname, config.path.components));
 
   Object.keys(componentsTree).forEach((name) => {
     const tree = componentsTree[name];
@@ -42,3 +42,5 @@ export default function parseComponents(config) {
   });
   return components;
 }
+
+module.exports = parseComponents;

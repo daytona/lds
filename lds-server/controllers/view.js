@@ -1,6 +1,6 @@
-import path from 'path';
-import fs from 'fs';
-import session from '../session';
+var path = require('path');
+var fs = require('fs');
+var session = require('../app/session');
 
 function getViewData(view) {
   const config = view.match(/styleguide:/) ? session.styleguide.config : session.config;
@@ -14,7 +14,9 @@ function getViewData(view) {
   return data;
 }
 
-function getLayoutData(layout = 'default') {
+function getLayoutData(layout) {
+  layout = layout || 'default';
+
   const config = layout.match(/styleguide:/) ? session.styleguide.config : session.config;
   const layoutpath = path.join(config.path.dirname, config.path.layouts, layout.replace(/^styleguide:/, ''));
 
@@ -26,7 +28,7 @@ function getLayoutData(layout = 'default') {
 }
 
 // Render a single component with request.parameters or default json.
-export default function* viewPage (next) {
+function* viewPage (next) {
   let view = this.params.view || 'start';
   let viewData = getViewData(view);
   if (!viewData) {
@@ -38,3 +40,5 @@ export default function* viewPage (next) {
   const data = Object.assign({}, layoutData, viewData);
   yield this.render(view, data);
 }
+
+module.exports = viewPage;

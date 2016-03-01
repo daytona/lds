@@ -1,2 +1,2 @@
-import Server from './app';
-export default Server;
+var Server = require('./app');
+module.exports = Server;

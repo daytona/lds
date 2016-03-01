@@ -1,8 +1,8 @@
-import path from 'path';
-import trace from './trace';
-import build from './build';
+var path = require('path');
+var trace = require('./trace');
+var build = require('./build');
 
-export default function generate(name, ...args) {
+function generate(name, ...args) {
   const tree = trace(path.join(__dirname, 'generators', 'default'));
   const component = {};
   const data = {name};
@@ -22,3 +22,5 @@ export default function generate(name, ...args) {
 if (process.argv && process.argv.length > 2) {
   generate.apply(null, process.argv.slice(2));
 }
+
+module.exports = generate;

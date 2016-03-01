@@ -1,0 +1,16 @@
+{
+  "navigation": {
+    "items": [
+      {
+        "text": "Base",
+        "url": "styleguide/base",
+        "children": false
+      },
+      {
+        "text": "Components",
+        "url": "styleguide/components",
+        "children": false
+      }
+    ]
+  }
+}

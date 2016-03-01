@@ -1,5 +1,5 @@
-import fs from 'fs';
-import path from 'path';
+var fs = require('fs');
+var path = require('path');
 
 /**
  * Crawls the given directory path returning a dictionary of the
@@ -16,7 +16,7 @@ import path from 'path';
  * @return {Object}
  */
 
-function traverse(dir, struct = {}) {
+function traverse(dir, struct) {
   fs.readdirSync(dir).forEach((name) => {
     const file = path.normalize(dir + '/' + name);
     const stats = fs.lstatSync(file);
@@ -32,14 +32,14 @@ function traverse(dir, struct = {}) {
   return struct;
 }
 
-export default function trace(dir) {
+function trace(dir) {
   const normalizedDir = path.normalize(dir);
 
   try {
-    return traverse(normalizedDir);
+    return traverse(normalizedDir, {});
   } catch (err) {
     return false;
   }
-
-
 }
+
+module.exports = trace;

@@ -66,11 +66,11 @@ module.exports = function build(type, config) {
   if (!type || type === 'styles') {
     var styles = findComponents(components, /index.css$/, 'src/');
     console.log('Building styles:', styles);
-    require('./lib/build-styles')(styles, config.path.dirname, path.join(config.path.dirname, config.path.dist, config.dest.style));
+    require('./lib/build-styles')(styles, config.path.dirname, path.join(config.path.dirname, config.path.dist, config.dest.style), config.prefix);
   }
 
-  if (!type || type === 'tree') {
-    require('./lib/build-tree')(config);
-  }
+  // if (!type || type === 'tree') {
+  //   require('./lib/build-tree')(config);
+  // }
 
 };

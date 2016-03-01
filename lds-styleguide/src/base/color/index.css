@@ -1,0 +1,12 @@
+:root {
+  --color-red: red;
+  --color-blue: blue;
+}
+
+.u-color-red {
+  color: var(--color-red);
+}
+
+.u-background-red {
+  background-color: var(--color-red);
+}

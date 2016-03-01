@@ -3,9 +3,10 @@ var postcss = require('postcss');
 var cssnext = require('postcss-cssnext');
 var cssnano = require('cssnano');
 var cssimport = require('postcss-import');
+var cssprefix = require('postcss-class-prefix');
 var cssurl = require('postcss-url');
 
-module.exports = function buildStyles(files, src, dest) {
+module.exports = function buildStyles(files, src, dest, prefix) {
   var bundle = postcss.root();
 
 // Create fake base style with imports
@@ -17,6 +18,7 @@ module.exports = function buildStyles(files, src, dest) {
     .use(cssimport({
       map: {inline: true, sourcesContent: true}
     }))
+    .use(cssprefix(prefix ? prefix + '-' : false))
     .use(cssurl())
     .use(cssnext())
     .use(cssnano())

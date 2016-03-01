@@ -1,0 +1,39 @@
+:root {
+  --pane-background-color: #0067AF;
+  --pane-header-background-color: rgba(#000, .08);
+  --pane-color: #fff;
+  --pane-title-color: #fff;
+}
+
+.Pane {
+  background: var(--pane-background-color);
+  color: var(--pane-color);
+}
+
+.Pane-header {
+  padding: calc(24em/16) calc(18em/16);
+  background: var(--pane-header-background-color);
+  color: var(--pane-title-color)
+}
+
+.Pane-menu {
+  padding: calc(6em/16) 0;
+}
+
+/*.Pane::-webkit-scrollbar {
+    width: 4px;
+}
+
+.Pane::-webkit-scrollbar-track {
+    -webkit-box-shadow: none;
+    border-radius: 0px;
+}
+
+.Pane::-webkit-scrollbar-thumb {
+    border-radius: 0px;
+    background: rgba(#fff ,.3);
+    -webkit-box-shadow: none;
+}
+.Pane::-webkit-scrollbar-thumb:window-inactive {
+	background: rgba(#fff ,.4);
+}*/

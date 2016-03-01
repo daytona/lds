@@ -1,0 +1,38 @@
+:root {
+  --navigation-link-font-size: 14px;
+  --navigation-link-color: rgba(255, 255, 255, 0.6);
+}
+
+.MainNavigation {
+
+}
+.MainNavigation-list {
+  margin: 0;
+  padding: 0;
+}
+
+.MainNavigation-item {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.MainNavigation-link--withChildren::before {
+  content: ">";
+  position: absolute;
+  margin-left: -1em;
+}
+
+.MainNavigation-link {
+  display: block;
+  position: relative;
+  color: var(--navigation-link-color);
+  font-size: var(--navigation-link-font-size);
+  text-decoration: none;
+  text-transform: uppercase;
+  padding: 5px 15px 5px 25px;
+}
+.MainNavigation-link--level2 {
+  padding-left: 35px;
+  text-transform: none;
+}

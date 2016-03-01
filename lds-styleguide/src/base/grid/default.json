@@ -1,0 +1,8 @@
+{
+  "mode": ["withGutter", "fit"],
+  "items": [
+    {"content": "Grid-cell"},
+    {"content": "Grid-cell"},
+    {"content": "Grid-cell"}
+  ]
+}

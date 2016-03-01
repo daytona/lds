@@ -1,4 +1,6 @@
-export default {
+var helpers = require('./lib/handlebar-helpers');
+
+module.exports = {
   version: '0.0.1',
   prefix: 'lds',
   path : {
@@ -6,7 +8,7 @@ export default {
     base: 'src/base',
     components: 'src/components',
     views: 'src/views',
-    layouts: 'src/views/_layouts',
+    layouts: 'src/layouts',
     dist: 'dist',
     public: '/styleguide',
     icons: 'src/assets/icons',
@@ -19,5 +21,5 @@ export default {
     images: 'images',
     fonts: 'fonts'
   },
-  helpers: {}
+  helpers,
 };

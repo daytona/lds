@@ -1,10 +1,10 @@
-import cli from 'lds-cli';
-import server from 'lds-server';
-import build from 'lds-build';
-import styleguide from 'lds-styleguide';
-import test from 'lds-test';
+var cli = require('lds-cli');
+var server = require('lds-server');
+var build = require('lds-build');
+var styleguide = require('lds-styleguide');
+var test = require('lds-test');
 
-export default {
+module.exports = {
   cli,
   build,
   server,

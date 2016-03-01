@@ -1,0 +1,103 @@
+/**
+ * Grid styles based on https://github.com/suitcss/components-grid/blob/master/lib/grid.css
+ */
+
+:root {
+  --grid-gutter-size: 20px;
+}
+
+.Grid {
+  box-sizing: border-box;
+  display: flex;
+  flex-flow: row wrap;
+  margin: 0;
+  padding: 0;
+  font-size: 0;
+  position: relative;
+}
+
+/**
+ * Modifier: center align all grid cells
+ */
+.Grid--alignCenter {
+  justify-content: center;
+}
+
+/**
+ * Modifier: right align all grid cells
+ */
+.Grid--alignRight {
+  justify-content: flex-end;
+}
+
+/**
+ * Modifier: middle-align grid cells
+ */
+.Grid--alignMiddle {
+  align-items: center;
+}
+
+/**
+ * Modifier: bottom-align grid cells
+ */
+.Grid--alignBottom {
+  align-items: flex-end;
+}
+
+/**
+ * Reverse order of cells
+ */
+.Grid--reversed {
+  direction: rtl;
+}
+
+/**
+ * Fit cells on a single row, using flexbox, with fallback to table
+ */
+.Grid--fit {
+  display: table;
+  min-width: 100%;
+  display: flex;
+}
+
+.Grid--fit > .Grid-cell {
+  display: table-cell;
+  width: 20%;
+  flex: 1 1 0%;
+}
+
+/**
+ * Adds spacing between cells vertically and horizontally
+ */
+.Grid--withGutter {
+  margin-left: calc(-0.5 * var(--grid-gutter-size));
+  margin-right: calc(-0.5 * var(--grid-gutter-size));
+  margin-bottom: calc(-1 * var(--grid-gutter-size))
+}
+
+.Grid--withGutter > .Grid-cell {
+  padding-left: calc(0.5 * var(--grid-gutter-size));
+  padding-right: calc(0.5 * var(--grid-gutter-size));
+  padding-bottom: var(--grid-gutter-size);
+}
+
+/**
+ * Allow content of each cell to expand to the same height
+ */
+.Grid--equalHeight > .Grid-cell {
+  display: flex;
+}
+
+/**
+ * Every element in a grid needs to be of the type .Grid-cell
+ */
+.Grid-cell {
+  direction: ltr;
+  font-size: var(--base-font-size);
+  display: inline-block;
+  vertical-align: top;
+  width: 50%;
+  box-sizing: inherit;
+  flex: 0 0 100%;
+  flex-basis: auto;
+}

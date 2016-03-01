@@ -1,8 +1,8 @@
-import fs from 'fs';
-import path from 'path';
-import isPlainObject from 'is-plain-object';
+var fs = require('fs');
+var path = require('path');
+var isPlainObject = require('is-plain-object');
 
-let id = 0;
+var id = 0;
 
 /**
  * Create a file structure based on a dictionary representing a file structure.
@@ -20,7 +20,7 @@ let id = 0;
  * @param  {String}   path      Working directory path
  * @param  {Function} callback  Callback function to call once it's done
  */
-export default function build(object, dir, callback) {
+function build(object, dir, callback) {
   if (!object) {
     return callback(new Error('No object to be built'));
   }
@@ -81,3 +81,5 @@ export default function build(object, dir, callback) {
     callback();
   }
 }
+
+module.exports = build;

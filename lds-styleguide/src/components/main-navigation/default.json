@@ -1,0 +1,22 @@
+{
+  "items": [
+    {
+      "name": "Base",
+      "url": "#",
+      "items": [
+        {
+          "name": "child",
+          "url": "#"
+        },
+        {
+          "name": "child",
+          "url": "#"
+        }
+      ]
+    },
+    {
+      "name": "Other",
+      "url": "#"
+    }
+  ]
+}

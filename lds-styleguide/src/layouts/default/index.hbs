@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html class="{{prefix}}Page-root">
   <head>
     <title>{{title}}</title>
     <meta charset="utf-8">
@@ -8,8 +8,14 @@
     <link rel="stylesheet" href="/assets/style.css">
     <link rel="stylesheet" href="/styleguide/style.css">
   </head>
-  <body>
-    {{{@body}}}
+  <body class="{{prefix}}Page {{prefix}}Text">
+    <div class="{{prefix}}Page-pane {{prefix}}Pane">
+      {{> lds:pane}}
+    </div>
+    <main class="{{prefix}}Page-main">
+      {{{@body}}}
+    </main>
+  </div>
   </body>
   <script src="/assets/main.js"></script>
   <script src="/styleguide/main.js"></script>

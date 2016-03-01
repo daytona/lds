@@ -1,0 +1,18 @@
+{
+  "schema": {
+    "mode": [
+      {
+        "key": "spaced",
+        "value": ["withGutter", "fit"]
+      },
+      {
+        "key": "tight",
+        "value": ["fit"]
+      },
+      {
+        "key": "multi row",
+        "value": ["withGutter"]
+      }
+    ]
+  }
+}

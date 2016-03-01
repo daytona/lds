@@ -1,0 +1,22 @@
+{{#with mainNav}}
+<div class="MainNavigation" data-controller="MainNavigation">
+  {{#if this.items}}
+  <ul class="MainNavigation-list MainNavigation-list--level1">
+    {{#each this.items}}
+    <li class="MainNavigation-item{{#if this.items}} MainNavigation-item--withChildren{{/if}}">
+      <a class="MainNavigation-link MainNavigation-link--level1{{#if this.items}} MainNavigation-link--withChildren{{/if}}" href="{{url}}">{{{name}}}</a>
+      {{#if this.items}}
+        <ul class="MainNavigation-list MainNavigation-list--level2">
+          {{#each this.items}}
+          <li class="MainNavigation-item">
+            <a class="MainNavigation-link MainNavigation-link--level2" href="{{this.url}}">{{{this.name}}}</a>
+          </li>
+          {{/each}}
+        </ul>
+      {{/if}}
+    </li>
+    {{/each}}
+  </ul>
+  {{/if}}
+</div>
+{{/with}}

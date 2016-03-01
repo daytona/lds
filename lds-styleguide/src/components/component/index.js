@@ -29,7 +29,7 @@ export default function Component(el, options = {}) {
   }
 
   function update(params) {
-    state = Object.assign(state, params, {layout: 'none'});
+    state = Object.assign(state, params);
 
     xhr.send({
       method: 'get',

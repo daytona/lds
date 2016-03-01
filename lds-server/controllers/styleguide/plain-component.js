@@ -1,4 +1,4 @@
-import session from '../../session';
+var session = require('../../app/session');
 
 function isJSON(string) {
   try {
@@ -11,10 +11,9 @@ function isJSON(string) {
 
 
 // Render a single component with request.parameters or default json.
-export default function* componentPage (next) {
+function* componentPage (next) {
   // DON NOT tolerate name duplicates!!
   const components = Object.assign({}, session.lds.base, session.lds.components, session.lds.modules);
-  console.log('all', components);
   const name = this.params.name;
   const component = components[name];
   const query = {};
@@ -26,8 +25,10 @@ export default function* componentPage (next) {
 
   const data = Object.assign({},
                              component.data,
-                             {layout: 'none', componentName: name},
+                             {layout: 'styleguide:none', componentName: name},
                              query);
 
-  yield this.render('component', data);
+  yield this.render('styleguide:plain', data);
 }
+
+module.exports = componentPage;
