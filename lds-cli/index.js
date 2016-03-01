@@ -25,7 +25,7 @@ program
   });
 
 program
-  .command('build <type>')
+  .command('build [type]')
   .description('Build all assets to dist folder, starting watchtasks')
   .action(function(type) {
     build(type, config);
