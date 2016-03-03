@@ -1,24 +1,17 @@
+@import "example.css";
 :root {
   --color-blue: #333;
   --color-green: #444;
   --color-brown: #555;
 }
 .Component {
-
+  position: relative;
 }
-.Component-code {
-  margin: 20px 0;
-  background: pink;
-  padding: 10px;
-  font-size: 12px;
-  font-family: courier;
-  border: 1px solid red;
-}
-.Component-editForm {
-  border: 1px solid #333;
-  padding: 20px;
-  margin: 20px 0;
-}
-.Component-editLabel {
-  display: block;
+.Component-versionTag {
+  padding: 3px 5px;
+  background: darkred;
+  color: #fff;
+  position: absolute;
+  top: 0;
+  right: 0;
 }

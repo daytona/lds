@@ -18,7 +18,7 @@ module.exports = function buildStyles(files, src, dest, prefix) {
     .use(cssimport({
       map: {inline: true, sourcesContent: true}
     }))
-    .use(cssprefix(prefix ? prefix + '-' : false))
+    .use(cssprefix(prefix ? prefix + '-' : ''))
     .use(cssurl())
     .use(cssnext())
     .use(cssnano())

@@ -1,0 +1,14 @@
+{
+  "items": [
+    {
+      "id": 233,
+      "title": "Flik 1",
+      "@partial-block": "<html>"
+    },
+    {
+      "id": 234,
+      "title": "Flik 2",
+      "@partial-block": "<html>"
+    }
+  ]
+}

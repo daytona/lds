@@ -1,0 +1,7 @@
+{
+  "id": 22,
+  "title": "Fäll ut mig",
+  "inline": true,
+  "dropdown": true,
+  "@partial-block": "<html>"
+}

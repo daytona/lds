@@ -7,7 +7,7 @@ var trace = require('../lib/trace');
 function parseLdsComponents(config, options) {
   options = options || {};
 
-  return {
+   var lds = {
     base: config.path.views ? parseDirectory(path.join(config.path.dirname, config.path.base), Object.assign(options, {registerPartial: true, category: 'base'})) : false,
     components: config.path.components ? parseDirectory(path.join(config.path.dirname, config.path.components), Object.assign(options, {registerPartial: true, category: 'component'})): false,
     modules: config.path.modules ? parseDirectory(path.join(config.path.dirname, config.path.modules), Object.assign(options, {registerPartial: true, category: 'module'})) : false,
@@ -15,6 +15,7 @@ function parseLdsComponents(config, options) {
     // Parse views, but do not register them as partials
     views: config.path.views ? parseDirectory(path.join(config.path.dirname, config.path.views), Object.assign(options, {registerPartial: false, category: 'view'})) : false,
   }
+  return lds;
 }
 
 // Parse directories for components and add them to components object
@@ -68,12 +69,10 @@ function parseDirectory(directory, options) {
           }
         });
 
-      if (Object.keys(variables).length) {
-        component.css = {
-          variables,
-          modifiers,
-          dependencies,
-        }
+      component.css = {
+        variables,
+        modifiers,
+        dependencies,
       }
     }
 
@@ -97,54 +96,43 @@ function parseDirectory(directory, options) {
     // If component has template, register it as a partial to be used later
     if (component.template) {
       let dependencies = [];
-      const partialStrings = component.template.match(/{{> ?([^}]*)}}/g);
+      const partialStrings = component.template.match(/{{#?> ?([^}]*)}}/g);
       if (partialStrings) {
-        dependencies = partialStrings.map((string) => {
-          return string.replace(/\{\{> ?([^}]*)\}\}/, (org, s1) => {
-            return s1;
+        partialStrings.forEach((string) => {
+          return string.replace(/\{\{#?> ?([^}]*)\}\}/, (org, s1) => {
+            if (!s1.match(/^@/)) {
+              dependencies.push(s1);
+            }
           });
         });
-        component.hbs = {
-          dependencies
-        };
-      }
-      component.template = component.template.replace(/({{> ?)([^}]*)(}})/g, function(template, before, partialName, after) {
-        dependencies.push(partialName);
 
-        if ( options.prefix &&
-             !partialName.match(new RegExp(`^${options.prefix}:`)) &&
-             !partialName.match(/^\(/) ) {
-          partialName = `${options.prefix}:${partialName}`
+        const inlinePartialStrings = component.template.match(/{{#\*inline \"([^\"]*)\"}}/g);
+        if (inlinePartialStrings) {
+          inlinePartialStrings.forEach((string) => {
+            return string.replace(/{{#\*inline \"([^"]*)\"}}/, (org, s1) => {
+              var isDependency = dependencies.indexOf(s1);
+              if (isDependency) {
+                dependencies.splice(isDependency, 1);
+              }
+            });
+          });
         }
-
-        return `${before}${partialName}${after}`;
-      });
-
-      if (options.prefix) {
-        component.template = component.template.replace(/(class=['"])([^'"]*)(['"])/g, function(template, before, classes, after) {
-          var classString = classes.split(' ').map((str) => {
-            if (str.match(/^js/) ||
-                str.match(/^{{prefix}}/)) {
-              return str;
-            }
-            return `${options.prefix}-${str}`;
-          }).join(' ');
-
-          return `${before}${classString}${after}`;
-        });
       }
-
       // Register template as partial
       if (options.registerPartial) {
         const partialName = options.prefix ? `${options.prefix}:${name}` : name;
         handlebars.registerPartial(partialName, component.template);
       }
+
+      component.hbs = {
+        dependencies
+      };
     }
 
     // If example file is present, prerender it using the component object as data
     if (component.example && options.registerPartial) {
-      const partialName = options.prefix ? `${options.prefix}:${name}` : name;
-      handlebars.registerPartial(`example:${partialName}`, component.example);
+      const partialName = options.prefix ? `${options.prefix}:example:${name}` : `example:${name}`;
+      handlebars.registerPartial(partialName, component.example);
     }
 
     directoryComponents[name] = component;

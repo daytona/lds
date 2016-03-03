@@ -1,6 +1,4 @@
 var Router = require('koa-router');
-// var categoryPage = require('../controllers/styleguide/category');
-// var singlePage = require('../controllers/styleguide/single');
 var plain = require('../controllers/styleguide/plain-component');
 var styleguide = require('../controllers/styleguide');
 var viewPage = require('../controllers/view');

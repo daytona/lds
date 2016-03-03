@@ -21,21 +21,26 @@ function parseDom(dom) {
 
         json.forEach((controller) => {
           const name = Object.keys(controller);
-          const instance = controllers[name](node, controller[name]);
+
+          if (controllers[name]) {
+            const instance = controllers[name](node, controller[name]);
+
+            // Since some controllers might return an API for other controllers to use by importing
+            // it's a good rule to also return an init method for initializing the controller
+            if (instance && 'init' in instance) {
+              instance.init();
+            }
+          }
+        });
+      } else if (controllers.hasOwnProperty(attribute)) {
+        if (controllers[attribute]) {
+          const instance = controllers[attribute](node);
 
           // Since some controllers might return an API for other controllers to use by importing
           // it's a good rule to also return an init method for initializing the controller
           if (instance && 'init' in instance) {
             instance.init();
           }
-        });
-      } else if (controllers.hasOwnProperty(attribute)) {
-        const instance = controllers[attribute](node);
-
-        // Since some controllers might return an API for other controllers to use by importing
-        // it's a good rule to also return an init method for initializing the controller
-        if (instance && 'init' in instance) {
-          instance.init();
         }
       }
     });

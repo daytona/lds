@@ -1,0 +1,26 @@
+:root {
+  --dropdown-background: #fff;
+}
+.Details {}
+
+.Details--inline {
+  display: inline-block;
+}
+.Details--dropdown {
+  position: relative;
+
+}
+.Details--dropdown .Details-content {
+  position: absolute;
+  width: 250px;
+  background: var(--dropdown-background);
+  border: 1px solid #eee;
+  padding: 20px;
+  z-index: 2;
+}
+
+.Details-summary {}
+.Details-content {}
+.Details-content[aria-hidden="true"] {
+  display: none;
+}

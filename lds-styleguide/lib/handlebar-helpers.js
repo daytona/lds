@@ -1,6 +1,6 @@
 var marked = require('marked');
 var config = require('../lds.config');
-
+var uid = 1;
 function capitalize(string) {
   return (string[0].toUpperCase() + string.substr(1));
 }
@@ -56,7 +56,10 @@ var helpers = {
     }
   },
   getProperty(object, key) {
-    return object[key];
+    return object && object[key];
+  },
+  mergeObjects(object1, object2) {
+    return Object.assign(object1, object2);
   },
   eachProperty(context, options) {
     let ret = '';
@@ -77,14 +80,46 @@ var helpers = {
     console.log(data);
   },
   partial(name) {
-    // if (config.prefix && !name.match(new RegExp(`^${config.prefix}`))) {
-    //   name = `${config.prefix}:${unCapitalize(name)}`;
-    // }
     return unCapitalize(name);
   },
   indent(string) {
     return '    ' + string;
   },
+  undent(string) {
+
+    return string.split("\n").map((row) => {
+      return row.replace(/^ {4}/, '');
+    }).join("\n");
+  },
+  saveas(name, options) {
+    // if (options.data) {
+    //   data = Handlebars.createFrame(options.data);
+    // }
+    options.data[name] = this;
+    return options.fn(this);
+  },
+  uid() {
+    uid = uid + 1
+    return uid;
+  },
+  tablistdata(options) {
+    var id = options.hash.id;
+    return options.hash.tabs.split(' ').map((tab) => {
+      let split = tab.split('#');
+      return {
+        id: split[1] + id,
+        title: split[0]
+      };
+    });
+  },
+  concat() {
+    // remove trailing options argument
+    var args = Array.prototype.slice.call(arguments, 0, -1);
+    return args.join('');
+  },
+  prefix(options){
+    return options.data.root.prefix || '';
+  }
 };
 
 module.exports = helpers;

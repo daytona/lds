@@ -22,7 +22,6 @@ function parseData(session) {
   if (session.styleguide.config.prefix) {
     data.prefix = session.styleguide.config.prefix + '-';
   }
-
   return data;
 }
 

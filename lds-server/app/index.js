@@ -1,7 +1,7 @@
 var path = require('path');
 var fs = require('fs');
-var handlebars = require('handlebars');
 var koa = require('koa');
+var handlebars = require('handlebars');
 var koaHandlebars = require('koa-handlebars');
 var serve = require('koa-static');
 var mount = require('koa-mount');
@@ -9,11 +9,11 @@ var assignDeep = require('assign-deep');
 var styleguide = require('lds-styleguide').config;
 var router = require('./router');
 var session = require('./session');
-var parseLdsComponents = require('./components');
+var parseLdsComponents = require('./parse-components');
 
 function* parseComponents (next) {
   session.lds = parseLdsComponents(session.config);
-  session.styleguide.components = parseLdsComponents(session.styleguide.config, {prefix: 'lds'});
+  session.styleguide.components = parseLdsComponents(session.styleguide.config, {prefix: session.styleguide.config.prefix});
 
   yield next;
 }
@@ -85,7 +85,6 @@ function Server(appConfig) {
       }
     },
   }));
-
   app
     .use(parseComponents)
     .use(router.routes())

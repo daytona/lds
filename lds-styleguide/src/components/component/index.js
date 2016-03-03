@@ -9,13 +9,15 @@ export default function Component(el, options = {}) {
   const data = options.data || {};
   const containerEl = el.querySelector('.js-container');
   const formEl = el.querySelector('.js-editForm');
-
+  const dataEl = el.querySelector('.js-data');
 
   let state = data;
 
   function drawComponent(response) {
     containerEl.innerHTML = response.responseText;
     eventListener.dispatchEvent(containerEl, 'newDom');
+
+    dataEl.innerText = JSON.stringify(state, false, 4);
   }
 
   function object2query(obj) {
@@ -50,6 +52,7 @@ export default function Component(el, options = {}) {
 
   function bindEvents() {
     el.addEventListener('updateComponent', update);
+
     if (formEl) {
       formEl.addEventListener('formSubmit', submitForm);
       formEl.addEventListener('change', submitForm);
@@ -59,10 +62,12 @@ export default function Component(el, options = {}) {
   function init() {
     if (url) {
       bindEvents();
-      update();
+      dataEl.innerText = JSON.stringify(state, false, 4);
     }
   }
 
-  return init();
+  return {
+    init,
+  };
 }
 controller.add('Component', Component);

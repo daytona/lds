@@ -1,10 +1,10 @@
 {{#*inline "gridCell"}}
-  <div class="Grid-cell{{#each width}} u-width--{{this}}{{/each}}">
+  <div class="{{prefix}}Grid-cell{{#each width}} {{prefix}}u-width--{{this}}{{/each}}">
     {{> content}}
   </div>
 {{/inline}}
 
-<div class="Grid{{#each mode}} Grid--{{this}}{{/each}}">
+<div class="{{prefix}}Grid{{#each mode}} {{prefix}}Grid--{{this}}{{/each}}">
   {{#each items}}
     {{> gridCell}}
   {{/each}}

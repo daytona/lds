@@ -21,6 +21,8 @@ function parseDom(dom) {
 
         json.forEach((controller) => {
           const name = Object.keys(controller);
+          if (!controllers[name]) { return; }
+
           const instance = controllers[name](node, controller[name]);
 
           // Since some controllers might return an API for other controllers to use by importing
@@ -30,6 +32,7 @@ function parseDom(dom) {
           }
         });
       } else if (controllers.hasOwnProperty(attribute)) {
+        if (!controllers[attribute]) { return; }
         const instance = controllers[attribute](node);
 
         // Since some controllers might return an API for other controllers to use by importing

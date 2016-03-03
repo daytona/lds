@@ -1,0 +1,9 @@
+<div class="{{prefix}}Tablist{{#inline}} {{prefix}}Tablist--inline{{/inline}}{{#right}} {{prefix}}Tablist--right{{/right}}" data-controller="[{ &quot;Tablist&quot;: { {{#toggle}}&quot;toggle&quot;: true{{/toggle}} } }]">
+  {{#if items}}
+  <ul class="{{prefix}}Tablist-list" aria-role="tablist">
+    {{#each items}}
+      <li class="{{prefix}}Tablist-tab js-tab" id="tab-{{id}}" role="tab" aria-controls="panel-{{id}}" tabIndex="0" aria-selected="false">{{title}}</li>
+    {{/each}}
+  </ul>
+  {{/if}}
+</div>

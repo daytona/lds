@@ -3,6 +3,7 @@
   --breakpoint-medium: 600px;
   --breakpoint-large: 910px;
 }
+
 @custom-media --min-small (min-width: 475px);
 @custom-media --min-medium (min-width: 600px);
 @custom-media --min-large (min-width: 910px);
