@@ -1,4 +1,4 @@
-var fs = require('fs');
+var fs = require('mz/fs');
 var koa = require('koa');
 var path = require('path');
 var mount = require('koa-mount');
@@ -35,6 +35,7 @@ router
   })
   .get('/:category/:component', function *(next){
     yield next;
+    //console.log(this.lds[this.params.category][this.params.component]);
     this.renderView('single', this.params);
   });
 

@@ -6,6 +6,7 @@ var assignDeep = require('assign-deep');
 var router = require('./router');
 var session = require('./session');
 var styleguide = require('lds-styleguide');
+var api = require('lds-api');
 var parseLdsComponents = require('./parse-components');
 
 function* parseComponents (next) {
@@ -32,7 +33,7 @@ function Server(appConfig) {
     .use(router.routes())
     .use(router.allowedMethods())
     .use(mount('/styleguide', styleguide))
-    //.use(mount('/api', api))
+    .use(mount('/api', api.app))
     .listen(process.env.PORT || session.config.port || 4000);
 
   console.log('HTTP-Server running at port ', process.env.PORT || session.config.port || 4000);

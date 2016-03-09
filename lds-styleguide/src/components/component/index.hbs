@@ -1,5 +1,5 @@
 {{#*inline "example"}}
-  <div class="{{prefix}}Example" id="example{{id}}" data-url="/plain/{{@component.group}}/{{@component.name}}" data-controller="[{ &quot;Component&quot;: {&quot;data&quot;:{{jsonLine data}}{{#@component.config}}, &quot;config&quot;: {{jsonLine .}}{{/@component.config}} }}]">
+  <div class="{{prefix}}Example" id="example{{id}}" data-url="/api/{{@component.group}}/{{@component.name}}" data-controller="[{ &quot;Component&quot;: {&quot;data&quot;:{{jsonLine data}}{{#@component.config}}, &quot;config&quot;: {{jsonLine .}}{{/@component.config}} }}]">
     {{#if name}}
       <h3 class="{{prefix}}Example-title">{{name}}</h3>
     {{/if}}

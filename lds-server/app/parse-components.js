@@ -45,7 +45,12 @@ function parseDirectory(directory, options) {
       data: compData ? JSON.parse(compData) : {},
       config: tree['config.json'] ? JSON.parse(tree['config.json']) : false,
       category: options.category,
-      group: options.group
+      group: options.group,
+      screens: {
+        small: tree['screen_small.png'],
+        medium: tree['screen_medium.png'],
+        large: tree['screen_large.png']
+      }
     };
 
     // Use postCSS to parse CSS to look for :root element and add all css variables to component object
