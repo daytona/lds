@@ -1,46 +1,53 @@
 var path = require('path');
+var fs = require('fs');
 var trace = require('./trace');
-var postcss = require('postcss');
 
-var components = {};
-function parseComponents(config) {
+function parseLdsComponents(config, options) {
+  options = options || {};
 
-  if (components.length) {
-    return components;
+   var lds = {
+    base: config.path.views ? parseDirectory(path.join(config.path.dirname, config.path.base), Object.assign(options, {category: 'base'})) : false,
+    components: config.path.components ? parseDirectory(path.join(config.path.dirname, config.path.components), Object.assign(options, {category: 'component'})): false,
+    modules: config.path.modules ? parseDirectory(path.join(config.path.dirname, config.path.modules), Object.assign(options, {category: 'module'})) : false,
+    helpers: config.path.helpers ? parseDirectory(path.join(config.path.dirname, config.path.helpers), Object.assign(options, {category: 'helper'})) : false,
+    // Parse views, but do not register them as partials
+    views: config.path.views ? parseDirectory(path.join(config.path.dirname, config.path.views), Object.assign(options, {category: 'view'})) : false,
+    layouts: config.path.layouts ? parseDirectory(path.join(config.path.dirname, config.path.layouts), Object.assign(options, {category: 'layout'})) : false,
+  }
+  return lds;
+}
+
+// Parse directories for components and add them to components object
+function parseDirectory(directory, options) {
+  if (!directory) {
+    return {};
   }
 
-  var componentsTree = trace(path.join(config.path.dirname, config.path.components));
+  const directoryComponents = {};
+  const componentsTree = trace(directory);
 
   Object.keys(componentsTree).forEach((name) => {
+    if (fs.statSync(path.join(directory, name)).isFile()) {
+      return false;
+    }
     const tree = componentsTree[name];
+    const compData = tree['default.json'] || tree['index.json'];
+
     const component = {
       name,
       info: tree['readme.md'],
       template: tree['index.hbs'],
+      example: tree['example.hbs'],
       script: tree['index.js'],
       styles: tree['index.css'],
-      data: tree['default.json'] ? JSON.parse(tree['default.json']) : {},
-      config: tree['config.json'] ? JSON.parse(tree['config.json']) : false
+      data: compData ? JSON.parse(compData) : {},
+      config: tree['config.json'] ? JSON.parse(tree['config.json']) : false,
+      category: options.category
     };
 
-    // Use postCSS to parse CSS to look for :root element and add all css variables to component object
-    if (component.styles) {
-      const variables = {};
-      postcss.parse(component.styles, { from:  path.join(config.path.dirname, config.path.components)})
-        .nodes.filter((node) => {
-          return node.selector === ':root' && typeof node.nodes === 'object';
-        }).forEach((root) => {
-          return root.nodes.map((rule) => {
-            variables[rule.prop.replace(/^--/, '')] = rule.value;
-          });
-        });
-      if (Object.keys(variables).length) {
-        component.variables = variables;
-      }
-    }
-    components[name] = component;
+    directoryComponents[name] = component;
   });
-  return components;
+  return directoryComponents;
 }
 
-module.exports = parseComponents;
+module.exports = parseLdsComponents;

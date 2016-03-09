@@ -17,12 +17,6 @@
   list-style: none;
 }
 
-.MainNavigation-link--withChildren::before {
-  content: ">";
-  position: absolute;
-  margin-left: -1em;
-}
-
 .MainNavigation-link {
   display: block;
   position: relative;
@@ -32,6 +26,7 @@
   text-transform: uppercase;
   padding: 5px 15px 5px 25px;
 }
+
 .MainNavigation-link--level2 {
   padding-left: 35px;
   text-transform: none;

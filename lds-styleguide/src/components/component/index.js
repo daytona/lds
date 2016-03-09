@@ -2,6 +2,7 @@ import XMLHttpRequestPromise from 'xhr-promise';
 import formParse from 'form-parse';
 import controller from '../../helpers/controller';
 import eventListener from '../../helpers/eventListener';
+import object2query from '../../helpers/object2query';
 
 export default function Component(el, options = {}) {
   const xhr = new XMLHttpRequestPromise();
@@ -18,16 +19,6 @@ export default function Component(el, options = {}) {
     eventListener.dispatchEvent(containerEl, 'newDom');
 
     dataEl.innerText = JSON.stringify(state, false, 4);
-  }
-
-  function object2query(obj) {
-    const queries = [];
-    Object.keys(obj).forEach((key) => {
-      queries.push(`${key}=${(typeof obj[key] === 'object' ?
-                              JSON.stringify(obj[key], null, 0) :
-                              obj[key])}`);
-    });
-    return queries.join('&');
   }
 
   function update(params) {

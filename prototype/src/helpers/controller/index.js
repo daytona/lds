@@ -1,4 +1,4 @@
-import isJSON from './isJSON';
+import isJSON from '../isJSON';
 /**
  * Controller manager, for finding and initializing javascript controllers
  */

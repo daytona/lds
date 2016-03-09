@@ -38,8 +38,7 @@
 .Example-editLabel {
   display: block;
 }
-
-.Example-code {
-  font-size: 12px;
-  font-family: courier;
+.Example-content {
+  margin-left: -20px;
+  margin-right: -20px;
 }

@@ -8,12 +8,13 @@ function parseLdsComponents(config, options) {
   options = options || {};
 
    var lds = {
-    base: config.path.views ? parseDirectory(path.join(config.path.dirname, config.path.base), Object.assign(options, {registerPartial: true, category: 'base'})) : false,
-    components: config.path.components ? parseDirectory(path.join(config.path.dirname, config.path.components), Object.assign(options, {registerPartial: true, category: 'component'})): false,
-    modules: config.path.modules ? parseDirectory(path.join(config.path.dirname, config.path.modules), Object.assign(options, {registerPartial: true, category: 'module'})) : false,
-
+    base: config.path.views ? parseDirectory(path.join(config.path.dirname, config.path.base), Object.assign(options, {category: 'base', group: 'base'})) : false,
+    components: config.path.components ? parseDirectory(path.join(config.path.dirname, config.path.components), Object.assign(options, {category: 'component', group: 'components'})): false,
+    modules: config.path.modules ? parseDirectory(path.join(config.path.dirname, config.path.modules), Object.assign(options, {category: 'module', group: 'modules'})) : false,
+    helpers: config.path.helpers ? parseDirectory(path.join(config.path.dirname, config.path.helpers), Object.assign(options, {category: 'helper', group: 'helpers'})) : false,
     // Parse views, but do not register them as partials
-    views: config.path.views ? parseDirectory(path.join(config.path.dirname, config.path.views), Object.assign(options, {registerPartial: false, category: 'view'})) : false,
+    views: config.path.views ? parseDirectory(path.join(config.path.dirname, config.path.views), Object.assign(options, {category: 'view', group: 'views'})) : false,
+    layouts: config.path.layouts ? parseDirectory(path.join(config.path.dirname, config.path.layouts), Object.assign(options, {category: 'layout', group: 'layouts'})) : false,
   }
   return lds;
 }
@@ -43,7 +44,8 @@ function parseDirectory(directory, options) {
       styles: tree['index.css'],
       data: compData ? JSON.parse(compData) : {},
       config: tree['config.json'] ? JSON.parse(tree['config.json']) : false,
-      category: options.category
+      category: options.category,
+      group: options.group
     };
 
     // Use postCSS to parse CSS to look for :root element and add all css variables to component object
@@ -91,48 +93,6 @@ function parseDirectory(directory, options) {
       component.js = {
         dependencies,
       };
-    }
-
-    // If component has template, register it as a partial to be used later
-    if (component.template) {
-      let dependencies = [];
-      const partialStrings = component.template.match(/{{#?> ?([^}]*)}}/g);
-      if (partialStrings) {
-        partialStrings.forEach((string) => {
-          return string.replace(/\{\{#?> ?([^}]*)\}\}/, (org, s1) => {
-            if (!s1.match(/^@/)) {
-              dependencies.push(s1);
-            }
-          });
-        });
-
-        const inlinePartialStrings = component.template.match(/{{#\*inline \"([^\"]*)\"}}/g);
-        if (inlinePartialStrings) {
-          inlinePartialStrings.forEach((string) => {
-            return string.replace(/{{#\*inline \"([^"]*)\"}}/, (org, s1) => {
-              var isDependency = dependencies.indexOf(s1);
-              if (isDependency) {
-                dependencies.splice(isDependency, 1);
-              }
-            });
-          });
-        }
-      }
-      // Register template as partial
-      if (options.registerPartial) {
-        const partialName = options.prefix ? `${options.prefix}:${name}` : name;
-        handlebars.registerPartial(partialName, component.template);
-      }
-
-      component.hbs = {
-        dependencies
-      };
-    }
-
-    // If example file is present, prerender it using the component object as data
-    if (component.example && options.registerPartial) {
-      const partialName = options.prefix ? `${options.prefix}:example:${name}` : `example:${name}`;
-      handlebars.registerPartial(partialName, component.example);
     }
 
     directoryComponents[name] = component;

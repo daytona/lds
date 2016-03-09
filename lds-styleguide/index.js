@@ -1,30 +1,52 @@
+var fs = require('fs');
+var koa = require('koa');
+var path = require('path');
+var mount = require('koa-mount');
+var serve = require('koa-static');
+var Router = require('koa-router');
+var webshot = require('webshot');
+var objectDeepMap = require('./lib/object-deep-map');
+
 var config = require('./lds.config');
+var app = koa();
+var parseLdsComponents = require('./lib/parseComponents');
+var router = new Router();
 
-function parseData(session) {
-  // Parse styleguide data to fit the components using it.
-  var data = {};
-
-  if (session.lds.base) {
-    data.base = session.lds.base;
-  }
-  if (session.lds.components) {
-    data.components = session.lds.components;
-  }
-  if (session.lds.modules) {
-    data.modules = session.lds.modules;
-  }
-  if (session.lds.views) {
-    data.views = session.lds.views;
-  }
-
-  data.mainNav = mainNav(data);
-
-  if (session.styleguide.config.prefix) {
-    data.prefix = session.styleguide.config.prefix + '-';
-  }
-  return data;
+function *parseComponents(next) {
+  this.styleguide = parseLdsComponents(config);
+  yield next;
+}
+function *defaultData(next) {
+  this.defaultData = Object.assign(this.lds, {
+    mainNav: mainNav(this.lds),
+    prefix: config.prefix ? `${config.prefix}-` : ''
+  });
+  yield next;
 }
 
+router
+  .get('/', function *(next){
+    yield next;
+    this.renderView('start');
+  })
+  .get('/:category', function *(next){
+    yield next;
+    this.renderView('category', this.params);
+  })
+  .get('/:category/:component', function *(next){
+    yield next;
+    this.renderView('single', this.params);
+  });
+
+  // .get('/styleguide', styleguide.parseComponents, styleguide.engine, styleguide.page)
+app
+  .use(mount(config.path.public, serve(path.join(config.path.dirname, config.path.dist))))
+  .use(parseComponents)
+  .use(config.engine('styleguide', 'lds'))
+  .use(defaultData)
+  .use(router.routes())
+
+module.exports = app;
 
 function mainNav(data) {
   return {
@@ -33,7 +55,9 @@ function mainNav(data) {
       return {
         name: groupName,
         url: `/styleguide/${groupName}`,
-        items: Object.keys(data[groupName]).map((compName) => {
+        items: Object.keys(data[groupName]).filter((compName)=>{
+          return (typeof group[compName] === 'object');
+        }).map((compName) => {
           var component = group[compName];
           return {
             name: component.name,
@@ -44,8 +68,3 @@ function mainNav(data) {
     })
   };
 }
-
-module.exports = {
-  config,
-  parseData
-};

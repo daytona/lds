@@ -1,6 +1,23 @@
 <div class="{{prefix}}Page-innerWrapper">
   <h1>Category: {{category}}</h1>
-  {{#each components}}
-    {{> lds:component}}
-  {{/each}}
+  {{#equals category "base"}}
+    {{#each base}}
+    {{> lds-component:component}}
+    {{/each}}
+  {{/equals}}
+  {{#equals category "components"}}
+    {{#each components}}
+    {{> lds-component:component}}
+    {{/each}}
+  {{/equals}}
+  {{#equals category "modules"}}
+    {{#each modules}}
+    {{> lds-component:component}}
+    {{/each}}
+  {{/equals}}
+  {{#equals category "views"}}
+    {{#each views}}
+    {{> lds-component:view}}
+    {{/each}}
+  {{/equals}}
 </div>

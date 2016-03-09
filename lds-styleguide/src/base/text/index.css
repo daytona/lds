@@ -4,6 +4,7 @@
   --base-font-family: arial, sans-serif;
   --plain-text: normal normal var(--base-font-size)/1.4em var(--base-font-family);
   --default-header: normal normal var(--header-font-size)/1.3em var(--base-font-family);
+  --text-code: normal normal 12px/1.5em courier;
 }
 
 h1, h2, h3, h4, h5 {

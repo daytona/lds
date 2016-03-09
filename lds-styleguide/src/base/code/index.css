@@ -1,0 +1,6 @@
+@import '../text';
+
+.code {
+  font: var(--text-code);
+  margin: 0;
+}
