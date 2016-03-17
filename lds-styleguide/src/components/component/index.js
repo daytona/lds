@@ -53,7 +53,7 @@ export default function Component(el, options = {}) {
   function init() {
     if (url) {
       bindEvents();
-      dataEl.innerText = JSON.stringify(state, false, 4);
+      update();
     }
   }
 

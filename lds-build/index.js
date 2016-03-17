@@ -25,8 +25,9 @@ function findComponents(branch, regexp, path) {
 // Build scripts for bundling scripts and styles, generating icon-fonts, minifying imagages and copying font files.
 module.exports = function build(type, config) {
   var components = {
-    base : trace(path.join(config.path.dirname, config.path.base)),
-    components : trace(path.join(config.path.dirname, config.path.components))
+    base : config.path.base ? trace(path.join(config.path.dirname, config.path.base)) : false,
+    components : config.path.components ? trace(path.join(config.path.dirname, config.path.components)) : false,
+    modules : config.path.modules ? trace(path.join(config.path.dirname, config.path.modules)) : false
   };
 
   // If build all, first empty dist-folder

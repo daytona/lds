@@ -11,6 +11,10 @@
   padding: 0;
 }
 
+/*.MainNavigation-list[aria-hidden="true"] {
+  display: none;
+  height: 0;
+}*/
 .MainNavigation-item {
   margin: 0;
   padding: 0;

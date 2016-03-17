@@ -5,7 +5,8 @@ module.exports = {
   version: '0.0.1',
   prefix: 'lds',
   engine: ldsHandlebars({
-    helpers
+    helpers,
+    ext: 'hbs'
   }),
   path : {
     dirname: __dirname,

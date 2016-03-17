@@ -4,16 +4,17 @@
       <h3 class="{{prefix}}Example-title">{{name}}</h3>
     {{/if}}
     <section class="{{prefix}}Example-container">
+      {{json screen}}
       <header class="{{prefix}}Example-header">
-        {{> lds-component:tablist items=(tablistdata id=id tabs="Render#render Data#data") inline="true"}}
+        {{> component:tablist items=(tablistdata id=id tabs="Render#render Data#data") inline="true"}}
         {{#if @component.config.schema}}
-          {{> lds-component:tablist items=(tablistdata id=id tabs="Edit#edit") toggle="true" right="true"}}
+          {{> component:tablist items=(tablistdata id=id tabs="Edit#edit") toggle="true" right="true"}}
         {{/if}}
       </header>
       <div class="{{prefix}}Example-content">
         {{#if @component.config.schema}}
         <div class="{{prefix}}Example-edit">
-          {{#> lds-component:tabarea id=(concat "edit" id) }}
+          {{#> component:tabarea id=(concat "edit" id) }}
             <form class="{{prefix}}Form {{prefix}}Example-editForm js-editForm">
               {{#each @component.config.schema}}
                 <label class="{{prefix}}Form-label {{prefix}}Example-editLabel">
@@ -26,20 +27,20 @@
                 </label>
               {{/each}}
             </form>
-          {{/lds-component:tabarea}}
+          {{/component:tabarea}}
         </div>
         {{/if}}
         <div class="{{prefix}}Example-component">
-          {{#> lds-component:tabarea id=(concat "render" id) }}
+          {{#> component:tabarea id=(concat "render" id) }}
             <div class="{{prefix}}Example-rendered{{#@component.config.fullwidth}} {{prefix}}Component-container--full{{/@component.config.fullwidth}} js-container">
-              {{> (concat @component.category (concat ":" @component.name))}}
+
             </div>
-          {{/lds-component:tabarea}}
-          {{#> lds-component:tabarea id=(concat "data" id) }}
+          {{/component:tabarea}}
+          {{#> component:tabarea id=(concat "data" id) }}
             <div class="{{prefix}}Example-code {{prefix}}Example-code--data">
               <pre class="{{prefix}}code"><code class="js-data">{{{json data}}}</code></pre>
             </div>
-          {{/lds-component:tabarea}}
+          {{/component:tabarea}}
         </div>
       </div>
     </section>
@@ -76,27 +77,29 @@
       {{/if}}
     {{/if}}
     <footer class="{{prefix}}Component-footer">
-      <strong>Dependencies</strong>
-      <dl>
-        {{#if css.dependencies}}
-          <dt>CSS</dt>
-          {{#each css.dependencies}}
-            <dd>{{.}}</dd>
-          {{/each}}
-        {{/if}}
-        {{#if js.dependencies}}
-          <dt>JS</dt>
-          {{#each js.dependencies}}
-            <dd>{{.}}</dd>
-          {{/each}}
-        {{/if}}
-        {{#if hbs.dependencies}}
-          <dt>HBS</dt>
-          {{#each hbs.dependencies}}
-            <dd>{{.}}</dd>
-          {{/each}}
-        {{/if}}
-      </dl>
+      {{#if dependencies}}
+        <strong>Dependencies</strong>
+        <dl>
+          {{#if css.dependencies}}
+            <dt>CSS</dt>
+            {{#each css.dependencies}}
+              <dd>{{.}}</dd>
+            {{/each}}
+          {{/if}}
+          {{#if js.dependencies}}
+            <dt>JS</dt>
+            {{#each js.dependencies}}
+              <dd>{{.}}</dd>
+            {{/each}}
+          {{/if}}
+          {{#if hbs.dependencies}}
+            <dt>HBS</dt>
+            {{#each hbs.dependencies}}
+              <dd>{{.}}</dd>
+            {{/each}}
+          {{/if}}
+        </dl>
+      {{/if}}
       {{#if config.revisions}}
         <div class="{{prefix}}Details {{prefix}}Component-code {{prefix}}Component-code--revisions" data-controller="Details">
           <h3 class="{{prefix}}Details-summary js-details-summary">Revisions</h3>

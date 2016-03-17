@@ -119,6 +119,9 @@ var helpers = {
   },
   prefix(options){
     return options.data.root.prefix || '';
+  },
+  increment(value){
+    return Number(value) ? Number(value)+1 : value;
   }
 };
 

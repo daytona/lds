@@ -4,7 +4,6 @@ var path = require('path');
 var mount = require('koa-mount');
 var serve = require('koa-static');
 var Router = require('koa-router');
-var webshot = require('webshot');
 var objectDeepMap = require('./lib/object-deep-map');
 
 var config = require('./lds.config');
@@ -13,12 +12,16 @@ var parseLdsComponents = require('./lib/parseComponents');
 var router = new Router();
 
 function *parseComponents(next) {
-  this.styleguide = parseLdsComponents(config);
+  this.styleguide = {
+    structure: parseLdsComponents(config),
+    config: config
+  };
   yield next;
 }
+
 function *defaultData(next) {
-  this.defaultData = Object.assign(this.lds, {
-    mainNav: mainNav(this.lds),
+  this.defaultData = Object.assign(this.lds.structure, {
+    mainNav: mainNav(this.lds.structure),
     prefix: config.prefix ? `${config.prefix}-` : ''
   });
   yield next;
@@ -35,17 +38,16 @@ router
   })
   .get('/:category/:component', function *(next){
     yield next;
-    //console.log(this.lds[this.params.category][this.params.component]);
     this.renderView('single', this.params);
   });
 
-  // .get('/styleguide', styleguide.parseComponents, styleguide.engine, styleguide.page)
 app
+  //.use(screenshots)
   .use(mount(config.path.public, serve(path.join(config.path.dirname, config.path.dist))))
   .use(parseComponents)
-  .use(config.engine('styleguide', 'lds'))
+  .use(config.engine.setup('styleguide', config.prefix))
   .use(defaultData)
-  .use(router.routes())
+  .use(router.routes());
 
 module.exports = app;
 

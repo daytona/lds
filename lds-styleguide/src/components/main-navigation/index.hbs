@@ -1,22 +1,25 @@
 {{#with mainNav}}
 <div class="{{prefix}}MainNavigation" data-controller="MainNavigation">
   {{#if this.items}}
-  <ul class="{{prefix}}MainNavigation-list {{prefix}}MainNavigation-list--level1">
-    {{#each this.items}}
-    <li class="{{prefix}}MainNavigation-item{{#if this.items}} {{prefix}}MainNavigation-item--withChildren{{/if}}">
-      <a class="{{prefix}}MainNavigation-link {{prefix}}MainNavigation-link--level1{{#if this.items}} {{prefix}}MainNavigation-link--withChildren{{/if}}" href="{{url}}">{{{name}}}</a>
-      {{#if this.items}}
-        <ul class="{{prefix}}MainNavigation-list {{prefix}}MainNavigation-list--level2">
-          {{#each this.items}}
-          <li class="{{prefix}}MainNavigation-item">
-            <a class="{{prefix}}MainNavigation-link {{prefix}}MainNavigation-link--level2" href="{{this.url}}">{{{this.name}}}</a>
-          </li>
-          {{/each}}
-        </ul>
-      {{/if}}
-    </li>
-    {{/each}}
-  </ul>
+    {{> navList listlevel="1"}}
   {{/if}}
 </div>
 {{/with}}
+
+{{#*inline "navList"}}
+<ul class="{{prefix}}MainNavigation-list {{prefix}}MainNavigation-list--level{{listlevel}}" id="navlist{{listid}}"{{#if hidden}} aria-hidden="true"{{/if}}>
+  {{#each this.items}}
+    {{> navListItem listid=(uid) listlevel=../listlevel}}
+  {{/each}}
+</ul>
+{{/inline}}
+
+{{#*inline "navListItem"}}
+  <li class="{{prefix}}MainNavigation-item{{#if this.items}} {{prefix}}MainNavigation-item--withChildren{{/if}}">
+    <a class="{{prefix}}MainNavigation-link {{prefix}}MainNavigation-link--level{{listlevel}}{{#if this.items}} {{prefix}}MainNavigation-link--withChildren{{/if}}" href="{{url}}">{{{name}}}</a>
+    {{#if this.items}}
+      <button class="{{prefix}}MainNavigation-toggler icon icon--info js-toggleList" role="button" aria-controls="list{{listid}}"></button>
+      {{> navList listlevel=(increment listlevel) hidden="true"}}
+    {{/if}}
+  </li>
+{{/inline}}

@@ -1,9 +1,12 @@
 import controller from '../../helpers/controller';
+import eventListener from '../../helpers/eventListener';
 
 function MainNavigation(el) {
-  console.log('listen for clicks');
-  function init() {
+  function bindEvents() {
 
+  }
+  function init() {
+    bindEvents();
   }
   return init();
 }

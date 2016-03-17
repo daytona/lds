@@ -19,8 +19,8 @@ module.exports = function buildIcons(config) {
     cssDest: config.cssDest,
     cssTemplate: cssTemplate,
     templateOptions: {
-      classPrefix: 'icon--',
-      baseClass: 'icon',
+      classPrefix: 'Icon--',
+      baseClass: 'Icon',
     },
     normalize: true,
     fontHeight: 1001,

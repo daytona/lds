@@ -2,19 +2,19 @@
   <h1>Single: {{category}} / {{component}}</h1>
   {{#with (getProperty (getProperty this category) component)}}
     {{#equals this.category "base"}}
-      {{> lds-component:component}}
+      {{> component:component}}
     {{/equals}}
     {{#equals this.category "component"}}
-      {{> lds-component:component}}
+      {{> component:component}}
     {{/equals}}
     {{#equals this.category "module"}}
-      {{> lds-component:component}}
+      {{> component:component}}
     {{/equals}}
     {{#equals this.category "view"}}
-      {{> lds-component:view}}
+      {{> component:view}}
     {{/equals}}
     {{#equals this.category "helper"}}
-      {{> lds-component:component}}
+      {{> component:component}}
     {{/equals}}
   {{/with}}
 </div>

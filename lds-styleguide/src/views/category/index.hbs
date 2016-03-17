@@ -2,22 +2,22 @@
   <h1>Category: {{category}}</h1>
   {{#equals category "base"}}
     {{#each base}}
-    {{> lds-component:component}}
+    {{> component:component}}
     {{/each}}
   {{/equals}}
   {{#equals category "components"}}
     {{#each components}}
-    {{> lds-component:component}}
+    {{> component:component}}
     {{/each}}
   {{/equals}}
   {{#equals category "modules"}}
     {{#each modules}}
-    {{> lds-component:component}}
+    {{> component:component}}
     {{/each}}
   {{/equals}}
   {{#equals category "views"}}
     {{#each views}}
-    {{> lds-component:view}}
+    {{> component:view}}
     {{/each}}
   {{/equals}}
 </div>
