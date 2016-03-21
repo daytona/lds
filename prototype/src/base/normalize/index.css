@@ -1,0 +1,21 @@
+body {
+  margin: 0;
+}
+
+p {
+  margin: 0 0 var(--line-height);
+}
+a {
+  text-decoration: none;
+  color: var(--color-green);
+  outline: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+a:focus {
+  outline: thin dotted;
+}
+::selection {
+  background: rgba(255,192,0,.5);
+}

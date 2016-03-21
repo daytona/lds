@@ -1,0 +1,13 @@
+<div class="Blockquote Blockquote--fullwidth">
+  {{#if avatar}}
+  <img src="{{avatar}}">
+  {{/if}}
+  <blockquote class="Blockquote-quote" cite="{{cite}}">
+    <p>{{quote}}</p>
+  </blockquote>
+  {{#if cite}}
+    <footer class="Blockquote-footer">
+      {{cite}}
+    </footer>
+  {{/if}}
+</div>

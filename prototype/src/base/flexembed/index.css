@@ -1,0 +1,79 @@
+@import "../color";
+
+:root {
+  --max-image-height: 840px;
+}
+
+.FlexEmbed {
+  position: relative;
+  background-color: var(--color-gray);
+  display: block;
+  overflow: hidden;
+  max-height: var(--max-image-height);
+}
+
+.FlexEmbed:before {
+  content: "";
+  display: block;
+  width: 100%;
+}
+
+.FlexEmbed--no-maxHeight {
+  max-height: none;
+}
+
+.FlexEmbed--outlined {
+  z-index: 1;
+  margin-top: 1px;
+  outline: 1px solid var(--color-lightest);
+}
+
+/** FlexEmbed Item
+ *  -----------------------------------------------------------------------------
+ */
+
+.FlexEmbed-item,
+.FlexEmbed iframe,
+.FlexEmbed embed,
+.FlexEmbed object {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+img.FlexEmbed-item {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+}
+.has-csstransforms img.FlexEmbed-item {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Ratio modifier classes */
+.FlexEmbed--16by9::before {
+  padding-top: calc(9/16 * 100%);
+}
+.FlexEmbed--4by3::before {
+  padding-top: calc(3/4 * 100%);
+}
+.FlexEmbed--3by4::before {
+  padding-top: calc(4/3 * 100%);
+}
+.FlexEmbed--14by15::before {
+  padding-top: calc(15/14 * 100%);
+}
+.FlexEmbed--15by7::before {
+  padding-top: calc(7/15 * 100%);
+}
+.FlexEmbed--15by8::before {
+  padding-top: calc(8/15 * 100%);
+}
+.FlexEmbed--20by7::before {
+  padding-top: calc(7/20 * 100%);
+}

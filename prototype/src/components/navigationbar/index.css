@@ -1,0 +1,214 @@
+:root {
+    --block-font-size: var(--smaller-font-size);
+    --font-size: var(--smaller-font-size);
+    --item-height: 45px;
+    --item-side-spacing: 5px;
+    --item-padding: 10px;
+    --toggle-button-side-padding: 12px;
+    --toggle-button-width: 40px;
+    --dropdown-item-padding: 20px;
+    --dropdown-left-offset: 20px;
+    --notification-dimension: 16px;
+}
+
+.NavigationBar {
+  font-family: var(--sans-serif-font);
+  font-size: var(--small-font-size);
+  margin: 0 0 -1px;
+
+  text-align: right;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.NavigationBar-wrapper {
+  display: block;
+  position: relative;
+  height: var(--item-height);
+  line-height: var(--item-height);
+  overflow: hidden;
+}
+.NavigationBar--cropped .NavigationBar-wrapper {
+  padding-right: var(--toggle-button-width);
+}
+
+.NavigationBar-toggle {
+  position: absolute;
+  right: 0;
+  top: -5px;
+  bottom: 0;
+  width: var(--toggle-button-width);
+  display: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  background: none;
+  overflow: hidden;
+  outline: none;
+  cursor: pointer;
+  text-indent: -99em;
+}
+.NavigationBar--cropped .NavigationBar-toggle {
+  display: block;
+}
+.NavigationBar-toggle-bar {
+  background-color: currentColor;
+  position: absolute;
+  height: 2px;
+  width: 40%;
+  margin-left: -20%;
+  top: 50%;
+  left: 50%;
+  margin-top: -1px;
+  transition: var(--transition-all);
+}
+.NavigationBar-toggle-bar--first {
+  margin-top: -6px;
+}
+.NavigationBar-toggle-bar--third {
+  margin-top: 4px;
+}
+.NavigationBar-toggle.is-active {
+  background: var(--color-green);
+  color: var(--color-white);
+}
+.NavigationBar-toggle.is-active .NavigationBar-toggle-bar--first {
+  transform: rotate(45deg);
+  margin-top: 0;
+}
+.NavigationBar-toggle.is-active .NavigationBar-toggle-bar--second {
+  opacity: 0;
+}
+.NavigationBar-toggle.is-active .NavigationBar-toggle-bar--third {
+  transform: rotate(-45deg);
+  margin-top: 0;
+}
+
+.NavigationBar-list {
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+
+.NavigationBar-item {
+  display: inline-block;
+  padding: 0;
+  margin: 0 var(--item-side-spacing);
+  list-style: none;
+  vertical-align: bottom;
+}
+
+.NavigationBar-item-link {
+  display: block;
+  text-decoration: none;
+  position: relative;
+  line-height: calc(var(--item-height) - var(--item-padding) * 2);
+  padding: var(--item-padding) var(--item-padding);
+  color: inherit;
+}
+.NavigationBar-item-link[data-count] {
+  margin-right: 20px;
+}
+.NavigationBar-overflow .NavigationBar-item-link[data-count] {
+  margin-right: 0;
+  padding-right: calc(var(--item-padding) + 20px);
+}
+.NavigationBar-item-link[data-count]::after {
+  content: attr(data-count);
+
+  font-size: var(--small-font-size);
+  font-weight: 900;
+  text-rendering: optimizeLegibility;
+  text-decoration: none;
+  display: block;
+  width: 1em;
+  line-height: 1em;
+  margin-left: .5em;
+  text-align: center;
+  color: var(--color-brown);
+  background: var(--color-yellow);
+  position: absolute;
+  right: -10px;
+  top: 7px;
+  transition: var(--transition-all);
+}
+.NavigationBar-item-link[data-count]:hover::after {
+  background: var(--color-brown);
+  color: #fff;
+}
+.NavigationBar-overflow .NavigationBar-item-link[data-count]:after {
+  right: 10px;
+  top: 15px;
+}
+.NavigationBar-item-link--primary {
+  font-weight: 900;
+  text-rendering: optimizeLegibility;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+.NavigationBar-item-link--secondary {
+  color: var(--color-light);
+  font-weight: 500;
+  text-transform: none;
+  position: relative;
+}
+.NavigationBar-item-link:hover {
+  color: var(--color-green);
+  text-decoration: none;
+}
+.NavigationBar-list--primary .NavigationBar-item-link:hover::before,
+.NavigationBar-list--secondary .NavigationBar-item-link:hover::before {
+  content: "";
+  position: absolute;
+  left: var(--item-padding);
+  right: var(--item-padding);
+  bottom: var(--item-padding);
+  color: #d7d7d7;
+  border-bottom: 1px solid;
+}
+
+.Page:not(.goal) .Page-header--transparent .NavigationBar-list--primary .NavigationBar-item-link,
+.Page:not(.goal) .Page-header--transparent .NavigationBar-list--secondary .NavigationBar-item-link,
+.Page:not(.goal) .Page-header--transparent .NavigationBar-item-link:hover:before {
+  color: var(--color-white);
+}
+.Page:not(.goal) .Page-header--transparent .NavigationBar-item-link--primary:hover,
+.Page:not(.goal) .Page-header--transparent .NavigationBar-item-link--secondary:hover {
+  color: var(--color-green);
+}
+
+.NavigationBar-overflow {
+  position: absolute;
+  text-align: left;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  right: 0;
+  background: var(--color-green);
+}
+@media (--min-medium) {
+  .NavigationBar-overflow {
+    width: 250px;
+    right: var(--page-gutter--large);
+  }
+}
+.NavigationBar-overflow .NavigationBar-item {
+  display: block;
+  padding: 0;
+  margin: 0;
+}
+
+.NavigationBar-overflow .NavigationBar-item-link {
+  color: #fff;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  padding-right: 20px;
+  padding-left: 20px;
+}
+.NavigationBar-overflow .NavigationBar-item-link:hover {
+  background-color: rgba(255,255,255,.2);
+}
+
+.NavigationBar-overflow .NavigationBar-item[aria-hidden="true"],
+.NavigationBar-overflow[aria-hidden="true"] {
+  display: none;
+}

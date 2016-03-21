@@ -1,0 +1,37 @@
+{
+  "mode": ["withGutter"],
+  "items": [
+    {
+      "width" : {
+        "": "1of2",
+        "s": "1of3",
+        "m": "1of4"
+      },
+      "content": "Grid-cell"
+    },
+    {
+      "width" : {
+        "": "1of2",
+        "s": "1of3",
+        "m": "1of4"
+      },
+      "content": "Grid-cell"
+    },
+    {
+      "width" : {
+        "": "1of2",
+        "s": "1of3",
+        "m": "1of4"
+      },
+      "content": "Grid-cell"
+    },
+    {
+      "width" : {
+        "": "1of2",
+        "s": "1of3",
+        "m": "1of4"
+      },
+      "content": "Grid-cell"
+    }
+  ]
+}

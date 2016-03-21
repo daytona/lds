@@ -1,0 +1,36 @@
+{
+  "toggleShowText": "Visa meny",
+  "toggleHideText": "Dölj meny",
+  "primary-list": [
+    {
+      "text": "Strategi",
+      "url": "/startegi"
+    },
+    {
+      "text": "Design",
+      "url": "/design"
+    },
+    {
+      "text": "Uppdrag",
+      "url": "/uppdrag"
+    },
+    {
+      "text": "Kontakt",
+      "url": "/konatkt"
+    }
+  ],
+  "secondary-list": [
+    {
+      "text": "University",
+      "url": "/university"
+    },
+    {
+      "text": "Jobb",
+      "url": "/jobb",
+      "type": "vacancies",
+      "attributes": {
+        "data-count": "2"
+      }
+    }
+  ]
+}

@@ -5,7 +5,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="">
-    <link rel="stylesheet" href="/assets/style.css">
     <link rel="stylesheet" href="/styleguide/assets/style.css">
   </head>
   <body class="{{prefix}}Page {{prefix}}Text">
@@ -17,6 +16,20 @@
     </main>
   </div>
   </body>
-  <script src="/assets/main.js"></script>
   <script src="/styleguide/assets/main.js"></script>
+  <script>
+    window.updateIframeHeight = function(iframeId, height) {
+      var event = new CustomEvent("iframeResize", {
+        detail: {
+          id: iframeId,
+          height: height
+        }
+      });
+      document.dispatchEvent(event);
+      // var iframe = document.querySelector('#' + iframeId);
+      // if (iframe) {
+      //   iframe.style.height = height + 'px';
+      // }
+    }
+  </script>
 </html>

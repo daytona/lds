@@ -1,0 +1,12 @@
+<header class="Page-header{{#if transparent}} Page-header--transparent{{/if}}">
+  <div class="l-container l-gutter-m">
+    <a class="Page-header-logo" href="/">
+      {{> base:logotype}}
+    </a>
+    {{#with navigation}}
+    <div class="Page-header-navigationBar">
+      {{> component:navigationbar}}
+    </div>
+    {{/with}}
+  </div>
+</header>

@@ -1,0 +1,41 @@
+:root {
+  --logo-font-size: 35px;
+  --logo-font-size--large: 50px;
+}
+.Page-header {
+  z-index: 10;
+  left: 0;
+  top: 0;
+  right: 0;
+  padding: 0;
+  background: var(--color-white);
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+.Page .Page-header {
+  position: fixed;
+}
+.Page-header-logo {
+  position: relative;
+  z-index: 1;
+  float: left;
+  width: 2.5em;
+  margin: 5px 0 5px var(--page-gutter);
+  max-width: 30%;
+
+  font-size: var(--logo-font-size);
+  line-height: 1;
+  color: var(--color-green);
+  transition: var(--transition-all);
+}
+@media (--min-medium) {
+  .Page-header-logo {
+    margin-left: 0;
+  }
+  .Page:not(.is-scrolled) .Page-header--transparent {
+    background: none;
+    color: var(--color-white);
+  }
+  .Page:not(.is-scrolled) .Page-header-logo {
+    font-size: var(--logo-font-size--large);
+  }
+}

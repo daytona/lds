@@ -1,0 +1,9 @@
+[
+  "Hello",
+  {
+    "component": "component:button",
+    "text": "Click me next",
+    "mods": ["white", "full"]
+  },
+  "Bye"
+]

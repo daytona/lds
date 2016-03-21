@@ -27,7 +27,9 @@ module.exports = function build(type, config) {
   var components = {
     base : config.path.base ? trace(path.join(config.path.dirname, config.path.base)) : false,
     components : config.path.components ? trace(path.join(config.path.dirname, config.path.components)) : false,
-    modules : config.path.modules ? trace(path.join(config.path.dirname, config.path.modules)) : false
+    modules : config.path.modules ? trace(path.join(config.path.dirname, config.path.modules)) : false,
+    views :  config.path.views ? trace(path.join(config.path.dirname, config.path.views)) : false,
+    helpers :  config.path.helpers ? trace(path.join(config.path.dirname, config.path.helpers)) : false
   };
 
   // If build all, first empty dist-folder

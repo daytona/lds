@@ -1,7 +1,7 @@
 {{#saveas "view"}}
 <section class="{{prefix}}View js-view" id="View-{{name}}" data-url="/{{name}}" data-controller="[{ &quot;View&quot;: {&quot;data&quot;:{{jsonLine data}}{{#config}}, &quot;config&quot;: {{jsonLine .}}{{/config}} }}]">
   <div class="{{prefix}}View-example">
-    <div class="{{prefix}}View-exampleDocument js-example"></div>
+    {{> component:device-park url=(concat "/" @view.name)}}
   </div>
   <header>
     {{json screens}}

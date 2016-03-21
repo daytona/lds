@@ -1,7 +1,8 @@
 {
-  "name": "testlds",
+  "name": "daytona-proto",
   "version": "1.0.0",
-  "description": "example ui of LDS",
+  "description": "Prototype LDS for daytona.se",
+  "main": "index.js",
   "scripts": {
     "test": "eslint",
     "start": "npm run watch & lds start",
@@ -9,7 +10,12 @@
     "watch:styles": "nodemon -w src -q -e 'css' --exec 'lds build styles'",
     "watch:scripts": "nodemon -w src -q -e 'js' --exec 'lds build script'"
   },
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "none"
+  },
+  "author": "Daytona Stockholm",
+  "license": "MIT",
   "dependencies": {
     "babel-core": "^6.5.2",
     "babel-eslint": "^4.1.8",

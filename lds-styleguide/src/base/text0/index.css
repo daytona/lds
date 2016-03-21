@@ -1,0 +1,104 @@
+:root {
+  --line-height: 1.65;
+
+  --base-font-weight: 500;
+  --base-font-size: 16px;
+  --base-font-size--large: 18px;
+  --base-line-height: 1.65em;
+  --base-font-family: 'TheSerif', serif;
+
+
+  --base-mobile-font-size: 16;
+
+  --smallest-font-size: 10px;
+  --smaller-font-size: 12px;
+  --small-font-size: 14px;
+  --bigger-font-size: 24px;
+  --large-font-size: 28px;
+
+  --h1-font-size: 2.8em; /*46px;*/
+  --h1-font-size--large: 4.4em; /*80px;*/
+  --h2-font-size: 2.375em; /*38px;*/
+  --h2-font-size--large: 2.5555555556em; /*46px;*/
+  --h3-font-size: 1.55555556em; /*24.8px/28px*/
+  --h4-font-size: 1em;
+  --h5-font-size: 1em;
+  --h6-font-size: 1em;
+
+  --h1-lines: 3.03;
+  --h2-lines: 1.95;
+  --h3-lines: 1.28;
+
+  --h1-mobile-font-size: 46px;
+  --h1-mobile-lines: 1.63;
+
+  --h2-mobile-font-size: 38px;
+  --h2-mobile-lines: 1.33;
+  --sans-serif: normal var(--base-font-weight) 1em/var(--base-line-height) var(--sans-serif-font);
+  --plain-text: normal var(--base-font-weight) 1em/var(--base-line-height) var(--base-font-family);
+  --font-header1: normal 700 var(--h1-font-size)/1.05241304 var(--serif-font);
+  --font-header2: normal 700 var(--h2-font-size)/1.0395 var(--serif-font);
+  --font-header3: normal 700 var(--h3-font-size)/1.35771429 var(--serif-font);
+  --font-preamble: normal 500 1.25em/1.546875 var(--serif-font);
+}
+.text {
+  font: var(--font-plain-text);
+  font-size: var(--base-font-size);
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+}
+.text-plain {
+  font: var(--font-text-plain);
+}
+.text-header1 {
+  font: var(--font-header1);
+  margin: 0 0 .37125em;
+}
+.text-header2 {
+  font: var(--font-header2);
+  margin: 0 0 .64565217em;
+}
+.text-header3 {
+  font: var(--font-header3);
+  margin: 0 0 .31821429em;
+}
+.text-preamble {
+  font: var(--font-preamble);
+}
+@media (--min-medium) {
+  .text {
+    font-size: var(--base-font-size--large);
+    line-height: 1.1248875;
+  }
+  .text-header1 {
+    font-size: var(--h1-font-size--large);
+    line-height: 1.1248875;
+    margin: 0 0 .37125em;
+  }
+  .text-header2 {
+    font-size: 2.11111111em;
+    line-height: 1.25902174;
+  }
+  .text-preamble {
+    font-size: 1.33333333em;
+    line-height: 1.546875;
+  }
+}
+:root .text-small {
+  font-size: var(--small-font-size);
+}
+:root .text-smaller {
+  font-size: var(--smaller-font-size);
+}
+:root .text-smallest {
+  font-size: var(--smallest-font-size);
+}
+:root .text-left {
+  text-align: left;
+}
+:root .text-center {
+  text-align: center;
+}
+:root .text-right {
+  text-align: right;
+}

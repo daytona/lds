@@ -1,0 +1,14 @@
+{
+  "schema": {
+    "theme": [
+      {
+        "key": "Purple",
+        "value": ["bg-purple", "white"]
+      },
+      {
+        "key": "White",
+        "value": ["bg-white", "green"]
+      }
+    ]
+  }
+}

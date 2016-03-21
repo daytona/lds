@@ -77,7 +77,7 @@ function screenDump (lds) {
     if (component.template) {
       var screens = `/assets/screens/components/${componentName}.png`;
 
-      screenshot(`http://localhost:4000/api/components/${componentName}?standalone=true`, `dist/screens/${component.group}/${componentName}.png`, screenConfig.component);
+      screenshot(`http://localhost:4000/api/components/${componentName}?standalone=true&screenshot=true`, `dist/screens/${component.group}/${componentName}.png`, screenConfig.component);
       lds.components[componentName].screen = screens;
     }
   });

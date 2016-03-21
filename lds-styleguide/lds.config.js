@@ -2,8 +2,7 @@ var helpers = require('./lib/handlebar-helpers');
 var ldsHandlebars = require('lds-handlebars');
 
 module.exports = {
-  version: '0.0.1',
-  prefix: 'lds',
+  version: '0.0.2',
   engine: ldsHandlebars({
     helpers,
     ext: 'hbs'

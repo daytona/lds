@@ -1,0 +1,22 @@
+{
+  "schema": {
+    "text": ["Klicka på mig", "Gill oss på Instagram"],
+    "url": [{
+      "key": "None (button)",
+      "value": false
+    },
+    {
+      "key": "http:// (link)",
+      "value": "http://daytona.se"
+    }
+  ]
+  },
+  "variations": {
+    "White": {
+      "mods": ["white"]
+    },
+    "Wide": {
+      "mods": ["full"]
+    }
+  }
+}

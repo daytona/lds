@@ -1,0 +1,10 @@
+:root {
+  --transition-duration: 0.2s;
+  --transition-easing: ease-out;
+  --transition-all: all var(--transition-duration) var(--transition-easing);
+  --transition-padding: padding var(--transition-duration) var(--transition-easing);
+  --transition-height: height var(--transition-duration) var(--transition-easing);
+  --transition-font: font var(--transition-duration) var(--transition-easing);
+  --transition-color: color var(--transition-duration) var(--transition-easing);
+  --transition-bg: background var(--transition-duration) var(--transition-easing);
+}

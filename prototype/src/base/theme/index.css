@@ -1,0 +1,22 @@
+@import "../color";
+
+.Theme--bg-white { background-color: var(--color-white); }
+.Theme--bg-black { background-color: var(--color-black); }
+.Theme--bg-green { background-color: var(--color-green); }
+.Theme--bg-pink { background-color: var(--color-blue); }
+.Theme--bg-lightBlue { background-color: var(--color-blue); }
+.Theme--bg-darkBlue { background-color: var(--color-blue); }
+.Theme--bg-purple {
+  background-color: var(--color-purple);
+  color: var(--color-body-on-purple);
+}
+.Theme--bg-purple a {
+  color: inherit;
+}
+
+.Theme--white {
+  color: var(--color-white);
+}
+.Theme--green a {
+  color: var(--green);
+}

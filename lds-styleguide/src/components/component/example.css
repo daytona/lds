@@ -1,7 +1,6 @@
 .Example {
 
 }
-.Example-container {}
 .Example-header {}
 .Example-title {}
 .Example-content {
@@ -18,10 +17,20 @@
 }
 .Example-component {
   padding: 20px;
-  overflow: hidden;
 }
 .Example-rendered {
-
+  position: relative;
+  transform-origin: 0 0;
+}
+.Example-renderContainer {
+  overflow: hidden;
+  transform: translate3d(0,0,0);
+}
+.Example-iframe {
+  border: none;
+  display: block;
+  margin: auto;
+  width: 100%;
 }
 
 .Example-data {

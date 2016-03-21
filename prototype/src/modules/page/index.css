@@ -1,0 +1,40 @@
+:root {
+
+}
+.Page {
+  padding-top: 45px;
+  transition: var(--transition-padding);
+  background: var(--color-bg);
+  position: relative;
+  color: var(--color-body);
+}
+/** Create a background fill to extend footer background-color entire length of
+ *  screen if content isn't enough */
+.Page::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100vh;
+  background: var(--color-purple);
+  z-index: -1;
+}
+@media (--min-medium) {
+  .Page {
+    padding-top: 95px;
+  }
+  .Page:not(.is-scrolled) .Page-header-navigationBar {
+    margin: 25px 0;
+  }
+}
+.Page--nopadding {
+  padding: 0;
+  height: 100%;
+}
+.Page-header-navigationBar {
+  transition: var(--transition-all);
+}
+.Page-content {
+
+}

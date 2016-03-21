@@ -73,8 +73,12 @@ export default function Tablist(el, options) {
   }
 
   function bindEvents() {
-    eventListener.addListener(el, '.js-tab', 'click',  click);
-    eventListener.addListener(el, '.js-tab', 'keydown',  keydown);
+    eventListener.addListener('click', el, click, {
+      selector: '.js-tab'
+    });
+    eventListener.addListener('keydown', el, keydown, {
+      selector: '.js-tab',
+    });
   }
 
   function init() {

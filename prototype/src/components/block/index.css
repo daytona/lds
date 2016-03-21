@@ -1,0 +1,28 @@
+.Block {
+  padding: 1.65em 0 0;
+  box-sizing: border-box;
+
+  background-position: 50% 50%;
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  position: relative;
+}
+.Block::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+@media (--min-medium) {
+  .Block {
+    padding: 3.3em 0 1.65em;
+  }
+}
+@media (--min-large) {
+  .Block {
+    padding: 4.29em 0 2.64em;
+  }
+}
+.Block--tight {
+
+}

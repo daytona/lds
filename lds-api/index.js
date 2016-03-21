@@ -95,10 +95,37 @@ router
                       <link rel="stylesheet" href="/assets/style.css">
                     </head>
                     <body>
-                      <div id="Standalone-wrapper" style="display: inline-block; padding: 20px; background: #eee;">
+                    <div class="Page Page--nopadding text">
+                      <div id="Standalone-wrapper" style="display: ${query.screenshot ? 'inline-block' : 'block'}; position:relative; margin: auto; ">
                       ${this.render(component.template, Object.assign({}, component.data, query))}
                       </div>
-                      <script src="/assets/main.js"></script>
+                    </div>
+                    <script src="/assets/main.js"></script>
+                    <script>
+                      document.addEventListener('click', (event)=>{
+                        event.preventDefault();
+                      });
+                      function callMyParent(iframeID) {
+                        var documentHeight;
+                        var wrapper = document.querySelector('#Standalone-wrapper');
+
+                        function checkHeight() {
+                          if (wrapper.clientHeight !== documentHeight) {
+                            updateHeight();
+                          }
+                        }
+
+                        function updateHeight() {
+                          documentHeight = wrapper.clientHeight;
+                          window.parent.updateIframeHeight(iframeID, documentHeight);
+                        }
+                        var resizeInterval = setInterval(checkHeight, 100);
+                      }
+
+                      if (window !== window.top) {
+                        callMyParent('${query.iframeid}');
+                      }
+                    </script>
                     </body>
                   </html>`;
 

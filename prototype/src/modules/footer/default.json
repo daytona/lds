@@ -1,0 +1,75 @@
+{
+    "contacts": {
+      "items": [{
+        "width": {
+          "m": "1of3"
+        },
+        "title": "Behöver du vår hjälp?",
+        "content": "Maila till <a href=\"mailto:business@daytona.se\">business@daytona.se</a>"
+      },
+      {
+        "width": {
+          "m": "1of3"
+        },
+        "title": "Vill du jobba hos oss?",
+        "content": "Titta på våra <a href=\"/jobb\">lediga jobb</a>"
+      },
+      {
+        "width": {
+          "m": "1of3"
+        },
+        "title": "Är du journalist?",
+        "content": "Maila till <a href=\"mailto:press@daytona.se\">press@daytona.se</a>"
+      }]
+    },
+    "links": {
+      "items": [{
+        "width": {
+          "s": "1of2",
+          "m": "1of4"
+        },
+        "content": {
+          "component": "component:button",
+          "mode": "full",
+          "url": "/kontakt",
+          "text": "Hitta till vårt kontor"
+        }
+      },
+      {
+        "width": {
+          "s": "1of2",
+          "m": "1of4"
+        },
+        "content": {
+          "component": "component:button",
+          "mode": "full",
+          "url": "http://feeds.daytona.se/daytona-allt",
+          "text": "Följ oss via RSS"
+        }
+      },
+      {
+        "width": {
+          "s": "1of2",
+          "m": "1of4"
+        },
+        "content": {
+          "component": "component:button",
+          "mode": "full",
+          "url": "http://twitter.com/intent/user?screen_name=daytonasthlm",
+          "text": "Följ oss på Twitter"
+        }
+      },
+      {
+        "width": {
+          "s": "1of2",
+          "m": "1of4"
+        },
+        "content": {
+          "component": "component:button",
+          "mode": "full",
+          "url": "http://linkedin.com/company/daytona",
+          "text": "Följ oss på LinkedIn"
+        }
+      }]
+    }
+}

@@ -52,8 +52,13 @@ var helpers = {
          typeof obj2 === 'object' &&
          JSON.stringify(obj1) === JSON.stringify(obj2)) ||
         obj1 === obj2) {
-      return options.fn(this);
+      return typeof options.fn === 'function' ? options.fn(this) : true;
+    } else if(typeof options.fn !== 'function') {
+      return false;
     }
+  },
+  hasProperty(object, key) {
+    return typeof(object[key]) !== 'undefined';
   },
   getProperty(object, key) {
     return object && object[key];

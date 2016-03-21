@@ -1,0 +1,18 @@
+.Preamble {
+  
+}
+.Preamble p {
+  margin-bottom: 1.2375em;
+}
+.Preamble--dropcap > p:first-child:first-letter {
+  float: left;
+  display: block;
+  width: 1em;
+  line-height: .7;
+  margin: .19607144em .35857143em 0 0;
+  padding: .45357142em .42857142em;
+  text-align: center;
+  background-color: var(--color-green);
+  color: var(--color-white);
+  font-size: 2.33333333em;
+}

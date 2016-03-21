@@ -28,7 +28,9 @@ export default function Details(el, options) {
   }
 
   function bindEvents() {
-    eventListener.addListener(el, summary, 'click', click);
+    eventListener.addListener('click', el, click, {
+      selector: summary
+    });
   }
 
   function init() {

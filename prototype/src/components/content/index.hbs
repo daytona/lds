@@ -1,0 +1,13 @@
+{{#if (isString this)}}
+  <p>{{{this}}}</p>
+{{else if component}}
+  {{>(partial component)}}
+{{else}}
+  {{#each this}}
+    {{#if component}}
+      {{>(partial component)}}
+    {{else}}
+      <p>{{{this}}}</p>
+    {{/if}}
+  {{/each}}
+{{/if}}

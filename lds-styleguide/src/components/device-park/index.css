@@ -1,0 +1,35 @@
+.DevicePark {
+  position: relative;
+  padding-bottom: 70%
+}
+.DevicePark--show-mobile {
+  padding-bottom: 65%
+}
+.DevicePark--show-desktop {
+  padding-bottom: 65%
+}
+.DevicePark--show-tablet {
+  padding-bottom: 70%
+}
+
+.DevicePark-mobile {
+  max-width: 22%;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+}
+.DevicePark-tablet {
+  max-width: 52%;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 1;
+}
+.DevicePark-desktop {
+  width: auto;
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: 40px;
+}

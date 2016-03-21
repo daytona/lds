@@ -18,8 +18,8 @@
   <li class="{{prefix}}MainNavigation-item{{#if this.items}} {{prefix}}MainNavigation-item--withChildren{{/if}}">
     <a class="{{prefix}}MainNavigation-link {{prefix}}MainNavigation-link--level{{listlevel}}{{#if this.items}} {{prefix}}MainNavigation-link--withChildren{{/if}}" href="{{url}}">{{{name}}}</a>
     {{#if this.items}}
-      <button class="{{prefix}}MainNavigation-toggler icon icon--info js-toggleList" role="button" aria-controls="list{{listid}}"></button>
-      {{> navList listlevel=(increment listlevel) hidden="true"}}
+      <button class="{{prefix}}MainNavigation-toggler icon icon--info js-toggleList" role="button" aria-controls="navlist{{listid}}" aria-pressed="{{equals name @root.category}}" data-controller="Toggler" data-target="#navlist{{listid}}"></button>
+      {{> navList listlevel=(increment listlevel) hidden=(equals false (equals name @root.category))}}
     {{/if}}
   </li>
 {{/inline}}

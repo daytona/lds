@@ -1,0 +1,24 @@
+.Logotype {
+  position: relative;
+  display: block;
+}
+.Logotype-text {
+  display: block;
+  text-indent: -9999%;
+  overflow: hidden;
+}
+.Logotype--green {
+  color: var(--color-green);
+}
+.Logotype::before {
+  font-family: var(--icon-font-family);
+  content: var(--icon-logo);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+
+  font-size: inherit;
+  font-feature-settings: "liga";
+  -webkit-font-smoothing: antialiased;
+}

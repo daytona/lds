@@ -1,0 +1,15 @@
+<div class="Page-wrapper">
+  <div class="Page{{#if topImage}} Page--withTopImage{{/if}}" data-controller="ScrollToggle" data-min-pos="50" data-max-pos="false" data-goal-class="is-scrolled">
+    {{#with header}}
+    {{> module:page-header}}
+    {{/with}}
+    <main class="Page-content" role="main">
+      {{#> @partial-block}}{{/@partial-block}}
+    </main>
+    {{#with footer}}
+    <footer class="Page-footer Footer">
+      {{> module:footer}}
+    </footer>
+    {{/with}}
+  </div>
+</div>

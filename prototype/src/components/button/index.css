@@ -1,0 +1,41 @@
+:root {
+  --button-padding: 0.61875em 1.3em
+}
+
+.Button {
+  font: var(--sans-serif);
+  padding: var(--button-padding);
+
+  appearance: none;
+
+  text-decoration: none;
+  text-align: center;
+
+  display: inline-block;
+
+  background: var(--color-green);
+  border: none;
+  color: var(--color-white);
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: var(--transition-all);
+}
+
+.Button:hover {
+  background-color: var(--color-green-darken);
+  outline: none;
+}
+
+.Button--white {
+  background-color: var(--color-white);
+  color: var(--color-fg);
+}
+
+.Button--white:hover {
+  background: var(--color-fg);
+  color: var(--color-white);
+}
+
+.Button--full {
+  width: 100%;
+}

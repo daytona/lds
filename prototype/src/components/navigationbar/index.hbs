@@ -1,0 +1,40 @@
+<nav id="NavigationBar" class="NavigationBar{{#if transparent}} NavigationBar--transparent{{/if}}" role="navigation" data-controller="NavigationBar">
+  <div class="NavigationBar-wrapper">
+    <button class="NavigationBar-toggle" data-controller="Toggler" data-inactive-text="{{toggleShowText}}" data-active-text="{{toggleHideText}}" data-text-selector=".NavigationBar-toggle-label" data-target="#NavigationBar-overflow">
+      <span class="NavigationBar-toggle-label">{{toggleShowText}}</span>
+      <span class="NavigationBar-toggle-bar NavigationBar-toggle-bar--first"></span>
+      <span class="NavigationBar-toggle-bar NavigationBar-toggle-bar--second"></span>
+      <span class="NavigationBar-toggle-bar NavigationBar-toggle-bar--third"></span>
+    </button>
+    {{#if primary-list}}
+    <ul class="NavigationBar-list NavigationBar-list--primary" role="group">
+      {{#each primary-list}}
+      <li class="NavigationBar-item{{#if type}} NavigationBar-item--{{type}}{{/if}} js-navigation-item">
+        <a href="{{{url}}}" class="NavigationBar-item-link NavigationBar-item-link--primary"{{#each attributes}}{{@key}}="{{this}}"{{/each}}>{{{text}}}</a>
+      </li>
+      {{/each}}
+    </ul>
+    {{/if}}
+    {{#if secondary-list}}
+    <ul class="NavigationBar-list NavigationBar-list--secondary" role="group">
+      {{#each secondary-list}}
+      <li class="NavigationBar-item{{#if type}} NavigationBar-item--{{type}}{{/if}} js-navigation-item">
+        <a href="{{{url}}}" class="NavigationBar-item-link NavigationBar-item-link--secondary"{{#each attributes}}{{@key}}="{{this}}"{{/each}}>{{{text}}}</a>
+      </li>
+      {{/each}}
+    </ul>
+    {{/if}}
+  </div>
+  <ul class="NavigationBar-overflow js-overflow-list" id="NavigationBar-overflow" aria-hidden="true" aria-expanded="false" role="group">
+    {{#each primary-list}}
+    <li class="NavigationBar-item{{#if type}} NavigationBar-item--{{type}}{{/if}} js-overflow-item" aria-hidden="true">
+      <a href="{{{url}}}" class="NavigationBar-item-link NavigationBar-item-link--primary"{{#each attributes}}{{@key}}="{{this}}"{{/each}}>{{{text}}}</a>
+    </li>
+    {{/each}}
+    {{#each secondary-list}}
+    <li class="NavigationBar-item{{#if type}} NavigationBar-item--{{type}}{{/if}} js-overflow-item" aria-hidden="true">
+      <a href="{{{url}}}" class="NavigationBar-item-link NavigationBar-item-link--secondary"{{#each attributes}}{{@key}}="{{this}}"{{/each}}>{{{text}}}</a>
+    </li>
+    {{/each}}
+  </ul>
+</nav>

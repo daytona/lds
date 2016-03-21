@@ -21,7 +21,7 @@
                   {{@key}}:
                   <select class="{{prefix}}Form-select {{prefix}}Example-editField" name="{{@key}}">
                     {{#each this}}
-                      <option value="{{#if value}}{{jsonLine value}}{{else}}{{this}}{{/if}}" {{#equals value (getProperty data @../key)}} selected="selected"{{/equals}}{{#equals this (getProperty data @../key)}} selected="selected"{{/equals}}>{{#if key}}{{key}}{{else}}{{.}}{{/if}}</option>
+                      <option value="{{#if (hasProperty this 'value')}}{{jsonLine value}}{{else}}{{this}}{{/if}}" {{#equals value (getProperty data @../key)}} selected="selected"{{/equals}}{{#equals this (getProperty data @../key)}} selected="selected"{{/equals}}>{{#if key}}{{key}}{{else}}{{.}}{{/if}}</option>
                     {{/each}}
                   </select>
                 </label>
@@ -32,8 +32,10 @@
         {{/if}}
         <div class="{{prefix}}Example-component">
           {{#> component:tabarea id=(concat "render" id) }}
-            <div class="{{prefix}}Example-rendered{{#@component.config.fullwidth}} {{prefix}}Component-container--full{{/@component.config.fullwidth}} js-container">
-
+            <div class="{{prefix}}Example-renderContainer">
+              <div class="{{prefix}}Example-rendered {{prefix}}Example-rendered--desktop js-container">
+                <iframe src="/api/{{@component.group}}/{{@component.name}}?standalone=true" class="{{prefix}}Example-iframe js-iframe" id="iframe-{{id}}-desktop"></iframe>
+              </div>
             </div>
           {{/component:tabarea}}
           {{#> component:tabarea id=(concat "data" id) }}
@@ -49,9 +51,16 @@
 
 {{#saveas "component"}}
 <section class="{{prefix}}Component js-component" id="Component-{{name}}">
-  <div class="{{prefix}}Component-example">
-
-  </div>
+  {{#if template}}
+    {{#if config.variations}}
+      {{> example data=data name="Default" id=(uid)}}
+      {{#each config.variations}}
+        {{> example name=@key data=(mergeObjects @component.data this) id=(uid)}}
+      {{/each}}
+    {{else}}
+      {{> example data=data id=(uid) name=false}}
+    {{/if}}
+  {{/if}}
   <header class="{{prefix}}Component-header">
     {{#if info}}
       {{{markdown info}}}
@@ -65,16 +74,6 @@
   <div class="Component-content">
     {{#if example}}
       {{{ example }}}
-    {{/if}}
-    {{#if template}}
-      {{#if config.variations}}
-        {{> example data=data name="Default" id=(uid)}}
-        {{#each config.variations}}
-          {{> example name=@key data=(mergeObjects @component.data this) id=(uid)}}
-        {{/each}}
-      {{else}}
-        {{> example data=data id=(uid)}}
-      {{/if}}
     {{/if}}
     <footer class="{{prefix}}Component-footer">
       {{#if dependencies}}

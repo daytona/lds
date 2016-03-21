@@ -1,0 +1,38 @@
+@import "../breakpoints";
+:root {
+  --max-page-width: 980px;
+  --max-text-width: 780px;
+  --page-gutter: 10px;
+  --page-gutter--large: 20px;
+}
+.l-container {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: var(--max-page-width);
+}
+.l-text-container {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: var(--max-text-width);
+}
+.l-gutter {
+  padding-left: var(--page-gutter);
+  padding-right: var(--page-gutter);
+}
+
+@media (--min-small) {
+  .l-gutter,
+  .l-gutter-s {
+    padding: 0 var(--page-gutter--large);
+  }
+}
+@media (--min-medium) {
+  .l-gutter-m {
+    padding: 0 var(--page-gutter--large);
+  }
+}
+@media (--min-large) {
+  .l-gutter-l {
+    padding: 0 var(--page-gutter--large);
+  }
+}

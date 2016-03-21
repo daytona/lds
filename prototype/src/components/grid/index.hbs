@@ -1,0 +1,16 @@
+{{#*inline "gridCell"}}
+  <div class="Grid-cell{{#each width}} {{#if @key}}{{@key}}-{{/if}}width-{{this}}{{/each}}">
+    {{#if title}}
+      {{> base:text type="header3" text=title}}
+    {{/if}}
+    {{#with content}}
+    {{> component:content}}
+    {{/with}}
+  </div>
+{{/inline}}
+
+<div class="Grid{{#if gutter}} Grid--withGutter{{/if}}{{#if bigGutter}} Grid--withBigGutter{{/if}}{{#each mode}} Grid--{{this}}{{/each}}{{#each align}} Grid--align{{capitalize this}}{{/each}}">
+  {{#each items}}
+    {{> gridCell}}
+  {{/each}}
+</div>

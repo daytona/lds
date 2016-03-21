@@ -6,9 +6,13 @@
     {{/each}}
   {{/equals}}
   {{#equals category "components"}}
+  <div class="Grid Grid--withGutter">
     {{#each components}}
-    {{> component:component}}
+    <div class="Grid-cell width-1of2 m-width-1of3 l-width-1of4">
+      {{> component:component-list-item}}
+    </div>
     {{/each}}
+  </div>
   {{/equals}}
   {{#equals category "modules"}}
     {{#each modules}}
@@ -16,8 +20,12 @@
     {{/each}}
   {{/equals}}
   {{#equals category "views"}}
+  <div class="Grid Grid--withGutter">
     {{#each views}}
-    {{> component:view}}
+    <div class="Grid-cell width-1of2 m-width-1of3 l-width-1of4">
+      {{> component:component-list-item}}
+    </div>
     {{/each}}
+  </div>
   {{/equals}}
 </div>

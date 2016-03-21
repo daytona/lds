@@ -1,0 +1,13 @@
+<div class="Block{{#each mods}}Block--{{this}}{{/each}}{{#if theme}} Theme{{#each theme}} Theme--{{this}}{{/each}}{{/if}}"{{#if background-image}}style="background-image:url('{{{background-image}}}')"{{/if}}>
+  <div class="l-text-container l-gutter">
+    {{#if title}}
+    <h2 class="text-header2 Block-title">{{title}}</h2>
+    {{/if}}
+    {{#with content}}
+    {{> component:content}}
+    {{/with}}
+    {{#if @partial-block}}
+       {{>@partial-block}}
+    {{/if}}
+  </div>
+</div>

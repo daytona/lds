@@ -1,0 +1,49 @@
+<div class="Footer-destinations Theme Theme--bg-white">
+  {{#with contacts}}
+  <div class="Footer-contact Block Block--tight Block--with-topBorder">
+    <div class="l-container l-gutter">
+      {{#with items}}
+        {{>component:grid gutter="true"}}
+      {{/with}}
+    </div>
+  </div>
+  {{/with}}
+  {{#with links}}
+  <div class="Footer-links Theme Theme--bg-white">
+    <div class="l-container l-gutter">
+      {{#with items}}
+        {{>component:grid bigGutter="true" align="middle"}}
+      {{/with}}
+    </div>
+  </div>
+  {{/with}}
+</div>
+<div class="Footer-main Theme Theme--bg-purple">
+  <div class="l-container l-gutter">
+    <div class="Grid">
+      <div class="Grid-cell m-width-1of4">
+        <span class="Footer-logo">
+          {{> base:logotype}}
+        </span>
+      </div>
+      <div class="Grid-cell m-width-3of4">
+        <p>Daytona ger dig ett digitalt försprång. Vi är experter på <a href="/digital-transformation" rel="tag">digital transformation</a>, <a href="/strategi" rel="tag">digital strategi</a>, <a href="/e-handel" rel="tag">e-handel</a>, <a href="/kundinsikter" rel="tag">kundinsikter</a>, <a href="/tjanstedesign" rel="tag">tjänstedesign</a>, <a href="/interaktionsdesign" rel="tag">interaktionsdesign</a>, <a href="/webbstrategi" rel="tag">webbstrategi</a>, <a href="/webbanalys" rel="tag">webbanalys</a>, <a href="/google-analytics" rel="tag">Google Analytics</a>, <a href="/mobil-strategi" rel="tag">mobil strategi</a>, <a href="/tjansteutveckling" rel="tag">tjänsteutveckling</a> och <a href="/innovation" rel="tag">innovation</a>.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="Footer-extra Theme Theme--bg-purple">
+  <div class="l-container l-gutter">
+    <div class="Grid">
+      <div class="Grid-cell m-width-3of5 text-small">
+        <p class="Footer-extra-aretsByra">Daytona har rankats som en av Sveriges tre bästa byråer fem år i rad.</p>
+      </div>
+      <div class="Grid-cell m-width-2of5 text-small">
+        <div class="Footer-extra-legal text-right">
+          <span class="Footer-extra-legal-copyright">© 2016 Daytona </span>
+          <a class="Footer-extra-legal-link" href="/villkor">Villkor och information om kakor</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -2,7 +2,7 @@ var ldsHandlebars = require('lds-handlebars');
 var helpers = require('./lib/handlebar-helpers');
 
 module.exports = {
-  version: '0.0.1',
+  version: '1.0.0',
   engine: ldsHandlebars({
     ext: 'hbs',
     helpers,
@@ -11,7 +11,7 @@ module.exports = {
     dirname: __dirname,
     base: 'src/base',
     components: 'src/components',
-    modules: false,
+    modules: 'src/modules',
     helpers: 'src/helpers',
     views: 'src/views',
     layouts: 'src/layouts',
@@ -25,8 +25,7 @@ module.exports = {
     script: 'main.js',
     style: 'style.css',
     images: 'images',
-    fonts: 'fonts',
-    tree: 'structure.json'
+    fonts: 'fonts'
   },
   server: {
     port: 4000

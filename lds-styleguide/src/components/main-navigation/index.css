@@ -10,15 +10,28 @@
   margin: 0;
   padding: 0;
 }
-
-/*.MainNavigation-list[aria-hidden="true"] {
+.MainNavigation-toggler {
+  border: none;
+  background: none;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.MainNavigation-toggler::before {
+  content: ">";
+}
+.MainNavigation-toggler[aria-pressed="true"]::before {
+  content: "v";
+}
+.MainNavigation-list[aria-hidden="true"] {
   display: none;
   height: 0;
-}*/
+}
 .MainNavigation-item {
   margin: 0;
   padding: 0;
   list-style: none;
+  position: relative;
 }
 
 .MainNavigation-link {

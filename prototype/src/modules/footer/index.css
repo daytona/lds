@@ -1,0 +1,27 @@
+:root {
+  --footer-logo-font-size: 50px;
+}
+.Footer {
+  position: relative;
+  overflow: hidden;
+}
+.Footer p{
+  margin: 0;
+}
+.Footer-main {
+  padding: 45px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.Footer-logo {
+  color: var(--color-white);
+  line-height: 1;
+  font-size: var(--footer-logo-font-size);
+  text-align: center;
+}
+.Footer-extra {
+  padding: 1em 0;
+}
+.Footer-extra-legal-copyright:after{
+  content: "|";
+  padding: 0 0.4em 0 0.5em;
+}
