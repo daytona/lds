@@ -1,7 +1,7 @@
 {{#saveas "view"}}
 <section class="{{prefix}}View js-view" id="View-{{name}}" data-url="/{{name}}" data-controller="[{ &quot;View&quot;: {&quot;data&quot;:{{jsonLine data}}{{#config}}, &quot;config&quot;: {{jsonLine .}}{{/config}} }}]">
   <div class="{{prefix}}View-example">
-    {{> component:device-park url=(concat "/" @view.name)}}
+    {{> component:device-park url=(concat "/api/views/" @view.name "?standalone=true")}}
   </div>
   <header>
     {{json screens}}
@@ -15,11 +15,6 @@
     {{/if}}
   </header>
   <div class="View-content">
-    {{#unless (isEmpty data)}}
-      <div class="{{prefix}}View-code {{prefix}}View-code--data">
-        <pre class="{{prefix}}code"><code class="js-data">{{{json data}}}</code></pre>
-      </div>
-    {{/unless}}
     {{#if config.schema}}
       <form class="{{prefix}}Form {{prefix}}View-editForm js-editForm">
         {{#each config.schema}}

@@ -1,0 +1,10 @@
+<div class="Grid Grid--withGutter">
+  {{#each css.variables}}
+  <div class="Grid-cell Grid-cell--bordered width-1of2 s-width-1of3 m-width-1of4 l-width-1of5">
+    <div class="text-center" style="box-shadow: 0 0 1px rgba(0,0,0,0.3)">
+      <div class="FlexEmbed FlexEmbed--20by7" style="background-color:{{this}};"></div>
+      {{@key}}
+    </div>
+  </div>
+  {{/each}}
+</div>

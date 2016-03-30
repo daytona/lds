@@ -5,15 +5,12 @@
  * returns true if match is found elsewise false
  */
 
-function isParentOf(child, nodes, root = document.body) {
+function isParentOf(child, selector, root = document.body) {
   let hasMatch = false;
   let node = child;
-  let nodelist = nodes;
-  if (typeof nodelist === 'string') {
-    nodelist = root.querySelectorAll(nodelist);
-  }
+  let nodelist = typeof selector === 'string' ? root.querySelectorAll(selector) : selector;
   while (node !== root && node.parentNode) {
-    if (!hasMatch && (nodelist.length && [].indexOf(nodelist, node)) || node === nodelist) {
+    if (!hasMatch && (nodelist.length && Array.prototype.indexOf.call(nodelist, node)) > -1 || node === nodelist) {
       hasMatch = true;
       break;
     }
@@ -22,18 +19,16 @@ function isParentOf(child, nodes, root = document.body) {
   return hasMatch;
 }
 
-export function addListener(eventType, node, callback, {selector, useCapture = false} = {}, thisArg){
-  const element = node || document.documentElement;
-
+export function addListener(eventType, node, callback, {selector, useCapture = false} = {}, thisArg) {
   function handler(event) {
     if (typeof callback === 'function') {
-      if (selector && isParentOf(event.target, selector, element) || !selector) {
+      if (selector && isParentOf(event.target, selector, node) || !selector) {
         callback.call(thisArg, event, event.detail);
       }
     }
   }
   handler.destroy = function(){
-    return element.removeEventListener(eventType, handler, useCapture);
+    return node.removeEventListener(eventType, handler, useCapture);
   };
 
 
@@ -44,7 +39,7 @@ export function addListener(eventType, node, callback, {selector, useCapture = f
     };
   }
 
-  element.addEventListener(eventType, handler, useCapture);
+  node.addEventListener(eventType, handler, useCapture);
 
   return handler;
 }

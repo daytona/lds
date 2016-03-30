@@ -1,9 +1,13 @@
 <div class="{{prefix}}Page-innerWrapper">
   <h1>Category: {{category}}</h1>
   {{#equals category "base"}}
+  <div class="Grid Grid--withGutter">
     {{#each base}}
-    {{> component:component}}
+    <div class="Grid-cell width-1of2 m-width-1of3 l-width-1of4">
+      {{> component:component-list-item}}
+    </div>
     {{/each}}
+  </div>
   {{/equals}}
   {{#equals category "components"}}
   <div class="Grid Grid--withGutter">
@@ -15,14 +19,27 @@
   </div>
   {{/equals}}
   {{#equals category "modules"}}
+  <div class="Grid Grid--withGutter">
     {{#each modules}}
-    {{> component:component}}
+    <div class="Grid-cell width-1of2 m-width-1of3 l-width-1of4">
+      {{> component:component-list-item}}
+    </div>
     {{/each}}
+  </div>
+  {{/equals}}
+  {{#equals category "helpers"}}
+  <div class="Grid Grid--withGutter">
+    {{#each helpers}}
+    <div class="Grid-cell width-1of2 m-width-1of3 l-width-1of4">
+      {{> component:component-list-item}}
+    </div>
+    {{/each}}
+  </div>
   {{/equals}}
   {{#equals category "views"}}
   <div class="Grid Grid--withGutter">
     {{#each views}}
-    <div class="Grid-cell width-1of2 m-width-1of3 l-width-1of4">
+    <div class="Grid-cell s-width-1of2 l-width-1of3">
       {{> component:component-list-item}}
     </div>
     {{/each}}

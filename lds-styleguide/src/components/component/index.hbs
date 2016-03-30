@@ -4,7 +4,6 @@
       <h3 class="{{prefix}}Example-title">{{name}}</h3>
     {{/if}}
     <section class="{{prefix}}Example-container">
-      {{json screen}}
       <header class="{{prefix}}Example-header">
         {{> component:tablist items=(tablistdata id=id tabs="Render#render Data#data") inline="true"}}
         {{#if @component.config.schema}}
@@ -14,14 +13,17 @@
       <div class="{{prefix}}Example-content">
         {{#if @component.config.schema}}
         <div class="{{prefix}}Example-edit">
-          {{#> component:tabarea id=(concat "edit" id) }}
+          {{#> component:tabarea id=(concat "edit" id) dropdown="true" }}
             <form class="{{prefix}}Form {{prefix}}Example-editForm js-editForm">
               {{#each @component.config.schema}}
                 <label class="{{prefix}}Form-label {{prefix}}Example-editLabel">
                   {{@key}}:
                   <select class="{{prefix}}Form-select {{prefix}}Example-editField" name="{{@key}}">
+                    {{#with (getProperty @component.data @key)}}
+                      <option value="{{#if (hasProperty this 'value')}}{{jsonLine value}}{{else}}{{this}}{{/if}}" selected="selected">{{#if (isString this)}}{{this}}{{else}}{{default}}{{/if}}</option>
+                    {{/with}}
                     {{#each this}}
-                      <option value="{{#if (hasProperty this 'value')}}{{jsonLine value}}{{else}}{{this}}{{/if}}" {{#equals value (getProperty data @../key)}} selected="selected"{{/equals}}{{#equals this (getProperty data @../key)}} selected="selected"{{/equals}}>{{#if key}}{{key}}{{else}}{{.}}{{/if}}</option>
+                      <option value="{{#if (hasProperty this 'value')}}{{jsonLine value}}{{else}}{{this}}{{/if}}">{{#if key}}{{key}}{{else}}{{.}}{{/if}}</option>
                     {{/each}}
                   </select>
                 </label>
@@ -33,14 +35,12 @@
         <div class="{{prefix}}Example-component">
           {{#> component:tabarea id=(concat "render" id) }}
             <div class="{{prefix}}Example-renderContainer">
-              <div class="{{prefix}}Example-rendered {{prefix}}Example-rendered--desktop js-container">
-                <iframe src="/api/{{@component.group}}/{{@component.name}}?standalone=true" class="{{prefix}}Example-iframe js-iframe" id="iframe-{{id}}-desktop"></iframe>
-              </div>
+              {{> component:preview url=(concat "/api/" @component.group "/" @component.name "?standalone=true")}}
             </div>
           {{/component:tabarea}}
           {{#> component:tabarea id=(concat "data" id) }}
             <div class="{{prefix}}Example-code {{prefix}}Example-code--data">
-              <pre class="{{prefix}}code"><code class="js-data">{{{json data}}}</code></pre>
+              <code><pre class="{{prefix}}code js-data language-json">{{{json data}}}</pre></code>
             </div>
           {{/component:tabarea}}
         </div>

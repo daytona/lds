@@ -10,30 +10,12 @@ export default function Component(el, options = {}) {
   const url = options.url || el.dataset.url;
   const data = options.data || {};
   const containerEl = el.querySelector('.js-container');
-  const iframes = el.querySelectorAll('.js-iframe');
+  const iframe = el.querySelector('.js-iframe');
   const formEl = el.querySelector('.js-editForm');
   const dataEl = el.querySelector('.js-data');
-  const viewportButtons = el.querySelectorAll('.js-viewportButton');
-  let iframeWidth = 320;
+
   let state = data;
 
-  const devices = {
-    'mobile': {
-      'width': 375,
-      'height': 627,
-      'class': 'mobile'
-    },
-    'tablet': {
-      'width': 750,
-      'height': 920,
-      'class': 'tablet'
-    },
-    'dektop': {
-      'width': 1440,
-      'height': 900,
-      'class': 'desktop'
-    },
-  }
   function drawComponent(response) {
     containerEl.innerHTML = response.responseText;
     eventListener.dispatchEvent(containerEl, 'newDom');
@@ -43,9 +25,8 @@ export default function Component(el, options = {}) {
 
   function update(params) {
     state = Object.assign(state, params);
-    Array.prototype.forEach.call(iframes, (iframe) => {
-      iframe.setAttribute('src', `${url}?standalone=true&iframeid=${iframe.getAttribute('id')}&${object2query(state)}`);
-    });
+    iframe.setAttribute('src', `${url}?standalone=true&iframeid=${iframe.getAttribute('id')}&${object2query(state)}`);
+
     dataEl.innerText = JSON.stringify(state, false, 4);
     // xhr.send({
     //   method: 'get',
@@ -74,21 +55,19 @@ export default function Component(el, options = {}) {
   //   iframe.style.width = iframeWidth + 'px';
   //   resize();
   // }
-  // function resizeIframe(event) {
-  //   if (event.detail.id === iframe.getAttribute('id')) {
-  //     iframe.style.height = event.detail.height + 'px';
-  //     resize();
-  //   }
-  // }
+  function resizeIframe(event) {
+    if (event.detail.id === iframe.getAttribute('id')) {
+      iframe.style.height = event.detail.height + 'px';
+      //resize();
+    }
+  }
   function bindEvents() {
     //el.addEventListener('updateComponent', update);
     // eventListener.addListener('click', el, changeViewportClick, {
     //   selector: '.js-viewportButton'
     // });
-    // iframe.addEventListener('load', () => {
-    //   setTimeout(resize, 100);
-    // });
-    //document.addEventListener('iframeResize', resizeIframe);
+
+    document.addEventListener('iframeResize', resizeIframe);
 
     if (formEl) {
       formEl.addEventListener('formSubmit', submitForm);
@@ -98,15 +77,9 @@ export default function Component(el, options = {}) {
 
   function init() {
     if (url) {
-      // if (el.clientWidth > 960) {
-      //   iframeWidth = 1024;
-      // } else if (el.clientWidth > 500) {
-      //   iframeWidth = 700;
-      // }
 
       bindEvents();
       update();
-      //iframe.style.width = iframeWidth + 'px';
     }
   }
 

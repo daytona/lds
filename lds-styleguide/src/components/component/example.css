@@ -36,17 +36,6 @@
 .Example-data {
 
 }
-.Example-edit {
-  float: right;
-}
-
-.Example-editForm {
-  width: 200px;
-  padding: 20px;
-}
-.Example-editLabel {
-  display: block;
-}
 .Example-content {
   margin-left: -20px;
   margin-right: -20px;
