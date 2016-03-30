@@ -5,6 +5,7 @@ var mount = require('koa-mount');
 var serve = require('koa-static');
 var Router = require('koa-router');
 var objectDeepMap = require('./lib/object-deep-map');
+var Engine = require('lds-engine');
 
 var config = require('./lds.config');
 var app = koa();
@@ -26,6 +27,10 @@ function *defaultData(next) {
   });
   yield next;
 }
+if (!config.engine || !config.engine.render) {
+  throw new Error('No templating engine specified');
+}
+var engine = new Engine(config.engine);
 
 router
   .get('/', function *(next){
@@ -45,7 +50,7 @@ app
   //.use(screenshots)
   .use(mount(config.path.public, serve(path.join(config.path.dirname, config.path.dist))))
   .use(parseComponents)
-  .use(config.engine.setup('styleguide', config.prefix))
+  .use(engine.setup('styleguide', config.prefix))
   .use(defaultData)
   .use(router.routes());
 

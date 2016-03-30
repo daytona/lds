@@ -55,37 +55,74 @@ function methods(config) {
 router
   .get('/screendump', function *(next){
     this.body = 'Saving screens of views';
-    screenDump(this.lds.structure);
+    var query = pureQuery(this.query);
+    screenDump(this.lds.structure, query.type);
   })
-  // .get('/views/:name', function *(next){
-  //   var query = pureQuery(this.query);
-  //   if (query.type === 'json') {
-  //     this.type = 'text/plain; charset=utf-8';
-  //     this.body = this.lds.structure.views[this.params.name];
-  //   } else if (query.screenshot) {
-  //     this.type = 'image/png';
-  //     this.body = webshot(`http://localhost:4000/${this.params.name}`, {
-  //       siteType: 'url',
-  //       screenSize: {
-  //         width: query.screenwidth || 320,
-  //         height: query.screenwidth || 480
-  //       },
-  //       shotSize: {
-  //         width: 'all',
-  //         height: 'all'
-  //       }
-  //     });
-  //   } else {
-  //     this.renderView(this.params.name, Object.assign({layout:'default'}, query));
-  //   }
-  // })
+  .get('/views/:name', function *(next){
+    var query = pureQuery(this.query);
+    if (query.type === 'json') {
+      this.type = 'text/plain; charset=utf-8';
+      this.body = this.lds.structure.views[this.params.name];
+    // } else if (query.screenshot) {
+    //   this.type = 'image/png';
+    //   this.body = webshot(`http://localhost:4000/${this.params.name}`, {
+    //     siteType: 'url',
+    //     screenSize: {
+    //       width: query.screenwidth || 320,
+    //       height: query.screenwidth || 480
+    //     },
+    //     shotSize: {
+    //       width: 'all',
+    //       height: 'all'
+    //     }
+    //   });
+    } else if (query.standalone) {
+      var viewtemplate = this.renderView(this.params.name, query, true);
+      this.body = viewtemplate.replace(/\<\/body\>/,
+        "<script>document.addEventListener('click', (event)=>{event.preventDefault();});</script>\n<\/body>"
+      );
+    } else {
+      this.renderView(this.params.name, Object.assign({layout:'default'}, query));
+    }
+  })
   .get('/:category/:name', function *(next){
     var component = this.lds.structure[this.params.category][this.params.name];
     var query = pureQuery(this.query);
 
-    if (query === 'json') {
+    if (query.type === 'json') {
       this.type = 'text/plain; charset=utf-8';
       this.body = component;
+    } else if (query.type === 'js' || query.type === 'css') {
+      var body = `<html>
+                    <head>
+                      <meta charset="utf-8">
+                      <meta name="viewport" content="width=device-width, initial-scale=1">
+                      <link rel="shortcut icon" href="">
+                      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.4.1/themes/prism-okaidia.min.css">
+                    </head>
+                    <body style="margin: 0; background: #272822; ${query.screenshot ? 'transform: rotate(-3deg) translate(2%, -3%); -webkit-transform: rotate(-3deg) translate(2%, -3%); font-size: 25px;' : ''}">
+                    <code><pre class="language-${query.type}">${query.type === 'js' ? component.script : component.styles}</pre></code>
+                    </body>
+                  </html>`;
+      this.body = body;
+    } else if (query.type === 'example') {
+      var body = `<html>
+                    <head>
+                      <meta charset="utf-8">
+                      <meta name="viewport" content="width=device-width, initial-scale=1">
+                      <link rel="shortcut icon" href="">
+                      <link rel="stylesheet" href="/styleguide/assets/style.css">
+                    </head>
+                    <body>
+                    <div class="text">
+                      ${component.example}
+                      </div>
+                    </div>
+                    <script src="/assets/main.js"></script>
+                    </body>
+                  </html>`;
+
+        this.body = body;
     } else if (query.standalone) {
       var body = `<html>
                     <head>

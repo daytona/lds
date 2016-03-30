@@ -41,7 +41,7 @@
 
 .Page-main {
   position: relative;
-  padding: 20px;
+  padding: 10px;
   z-index: 0;
   background: #fff;
   min-height: 100%;
@@ -49,6 +49,7 @@
 
 @media (--min-medium) {
   .Page-main {
+    padding: 20px;
     margin-left: 16em;
   }
 }

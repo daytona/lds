@@ -1,4 +1,5 @@
 var path = require('path');
+var Prism = require('prismjs');
 var postcss = require('postcss');
 
 module.exports = function extendComponents() {
@@ -9,12 +10,17 @@ module.exports = function extendComponents() {
       if (value && typeof value === 'object') {
         if (value.styles) {
           value.css = parseCSS(value);
+          value.styles = Prism.highlight(value.styles, Prism.languages.css);
         }
         if (value.script) {
           value.js = parseJS(value);
+          value.script = Prism.highlight(value.script, Prism.languages.js);
         }
         if (value.data) {
           value.data = resolveData(value.data, structure);
+        }
+        if (value.example) {
+          value.example = this.render(value.example, value);
         }
       }
       return value;

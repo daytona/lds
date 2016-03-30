@@ -12,12 +12,6 @@
   "author": "Daytona Stockholm",
   "license": "MIT",
   "dependencies": {
-    "babel": "^6.5.1",
-    "babel-cli": "^6.5.1",
-    "babel-core": "^6.5.2",
-    "babel-polyfill": "^6.5.0",
-    "babel-preset-es2015": "^6.5.0",
-    "babel-register": "^6.5.1",
     "commander": "^2.9.0",
     "path": "^0.12.7"
   }

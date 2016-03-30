@@ -1,10 +1,20 @@
 var helpers = require('./lib/handlebar-helpers');
-var ldsHandlebars = require('lds-handlebars');
+var handlebars = require('handlebars').create(); // Include templating engine and create separate intance
+
 module.exports = {
   version: '0.0.1',             // Current semver version of library
-  engine: ldsHandlebars({       // Setup a templating engine
-    ext: 'hbs',                 // Define file extension for templating files
-    helpers                     // Custom handlebar helpers which are used in template files
+  engine: {                     // Setup a templating engine
+    render(string, data) {      // Define custom render method
+      return handlebars.compile(string)(data);
+    },
+    registerHelper(name, fn) {  // Define custom helperRegister
+      return handlebars.registerHelper(name, fn);
+    },
+    registerPartial(name, fn) { // Define custom partialRegister
+      return handlebars.registerPartial(name, fn);
+    },
+    helpers,                    // Custom handlebar helpers which are used in template files
+    ext: 'hbs'                  // Define file extension for templating files
   }),
   path : {
     dirname: __dirname,         // Current working directory of LDS

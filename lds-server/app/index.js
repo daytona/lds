@@ -7,13 +7,15 @@ var styleguide = require('lds-styleguide');
 var api = require('lds-api');
 var parseLds = require('./parse-components');
 var extendLds = require('./extend-components');
+var Engine = require('lds-engine');
 
 var session = {};
 
 function Server(config) {
-  if (!config.engine) {
+  if (!config.engine || !config.engine.render) {
     throw new Error('No templating engine specified');
   }
+  var engine = new Engine(config.engine);
 
   // Parse all components of LDS and register on instance Handlebars
   session.config = config;
@@ -24,8 +26,8 @@ function Server(config) {
     // Serve static files from /dist folder
     .use(mount(config.path.public, serve(config.path.dist)))
     .use(parseLds(config))
+    .use(engine.setup('lds'))
     .use(extendLds())
-    .use(config.engine.setup('lds'))
     .use(router.routes())
     .use(router.allowedMethods())
     .use(mount('/styleguide', styleguide))
