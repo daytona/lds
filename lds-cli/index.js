@@ -1,5 +1,6 @@
 #!/usr/bin/env node --use_strict
 
+var cmd = require('cmd-exec').init();
 var program = require('commander');
 var path = require('path');
 var server = require('lds-server');
@@ -17,6 +18,38 @@ program
   .description('Initialize a blank direcory as a LDS seting up a default folder structure')
   .action(function() {
     generator.init(root);
+    cmd.exec('npm install --save babel-preset-es2015 handlebars')
+      .then(function(){
+        cmd.exec('lds build');
+      })
+      .done(function(){
+        console.log('LDS setup successfully');
+      });
+  });
+
+program
+  .command('watch')
+  .description('Wath for changes in JS and CSS files')
+  .action(function() {
+    console.log('Wathing for changes in JS and CSS files');
+    cmd.exec('lds watch:scripts & lds watch:styles');
+  });
+
+program
+  .command('watch:scripts')
+  .description('Wath for changes in JS files')
+  .action(function() {
+    cmd.exec("nodemon -w src -q -e 'js' --exec 'lds build script'");
+  });
+
+program
+  .command('watch:styles')
+  .description('Wath for changes in CSS files')
+  .action(function() {
+    cmd.exec("nodemon -w src -q -e 'css' --exec 'lds build styles'")
+      .then(function(res){
+        console.log(res.message);
+      });
   });
 
 program
@@ -25,12 +58,17 @@ program
   .action(function() {
     config = require(path.join(root, 'lds.config'));
     server(config);
+    cmd.exec("lds watch")
+      .then(function(res){
+        console.log(res.message);
+      });
   });
 
 program
   .command('build [type]')
   .description('Build all assets to dist folder, starting watchtasks')
   .action(function(type) {
+    console.log('Building', (type ? type : 'assets'));
     config = require(path.join(root, 'lds.config'));
     build(type, config);
   });

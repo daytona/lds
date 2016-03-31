@@ -21,6 +21,14 @@
     "url": "https://github.com/daytona/living-design-system/issues"
   },
   "homepage": "https://github.com/daytona/living-design-system",
+  "links": [
+    "lds-cli",
+    "lds-api",
+    "lds-build",
+    "lds-server",
+    "lds-styleguide",
+    "lds-test"
+  ],
   "dependencies": {
     "babel-core": "^6.5.2",
     "babel-eslint": "^4.1.8",

@@ -15,7 +15,7 @@ module.exports = {
     },
     helpers,                    // Custom handlebar helpers which are used in template files
     ext: 'hbs'                  // Define file extension for templating files
-  }),
+  },
   path : {
     dirname: __dirname,         // Current working directory of LDS
     base: 'src/base',           // Source of base components

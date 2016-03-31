@@ -9,16 +9,8 @@ var Engine = require('lds-engine');
 
 var config = require('./lds.config');
 var app = koa();
-var parseLdsComponents = require('./lib/parseComponents');
+var parseLds = require('lds-parser');
 var router = new Router();
-
-function *parseComponents(next) {
-  this.styleguide = {
-    structure: parseLdsComponents(config),
-    config: config
-  };
-  yield next;
-}
 
 function *defaultData(next) {
   this.defaultData = Object.assign(this.lds.structure, {
@@ -31,6 +23,10 @@ if (!config.engine || !config.engine.render) {
   throw new Error('No templating engine specified');
 }
 var engine = new Engine(config.engine);
+
+if (!config.namespace) {
+  config.namespace = 'styleguide';
+}
 
 router
   .get('/', function *(next){
@@ -49,8 +45,8 @@ router
 app
   //.use(screenshots)
   .use(mount(config.path.public, serve(path.join(config.path.dirname, config.path.dist))))
-  .use(parseComponents)
-  .use(engine.setup('styleguide', config.prefix))
+  .use(parseLds(config))
+  .use(engine.setup(config.namespace, config.prefix))
   .use(defaultData)
   .use(router.routes());
 

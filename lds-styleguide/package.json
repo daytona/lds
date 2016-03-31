@@ -12,6 +12,9 @@
   },
   "author": "",
   "license": "ISC",
+  "links": [
+    "lds-engine"
+  ],
   "dependencies": {
     "any-promise": "^1.1.0",
     "babel": "^6.5.1",

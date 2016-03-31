@@ -1,13 +1,5 @@
-function objectDeepMap(object, callback) {
-  Object.keys(object).map((key) => {
-    object[key] = callback(object[key], key);
+var objectDeepMap = require('./lib/object-deep-map');
 
-    if (typeof object[key] === 'object') {
-      objectDeepMap(object[key], callback);
-    }
-  })
-  return object;
-}
 module.exports = function Engine(options) {
   if (options.helpers) {
     // Loop through helpers and register on templating engine
@@ -24,6 +16,10 @@ module.exports = function Engine(options) {
         objectDeepMap(structure, (value) => {
           if (value && value.template) {
             options.registerPartial(`${value.category}:${value.name}`, value.template);
+            if (value.category === 'component') {
+              options.registerPartial(value.name, value.template);
+              options.registerPartial(`${value.name}/index.hbs`, value.template);
+            }
 
             // var dependencies = value.template.match(/{{#?> ?([^ }]*) ?}}/g);
             //
@@ -47,7 +43,6 @@ module.exports = function Engine(options) {
         var api = Object.assign(options, {
           renderView(name, data, asReturn) {
             var view = structure.views[name];
-
             if (!view) {
               view = structure.views['404'] || {template: '404 Page Not found', data: {}};
             }
@@ -56,12 +51,12 @@ module.exports = function Engine(options) {
             var layout = structure.layouts[viewData.layout];
             var layoutData = layout && layout.data || {};
             var pageData = Object.assign(defaultData, layoutData, viewData);
-
             var template = layout ? layout.template.replace(/{{{@body}}}/, view.template) : view.template;
 
             if (asReturn) {
               return this.render(template, pageData);
             }
+            this.type = 'text/html; charset=utf-8';
             this.body = this.render(template, pageData);
           }
         });

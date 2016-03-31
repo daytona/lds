@@ -131,7 +131,7 @@ router
                       <link rel="shortcut icon" href="">
                       <link rel="stylesheet" href="/assets/style.css">
                     </head>
-                    <body>
+                    <body style="margin: 0;">
                     <div class="Page Page--nopadding text">
                       <div id="Standalone-wrapper" style="display: ${query.screenshot ? 'inline-block' : 'block'}; position:relative; margin: auto; ">
                       ${this.render(component.template, Object.assign({}, component.data, query))}

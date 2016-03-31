@@ -8,6 +8,10 @@
   },
   "author": "Daytona Stockholm",
   "license": "MIT",
+  "links": [
+    "lds-build",
+    "lds-test"
+  ],
   "dependencies": {
     "koa": "^1.2.0",
     "koa-router": "^5.4.0",

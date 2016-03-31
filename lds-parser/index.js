@@ -1,10 +1,10 @@
 var path = require('path');
 var fs = require('fs');
-var trace = require('../lib/trace');
+var trace = require('./lib/trace');
 
 module.exports = function parseComponents(config) {
   return function* parser (next) {
-    this.lds = {
+    this[config.namespace] = {
       structure : {
         base: config.path.views ? parseDirectory(path.join(config.path.dirname, config.path.base), Object.assign(config, {category: 'base', group: 'base'})) : false,
         components: config.path.components ? parseDirectory(path.join(config.path.dirname, config.path.components), Object.assign(config, {category: 'component', group: 'components'})): false,
@@ -33,7 +33,16 @@ function parseDirectory(directory, options) {
       return false;
     }
     const tree = componentsTree[name];
+    const files = Object.keys(tree);
     const compData = tree['default.json'] || tree['index.json'];
+    // const isTemplate = new RegExp(`\.${options.engine.ext}$`);
+    // const templates = {};
+    //
+    // files.filter((file) => {
+    //   return isTemplate.test(file)
+    // }).forEach((file) => {
+    //   return templates[file.replace(isTemplate, '')] = tree[file];
+    // });
 
     const component = {
       name,
@@ -47,7 +56,6 @@ function parseDirectory(directory, options) {
       category: options.category,
       group: options.group
     };
-
     directoryComponents[name] = component;
   });
   return directoryComponents;

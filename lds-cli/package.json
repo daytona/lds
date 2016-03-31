@@ -11,7 +11,13 @@
   },
   "author": "Daytona Stockholm",
   "license": "MIT",
+  "links": [
+    "lds-build",
+    "lds-server",
+    "lds-test"
+  ],
   "dependencies": {
+    "cmd-exec": "^0.1.0",
     "commander": "^2.9.0",
     "path": "^0.12.7"
   }

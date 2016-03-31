@@ -3,6 +3,7 @@ var handlebars = require('handlebars').create();
 
 module.exports = {
   version: '0.0.2',
+  namespace: 'styleguide',
   engine: {
     render(string, data) {
       return handlebars.compile(string)(data);

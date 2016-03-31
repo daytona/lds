@@ -16,6 +16,9 @@
   },
   "author": "Daytona Stockholm",
   "license": "MIT",
+  "links": [
+    "living-design-system"
+  ],
   "dependencies": {
     "babel-core": "^6.5.2",
     "babel-eslint": "^4.1.8",
