@@ -7,11 +7,26 @@ function Toggler(el, opt) {
   const targets = document.querySelectorAll(el.dataset.target);
   let isActive = el.getAttribute('aria-pressed') === 'true';
 
-  function onTargetTransitionEnd(e) {
+  function onExpandTransitionEnd(e) {
     // if (typeof e !== 'undefined' &&
     //     e.target !== this.elements.inner)
     //   return;
-    e.target.style.height = '';
+    const el = e.target;
+
+    el.style.height = '';
+
+    el.removeEventListener('transitionend', onExpandTransitionEnd);
+    el.removeEventListener('webkittransitionend', onExpandTransitionEnd);
+  }
+
+  function onCollapseTransitionEnd(e) {
+    const el = e.target;
+
+    el.style.height = '';
+    setCollapsedAttrs(el);
+
+    el.removeEventListener('transitionend', onCollapseTransitionEnd);
+    el.removeEventListener('webkittransitionend', onCollapseTransitionEnd);
   }
 
   function setExpandedAttrs(el) {
@@ -49,26 +64,26 @@ function Toggler(el, opt) {
 
     setHeight(el, expandedHeight);
 
-    el.addEventListener('transitionend', onTargetTransitionEnd);
-    el.addEventListener('webkittransitionend', onTargetTransitionEnd);
+    el.addEventListener('transitionend', onExpandTransitionEnd);
+    el.addEventListener('webkittransitionend', onExpandTransitionEnd);
   }
 
   function collapseTarget(el) {
     const expandedHeight = el.getBoundingClientRect().height;
     console.log("height on collapse", expandedHeight);
 
-    setCollapsedAttrs(el);
+    // setCollapsedAttrs(el);
 
-    const collapsedHeight = el.getBoundingClientRect().height;
+    // const collapsedHeight = el.getBoundingClientRect().height;
 
     setHeight(el, expandedHeight);
 
     let readValue = el.offsetTop;
 
-    setHeight(el, collapsedHeight);
+    setHeight(el, 0);
 
-    el.addEventListener('transitionend', onTargetTransitionEnd);
-    el.addEventListener('webkittransitionend', onTargetTransitionEnd);
+    el.addEventListener('transitionend', onCollapseTransitionEnd);
+    el.addEventListener('webkittransitionend', onCollapseTransitionEnd);
   }
 
   function activate() {
