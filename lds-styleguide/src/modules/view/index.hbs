@@ -1,9 +1,9 @@
 {{#saveas "view"}}
 <section class="{{prefix}}View js-view" id="View-{{name}}" data-url="/{{name}}" data-controller="[{ &quot;View&quot;: {&quot;data&quot;:{{jsonLine data}}{{#config}}, &quot;config&quot;: {{jsonLine .}}{{/config}} }}]">
 
-  <header class="{{prefix}}View-header {{prefix}}Package-header">
+  <header class="{{prefix}}PageHeader {{prefix}}Package-header">
     <div class="Package-headerTitle">
-      <h2 class="View-headerTitle Text-header Text-xlarge">{{name}}</h2>
+      <h2 class="PageHeader-title Text-header Text-xlarge">{{name}}</h2>
       {{#if config.version}}
         <span class="{{prefix}}Package-versionTag">{{config.version}}</span>
       {{/if}}
@@ -41,12 +41,12 @@
 
 </div> --}}
 
-  <div class="View-section">
+  <div class="Page-section">
     {{#if info}}
       {{{markdown info}}}
     {{/if}}
 
-    <footer class="{{prefix}}View-footer">
+    <footer>
       {{#if hbs.dependencies}}
       <strong>Dependencies</strong>
       <dl>

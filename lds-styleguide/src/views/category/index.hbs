@@ -1,32 +1,37 @@
 <div class="{{prefix}}Page-innerWrapper">
-<<<<<<< HEAD
 
-  <div class="View-header">
-    <h1 class="View-headerTitle Text-header Text-xlarge">{{category}}</h1>
+  <div class="PageHeader">
+    <h1 class="PageHeader-title Text-header Text-xlarge">{{category}}</h1>
 
-    <ul class="View-headerActions">
+    <div class="PageHeader-nav">
 
-      <li class="View-headerAction">
-        <button class="{{prefix}}IconButton IconButton--medium">
-          {{> component:icon name='grid' }}
-        </button>
-      </li>
+      <ul class="PageHeader-menu PageHeader-menu--secondary">
+        <li class="PageHeader-menuItem">
+          <button class="{{prefix}}IconButton IconButton--medium">
+            {{> component:icon name='grid' }}
+          </button>
+        </li>
 
-      <li class="View-headerAction">
-        <button class="{{prefix}}IconButton IconButton--medium">
-          {{> component:icon name='list' }}
-        </button>
-      </li>
+        <li class="PageHeader-menuItem">
+          <button class="{{prefix}}IconButton IconButton--medium">
+            {{> component:icon name='list' }}
+          </button>
+        </li>
+      </ul>
 
-    </ul>
+    </div>
 
   </div>
 
-  <div class="View-section">
+  <div class="Page-section">
     {{#equals category "base"}}
-      {{#each base}}
-      {{> module:component}}
-      {{/each}}
+      <div class="Grid Grid--withGutter">
+        {{#each base}}
+        <div class="Grid-cell width-1of2 m-width-1of3 l-width-1of4">
+          {{> module:component-list-item}}
+        </div>
+        {{/each}}
+      </div>
     {{/equals}}
 
     {{#equals category "components"}}
@@ -40,9 +45,13 @@
     {{/equals}}
 
     {{#equals category "modules"}}
-      {{#each modules}}
-      {{> module:component}}
-      {{/each}}
+      <div class="Grid Grid--withGutter">
+        {{#each modules}}
+        <div class="Grid-cell width-1of2 m-width-1of3 l-width-1of4">
+          {{> module:component-list-item}}
+        </div>
+        {{/each}}
+      </div>
     {{/equals}}
 
     {{#equals category "views"}}

@@ -8,8 +8,8 @@
   transform: translate3d(-100%, 0, 0);
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  z-index: 1;
-  transition: transform 0.2s;
+  z-index: var(--z-index-pane);
+  transition: transform var(--transition-duration-default) var(--transition-easing-default);
 }
 
 .PagePane::-webkit-scrollbar {

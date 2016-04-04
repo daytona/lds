@@ -1,41 +1,38 @@
 {{#*inline "demo-form"}}
   {{#> component:tabarea id=(concat "edit" id) }}
-    {{#> component:popover title='Edit' }}
+    <div class="{{prefix}}Example-edit">
 
-      <div class="{prefix}}Example-edit">
+      <form class="{{prefix}}Form {{prefix}}Example-editForm js-editForm">
 
-        <form class="{{prefix}}Form {{prefix}}Example-editForm js-editForm">
+        {{#each @component.config.schema}}
+          <label class="{{prefix}}Form-label {{prefix}}Example-editLabel">
 
-          {{#each @component.config.schema}}
-            <label class="{{prefix}}Form-label {{prefix}}Example-editLabel">
+            {{@key}}:
+            <select class="{{prefix}}Form-select {{prefix}}Example-editField" name="{{@key}}">
 
-              {{@key}}:
-              <select class="{{prefix}}Form-select {{prefix}}Example-editField" name="{{@key}}">
+              {{#each this}}
+                <option value="{{#if (hasProperty this 'value')}}{{jsonLine value}}{{else}}{{this}}{{/if}}" {{#equals value (getProperty data @../key)}} selected="selected"{{/equals}}{{#equals this (getProperty data @../key)}} selected="selected"{{/equals}}>{{#if key}}{{key}}{{else}}{{.}}{{/if}}</option>
+              {{/each}}
 
-                {{#each this}}
-                  <option value="{{#if (hasProperty this 'value')}}{{jsonLine value}}{{else}}{{this}}{{/if}}" {{#equals value (getProperty data @../key)}} selected="selected"{{/equals}}{{#equals this (getProperty data @../key)}} selected="selected"{{/equals}}>{{#if key}}{{key}}{{else}}{{.}}{{/if}}</option>
-                {{/each}}
+            </select>
+          </label>
+        {{/each}}
 
-              </select>
-            </label>
-          {{/each}}
+      </form>
 
-        </form>
-
-      </div>
-
-    {{/component:popover}}
+    </div>
   {{/component:tabarea}}
 {{/inline}}
 
 {{#*inline "header"}}
+  <div data-controller="Package">
   {{#if @component.config.schema}}
     {{> demo-form }}
   {{/if}}
 
-  <header class="{{prefix}}View-header {{prefix}}Package-header">
+  <header class="{{prefix}}PageHeader {{prefix}}Package-header">
 
-    <h2 class="Package-headerTitle View-headerTitle Text-header Text-xlarge">
+    <h2 class="Package-headerTitle PageHeader-title Text-header Text-xlarge">
       {{name}}
 
       {{#if config.version}}
@@ -43,28 +40,33 @@
       {{/if}}
     </h2>
 
-    <div class="View-headerActions">
+    <div class="PageHeader-nav">
 
       {{#if template }}
-      <div class="Toolbar-section">
-        {{> component:tablist items=(tablistdata id=id tabs="Render#render Data#data") inline="true"}}
-        {{#if @component.config.schema}}
-          {{> component:tablist items=(tablistdata id=id tabs="Edit#edit") toggle="true" right="true"}}
-        {{/if}}
+        <div class="PageHeader-menu PageHeader-menu--primary">
+          {{> component:tablist items=(tablistdata id=id tabs="Render#render Data#data") inline="true"}}
+          {{json screen}}
+        </div>
 
         {{#if @component.config.schema}}
-          <button class="{{prefix}}IconButton IconButton--large">
-            {{> component:icon name='settings' }}
-          </button>
+        <ul class="PageHeader-menu PageHeader-menu--secondary">
+{{!--           {{#if @component.config.schema}}
+            {{> component:tablist items=(tablistdata id=id tabs="Edit#edit") toggle="true" right="true"}}
+          {{/if}}
+ --}}
+            <li class="PageHeader-menuItem">
+              <button class="js-showEditFormbutton {{prefix}}IconButton IconButton--large">
+                {{> component:icon name='settings' }}
+              </button>
+            </li>
+        </ul>
         {{/if}}
-
-        {{json screen}}
-      </div>
       {{/if}}
 
     </div>
 
   </header>
+  </div>
 {{/inline}}
 
 {{#*inline "demo"}}
@@ -125,11 +127,11 @@
 
 {{#saveas "component"}}
 <section
-  class="{{prefix}}View {{prefix}}Package js-component" id="Component-{{name}}">
+  class="{{prefix}}Package js-component" id="Component-{{name}}">
 
   {{> top id=(uid) }}
 
-  <div class="View-section">
+  <div class="Page-section">
     {{#if info}}
       {{{markdown info}}}
     {{/if}}

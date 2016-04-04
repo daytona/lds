@@ -1,139 +1,30 @@
 import controller from '../../helpers/controller';
+import {store} from '../../helpers/store';
+import {actions as overlayActions} from '../overlay';
 
-const defaultState = {
-  popover: null
-};
-
-const ACTION_TYPES = {
-  SHOW_POPOVER: 'SHOW_POPOVER',
-  HIDE_POPOVER: 'HIDE_POPOVER'
-};
-
-const actions = {
-  showPopover: function(id, options) {
-    return {
-      type: ACTION_TYPES.SHOW_POPOVER,
-      popover: {
-        id: id,
-        options: options
-      }
-    };
-  },
-
-  hidePopover: function() {
-    return {
-      type: ACTION_TYPES.HIDE_POPOVER
-    };
-  }
-};
-
-const popoverReducer = (state = defaultState, action) => {
-  switch(action.type) {
-    case ACTION_TYPES.SHOW_POPOVER:
-      return {
-        // ...state,
-        popover: action.popover
-      };
-
-    case ACTION_TYPES.HIDE_POPOVER:
-      return defaultState;
-  }
-
-  return state;
-};
-
-const createStore = (reducer, initialState) => {
-  let listeners = [];
-  let currentState = initialState;
-  let isDispatching = false;
-
-  function getState() {
-    return currentState;
-  }
-
-  function subscribe(listener) {
-    if(typeof listener !== 'function')
-      throw new Error('Expected listener to be a function.');
-
-    let isSubscribed = true;
-
-    listeners.push(listener);
-
-    return function unsubscribe() {
-      if(!isSubscribed)
-        return;
-
-      isSubscribed = false;
-
-      var idx = listeners.indexOf(listener);
-
-      listeners.slice(idx, 1);
-    };
-  }
-
-  function dispatch(action) {
-    if(isDispatching)
-      throw new Error('You can\'nt dispatch during a dispatch.');
-
-    try {
-      isDispatching = true;
-      currentState = reducer(currentState, action);
-    } finally {
-      isDispatching = false;
-    }
-
-    listeners.forEach(listener => listener());
-
-    return action;
-  }
-
-  dispatch({
-    type: '@INIT'
-  });
-
-  return {
-    getState,
-    subscribe,
-    dispatch
-  };
-};
-
-const combineReducers = reducers => {
-  return function combinedReducer(state = {}, action) {
-    // let state = state || {};
-    const newState = {};
-    let hasChanged = false;
-
-    Object.keys(reducers).forEach(key => {
-      const reducer = reducers[key];
-      const currentStateForKey = state[key];
-      const nextStateForKey = reducer(currentStateForKey, action);
-
-      if(typeof nextStateForKey === 'undefined')
-        throw new Error('The reducer must return an object.');
-
-      newState[key] = nextStateForKey;
-      hasChanged = hasChanged || nextStateForKey !== currentStateForKey;
-    });
-
-    return hasChanged ? newState : state;
-  };
-};
-
-const store = createStore(combineReducers({
-  popover: popoverReducer
-}), {});
+const POPOVER_MARGIN = -2;
+const POPOVER_WIDTH = 306;
 
 const PopoverHost = {
   initialize: function(el) {
     this.el = el;
+    this.popoverEl = el.querySelector('.js-popover');
+    this.titleEl = el.querySelector('.js-title');
+    this.contentEl = el.querySelector('.js-content');
+    this.closeButtonEl = el.querySelector('.js-closeButton');
     this.isInitialized = true;
     this.state = null;
 
-    this.setState(store.getState().popover);
+    this.closeButtonEl.addEventListener('mousedown', this.handleCloseClick);
+
+    this.setState({
+      popover: store.getState().overlay && store.getState().overlay.popover
+    });
 
     store.subscribe(() => {
-      this.setState(store.getState().popover);
+      this.setState({
+        popover: store.getState().overlay && store.getState().overlay.popover
+      });
     });
   },
 
@@ -152,14 +43,52 @@ const PopoverHost = {
     return oldState !== newState;
   },
 
+  handleCloseClick: function(e) {
+    store.dispatch(overlayActions.hideOverlay());
+
+    e.preventDefault();
+  },
+
+  setRect: function(el, anchorRect) {
+    if(!anchorRect)
+      return;
+
+    let popoverRect;
+
+    popoverRect = {
+      left: anchorRect.right,
+      minWidth: anchorRect.width
+    };
+
+    if((popoverRect.left + POPOVER_WIDTH) > window.innerWidth) {
+      popoverRect.left = popoverRect.left - POPOVER_WIDTH;
+    }
+
+    if(anchorRect.top + anchorRect.height / 2 < window.innerHeight / 2) {
+      popoverRect.top = anchorRect.bottom + POPOVER_MARGIN;
+    } else {
+      popoverRect.bottom = window.innerHeight - anchorRect.top + POPOVER_MARGIN;
+    }
+
+    Array.prototype.forEach.call(Object.keys(popoverRect), (key) => {
+      el.style[key] = `${popoverRect[key]}px`;
+    });
+  },
+
   render: function(state) {
     if(!this.isInitialized)
       return;
 
-    if(this.state.popover) {
-      this.el.innerHTML = `<p>${this.state.popover.id}</p>`;
+    const popover = this.state.popover;
+
+    if(popover) {
+      this.titleEl.innerHTML = popover.title;
+      this.contentEl.appendChild(popover.content);
+      this.setRect(this.popoverEl, this.state.popover.anchorRect);
+      this.popoverEl.classList.add('is-open');
     } else {
-      this.el.innerHTML = "";
+      this.popoverEl.classList.remove('is-open');
+      this.contentEl.innerHTML = '';
     }
   }
 };
@@ -168,15 +97,6 @@ const popoverHost = Object.create(PopoverHost);
 
 export default function createPopoverHost(el, options) {
   popoverHost.initialize(el);
-
-  window.setTimeout(function() {
-    store.dispatch(actions.showPopover('whatdafak', {}));
-
-    window.setTimeout(function() {
-      store.dispatch(actions.hidePopover('whatdafak', {}));
-    }, 10000);
-
-  }, 1000);
 
   return popoverHost;
 };

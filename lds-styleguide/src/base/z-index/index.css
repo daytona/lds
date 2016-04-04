@@ -1,3 +1,5 @@
 :root {
+  --z-index-backdrop: 1800;
   --z-index-popover: 2100;
+  --z-index-pane: 2200;
 }

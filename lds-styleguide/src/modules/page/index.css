@@ -1,5 +1,6 @@
 :root {
-
+  --page-horizontal-padding: 1.5rem;
+  --large-page-horizontal-padding: 3rem;
 }
 
 .Page-root {
@@ -23,5 +24,15 @@
 @media (--min-medium) {
   .Page-main {
     margin-left: 16em;
+  }
+}
+
+.Page-section {
+  padding: 2rem var(--page-horizontal-padding);
+}
+
+@media (--min-medium) {
+  .Page-section {
+    padding: var(--large-page-horizontal-padding);
   }
 }

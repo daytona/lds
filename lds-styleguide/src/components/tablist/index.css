@@ -17,10 +17,12 @@
 }
 
 .Tablist-tab {
+  box-sizing: border-box;
   list-style: none;
   display: inline-block;
   vertical-align: bottom;
   display: flex;
+  height: 4.5rem;
   /*padding: 2rem 1em;*/
   padding: 1.5rem 0.75rem;
   margin: 0 0.75rem;
@@ -29,6 +31,14 @@
   font-size: var(--font-size-small);
   font-weight: var(--font-weight-bold);
   letter-spacing: 0.08em;
+}
+
+.Tablist-tab:first-child {
+  margin: 0 0.75rem 0 0;
+}
+
+.Tablist-tab:last-child {
+  margin: 0 0 0 0.75rem;
 }
 
 .Tablist-tab:focus {
