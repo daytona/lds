@@ -2,39 +2,34 @@ import controller from '../../helpers/controller';
 import eventListener from '../../helpers/eventListener';
 import viewport from '../../helpers/viewport';
 
-const viewports = {
-  mobile: {
-    width: 320,
-    height: 528
-  },
-  tablet: {
-    width: 800,
-    height: 525
-  },
-  desktop: {
-    width: 1440,
-    height: 900
-  }
-};
-
 function Preview(el, opt) {
   const options = Object.assign(el.dataset, opt);
   const containerEl = el.querySelector('.js-container');
   const iframe = el.querySelector('.js-iframe');
-  const device = viewports[el.dataset.device];
+  const previewScreen = el.querySelector('.js-screen');
+  const previewDevice = el.querySelector('.js-device');
+  const device = el.dataset.device;
 
   function onResize() {
-    let viewportScale = el.clientWidth / device.width;
+    let viewportScale = el.clientWidth / previewDevice.clientWidth;
     if (viewportScale > 1.5) {
       viewportScale = 1.5;
     }
     containerEl.style.transform = `scale(${viewportScale})`;
-    // containerEl.style.width = 100/viewportScale + '%';
-    el.style.height = device.height * viewportScale + 'px';
+    containerEl.style.width = 100/viewportScale + '%';
+    el.style.height = containerEl.clientHeight * viewportScale + 'px';
   }
+
+  function resizeIframe(event) {
+    if (!device && event.detail.id === iframe.id) {
+      iframe.style.height = event.detail.height + 'px';
+    }
+    onResize();
+  }
+
   function bindEvents() {
     viewport.onResize(onResize);
-    //eventListener.addListener('iframeResize', document, resizeIframe);
+    eventListener.addListener('iframeResize', document, resizeIframe);
   }
 
   function init(){

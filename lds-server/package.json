@@ -8,6 +8,12 @@
   },
   "author": "Daytona Stockholm",
   "license": "MIT",
+  "links": [
+    "lds-api",
+    "lds-editor",
+    "lds-engine",
+    "lds-styleguide"
+  ],
   "dependencies": {
     "assign-deep": "^0.4.3",
     "babel": "^6.5.1",
@@ -28,6 +34,7 @@
     "koa-static": "^2.0.0",
     "mz": "^2.3.1",
     "path": "^0.12.7",
-    "postcss": "^5.0.16"
+    "postcss": "^5.0.16",
+    "prismjs": "^1.4.1"
   }
 }

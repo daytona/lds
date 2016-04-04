@@ -1,0 +1,14 @@
+{
+  "name": "lds-engine",
+  "version": "1.0.0",
+  "description": "Templating engine for LDS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Daytona Stockholm",
+  "license": "MIT",
+  "dependencies": {
+    "handlebars": "^4.0.5"
+  }
+}

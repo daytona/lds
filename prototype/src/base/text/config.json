@@ -1,0 +1,14 @@
+{
+  "schema": {
+    "type": [
+      {
+        "key": "plain",
+        "value": false
+      },
+      "header1",
+      "header2",
+      "header3",
+      "header4"
+    ]
+  }
+}

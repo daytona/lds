@@ -100,6 +100,9 @@
 .Grid--equalHeight > .Grid-cell {
   display: flex;
 }
+.Grid--equalHeight > .Grid-cell > * {
+  flex-grow: 1;
+}
 
 /**
  * Every element in a grid needs to be of the type .Grid-cell

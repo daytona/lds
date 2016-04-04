@@ -87,7 +87,9 @@
 .Grid--equalHeight > .Grid-cell {
   display: flex;
 }
-
+.Grid--equalHeight > .Grid-cell > *{
+  flex-grow: 1;
+}
 /**
  * Every element in a grid needs to be of the type .Grid-cell
  */
@@ -96,7 +98,7 @@
   font-size: var(--base-font-size);
   display: inline-block;
   vertical-align: top;
-  width: 50%;
+  width: 100%;
   box-sizing: inherit;
   flex: 0 0 100%;
   flex-basis: auto;

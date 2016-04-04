@@ -1,7 +1,21 @@
 var helpers = require('./lib/handlebar-helpers');
+var handlebars = require('handlebars').create(); // Include templating engine and create separate intance
 
 module.exports = {
   version: '0.0.1',             // Current semver version of library
+  engine: {                     // Setup a templating engine
+    render(string, data) {      // Define custom render method
+      return handlebars.compile(string)(data);
+    },
+    registerHelper(name, fn) {  // Define custom helperRegister
+      return handlebars.registerHelper(name, fn);
+    },
+    registerPartial(name, fn) { // Define custom partialRegister
+      return handlebars.registerPartial(name, fn);
+    },
+    helpers,                    // Custom handlebar helpers which are used in template files
+    ext: 'hbs'                  // Define file extension for templating files
+  },
   path : {
     dirname: __dirname,         // Current working directory of LDS
     base: 'src/base',           // Source of base components
@@ -22,7 +36,6 @@ module.exports = {
     images: 'images',       // Destination for optimized image files
     fonts: 'fonts'          // Destination folder for web-fonts to be copied
   },
-  helpers,                  // Custom handlebar helpers which are used in template files
   server: {
     port: 4000              // Port on which server should set up HTTP-Server
   }

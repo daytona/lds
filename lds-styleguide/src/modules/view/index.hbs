@@ -13,34 +13,33 @@
   <div class="Package-demo">
     <div class="{{prefix}}Package-demoView {{prefix}}Package-demoView--render">
       <div class="{{prefix}}Example-rendered {{prefix}}Example-rendered--desktop js-container">
-        {{> component:device-park url=(concat "/" @view.name)}}
+        {{> component:device-park url=(concat "/api/views/" @view.name "?standalone=true")}}
       </div>
     </div>
   </div>
 
 {{!--   <div class="View-content">
-    {{#unless (isEmpty data)}}
-      <div class="{{prefix}}View-code {{prefix}}View-code--data">
-        <pre class="{{prefix}}code"><code class="js-data">{{{json data}}}</code></pre>
-      </div>
-    {{/unless}}
+  {{#unless (isEmpty data)}}
+    <div class="{{prefix}}View-code {{prefix}}View-code--data">
+      <pre class="{{prefix}}code"><code class="js-data">{{{json data}}}</code></pre>
+    </div>
+  {{/unless}}
+  {{#if config.schema}}
+    <form class="{{prefix}}Form {{prefix}}View-editForm js-editForm">
+      {{#each config.schema}}
+        <label class="{{prefix}}Form-label {{prefix}}View-editLabel">
+          {{@key}}:
+          <select class="{{prefix}}Form-select {{prefix}}View-editField" name="{{@key}}">
+            {{#each this}}
+              <option value="{{#if value}}{{jsonLine value}}{{else}}{{this}}{{/if}}" {{#equals value (getProperty @view.data @../key)}} selected="selected"{{/equals}}{{#equals this (getProperty @view.data @../key)}} selected="selected"{{/equals}}>{{#if key}}{{key}}{{else}}{{.}}{{/if}}</option>
+            {{/each}}
+          </select>
+        </label>
+      {{/each}}
+    </form>
+  {{/if}}
 
-    {{#if config.schema}}
-      <form class="{{prefix}}Form {{prefix}}View-editForm js-editForm">
-        {{#each config.schema}}
-          <label class="{{prefix}}Form-label {{prefix}}View-editLabel">
-            {{@key}}:
-            <select class="{{prefix}}Form-select {{prefix}}View-editField" name="{{@key}}">
-              {{#each this}}
-                <option value="{{#if value}}{{jsonLine value}}{{else}}{{this}}{{/if}}" {{#equals value (getProperty @view.data @../key)}} selected="selected"{{/equals}}{{#equals this (getProperty @view.data @../key)}} selected="selected"{{/equals}}>{{#if key}}{{key}}{{else}}{{.}}{{/if}}</option>
-              {{/each}}
-            </select>
-          </label>
-        {{/each}}
-      </form>
-    {{/if}}
-
-  </div> --}}
+</div> --}}
 
   <div class="View-section">
     {{#if info}}

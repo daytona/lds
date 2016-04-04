@@ -33,7 +33,7 @@ var screenConfig = {
     defaultWhiteBackground: true,
     screenSize: {
       width: 960,
-      height: 400
+      height: 540
     },
     shotSize: {
       width: 'all',
@@ -58,28 +58,59 @@ function screenshot(url, path, config) {
     console.log(`Screen ${url} saved to ${path}`);
   });
 }
-function screenDump (lds) {
-  Object.keys(lds.views).forEach((viewName) => {
-    var view = lds.views[viewName];
-    if (view.template) {
-      view.screens = {
-        thumb: `/assets/screens/views/${viewName}/thumb.png`,
-        mobile: `/assets/screens/views/${viewName}/mobile.png`,
-        desktop: `/assets/screens/views/${viewName}/desktop.png`
-      }
-      screenshot(`http://localhost:4000/${viewName}`, `dist/screens/views/${viewName}/thumb.png`, screenConfig.thumb);
-      screenshot(`http://localhost:4000/${viewName}`, `dist/screens/views/${viewName}/mobile.png`, screenConfig.mobile);
-      screenshot(`http://localhost:4000/${viewName}`, `dist/screens/views/${viewName}/desktop.png`, screenConfig.desktop);
-    }
-  });
-  Object.keys(lds.components).forEach((componentName) => {
-    var component = lds.components[componentName];
+function parseComponents(lds, category) {
+  Object.keys(lds[category]).forEach((componentName) => {
+    var component = lds[category][componentName];
+    var url = `http://localhost:4000/api/${category}/${componentName}?screenshot=true`;
+    var dest = `dist/screens/${category}/${componentName}.png`
+    var publicpath = `/assets/screens/components/${componentName}.png`;
+    var config;
     if (component.template) {
-      var screens = `/assets/screens/components/${componentName}.png`;
-
-      screenshot(`http://localhost:4000/api/components/${componentName}?standalone=true&screenshot=true`, `dist/screens/${component.group}/${componentName}.png`, screenConfig.component);
-      lds.components[componentName].screen = screens;
+      url = url + '&standalone=true'
+      config = screenConfig.component;
+    } else if (component.example) {
+      url = url + '&type=example'
+      config = screenConfig.thumb;
+    } else if (component.script) {
+      url = url + '&type=js'
+      config = screenConfig.thumb;
+    } else if (component.styles) {
+      url = url + '&type=css'
+      config = screenConfig.thumb;
+    } else {
+      return false;
     }
+    screenshot(url, dest, config);
+    component.screen = publicpath;
   });
+}
+function screenDump (lds, category) {
+  if(!category || category === 'views') {
+    Object.keys(lds.views).forEach((viewName) => {
+      var view = lds.views[viewName];
+      if (view.template) {
+        view.screens = {
+          thumb: `/assets/screens/views/${viewName}.png`,
+          mobile: `/assets/screens/views/${viewName}/mobile.png`,
+          desktop: `/assets/screens/views/${viewName}/desktop.png`
+        }
+        screenshot(`http://localhost:4000/${viewName}`, `dist/screens/views/${viewName}/thumb.png`, screenConfig.thumb);
+        screenshot(`http://localhost:4000/${viewName}`, `dist/screens/views/${viewName}/mobile.png`, screenConfig.mobile);
+        screenshot(`http://localhost:4000/${viewName}`, `dist/screens/views/${viewName}/desktop.png`, screenConfig.desktop);
+      }
+    });
+  }
+  if(!category || category === 'base') {
+    parseComponents(lds, 'base');
+  }
+  if(!category || category === 'components') {
+    parseComponents(lds, 'components');
+  }
+  if(!category || category === 'helpers') {
+    parseComponents(lds, 'helpers');
+  }
+  if(!category || category === 'modules') {
+    parseComponents(lds, 'modules');
+  }
 }
 module.exports = screenDump;

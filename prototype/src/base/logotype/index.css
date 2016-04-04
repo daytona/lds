@@ -1,6 +1,6 @@
 .Logotype {
   position: relative;
-  display: block;
+  display: inline-block;
 }
 .Logotype-text {
   display: block;

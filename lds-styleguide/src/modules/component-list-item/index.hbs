@@ -1,7 +1,7 @@
 {{#saveas "component"}}
 <a href="/styleguide/{{group}}/{{name}}" class="ComponentListItem">
   <div class="ComponentListItem-imageContainer">
-    <div class="FlexEmbed FlexEmbed--outlined FlexEmbed--4by3" style="background-image: url('/assets/screens/{{group}}/{{name}}.png');"></div>
+    <div class="FlexEmbed FlexEmbed--outlined FlexEmbed--16by9{{#if (equals @component.group 'views')}} FlexEmbed--scroll{{/if}}" style="background-image: url('/assets/screens/{{group}}/{{name}}{{#if (equals group "views")}}/desktop{{/if}}.png');"></div>
   </div>
 
   <h3 class="ComponentListItem-title">{{name}}</h3>
