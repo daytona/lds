@@ -1,5 +1,6 @@
 .Preview {
-
+  transition: var(--transition-height);
+  height: 0;
 }
 
 .Preview-wrapper {

@@ -1,5 +1,4 @@
 <div class="{{prefix}}Page-innerWrapper">
-<<<<<<< HEAD
 
   <div class="View-header">
     <h1 class="View-headerTitle Text-header Text-xlarge">{{category}}</h1>
@@ -24,9 +23,13 @@
 
   <div class="View-section">
     {{#equals category "base"}}
+    <div class="Grid Grid--withGutter">
       {{#each base}}
-      {{> module:component}}
+      <div class="Grid-cell width-1of2 m-width-1of3 l-width-1of4">
+        {{> module:component-list-item}}
+      </div>
       {{/each}}
+    </div>
     {{/equals}}
 
     {{#equals category "components"}}
@@ -40,9 +43,13 @@
     {{/equals}}
 
     {{#equals category "modules"}}
+    <div class="Grid Grid--withGutter">
       {{#each modules}}
-      {{> module:component}}
+      <div class="Grid-cell width-1of2 m-width-1of3 l-width-1of4">
+        {{> module:component-list-item}}
+      </div>
       {{/each}}
+    </div>
     {{/equals}}
 
     {{#equals category "views"}}

@@ -18,6 +18,7 @@ module.exports = {
   },
   path : {
     dirname: __dirname,
+    documentation: 'documentation',
     base: 'src/base',
     components: 'src/components',
     modules: 'src/modules',
