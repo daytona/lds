@@ -1,0 +1,83 @@
+.MainNavigation {
+
+}
+
+  .MainNavigation-list {
+    margin: 0;
+    padding: 0;
+  }
+
+    .MainNavigation-item {
+      margin: 0;
+      padding: 0 0.75rem;
+      list-style: none;
+      position: relative;
+      border-bottom: 1px solid var(--color-border-muted);
+      overflow: hidden;
+    }
+
+      .MainNavigation-itemContainer {
+        display: flex;
+        align-items: center;
+        padding: 0.5rem 0;
+      }
+
+        .MainNavigation-link {
+          display: block;
+          color: var(--color-text-emphasized);
+          font-size: var(--font-size-small);
+          font-weight: var(--font-weight-bold);
+          text-decoration: none;
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+        }
+
+        /**
+         * Toggler
+         */
+        .MainNavigation-toggler {
+          transition: transform var(--transition-easing-default) var(--transition-duration-default);
+        }
+
+        .MainNavigation-toggler[aria-pressed="true"] {
+          transform: rotate(90deg);
+        }
+
+      /**
+       * Subnav
+       */
+      .MainNavigation-subnav {
+        padding-left: 1.5rem;
+        margin: 0 0 1rem 0;
+        transition: height var(--transition-easing-default) var(--transition-duration-default);
+      }
+
+      .MainNavigation-subnav[aria-hidden="true"] {
+        display: none;
+        height: 0;
+      }
+
+        .MainNavigation-subnavItem {
+          margin: 0 0 0.25rem 0;
+          padding: 0.25rem 0 0.25rem 1rem;
+          list-style: none;
+          position: relative;
+        }
+
+        .MainNavigation-subnavItem.is-active {
+          box-shadow: 3px 0 0 var(--color-border-accent) inset;
+        }
+
+          .MainNavigation-subnavLink {
+            display: block;
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-normal);
+            color: var(--color-text-base);
+            text-transform: none;
+            text-decoration: none;
+            transition: color var(--transition-duration-default) var(--transition-easing-default);
+          }
+
+          .MainNavigation-subnavLink:hover {
+            color: var(--color-text-accent);
+          }

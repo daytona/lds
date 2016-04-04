@@ -1,0 +1,46 @@
+.PagePane {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 90%;
+  max-width: 16em;
+  transform: translate3d(-100%, 0, 0);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  z-index: 1;
+  transition: transform 0.2s;
+}
+
+.PagePane::-webkit-scrollbar {
+  width: 1px;
+}
+
+.PagePane::-webkit-scrollbar-thumb {
+  border-radius: 0px;
+  background: var(--color-scrollbar-thumb);
+  -webkit-box-shadow: none;
+}
+
+.PagePane::-webkit-scrollbar-track {
+  box-shadow: none;
+  border-radius: 0;
+}
+
+.PagePane.is-open {
+  max-width: none;
+  transform: translate3d(0, 0, 0);
+}
+
+@media (--min-medium) {
+  .PagePane {
+    transition: none;
+    transform: translate3d(0, 0, 0);
+    width: 16em;
+  }
+}
+
+    .PagePane-logo {
+      margin: 0 0 0.5rem 0;
+      color: var(--color-text-accent);
+    }

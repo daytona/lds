@@ -8,12 +8,17 @@
     <link rel="stylesheet" href="/styleguide/assets/style.css">
   </head>
   <body class="{{prefix}}Page {{prefix}}Text">
-    <div class="{{prefix}}Page-pane {{prefix}}Pane">
-      {{> component:pane}}
-    </div>
+    {{> component:icon-definitions }}
+
+    {{> module:page-navbar }}
+
+    {{> module:page-pane }}
+
     <main class="{{prefix}}Page-main">
       {{{@body}}}
     </main>
+
+    {{> module:popover-host }}
   </div>
   </body>
   <script src="/styleguide/assets/main.js"></script>

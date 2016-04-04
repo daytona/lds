@@ -1,0 +1,144 @@
+{{#*inline "example"}}
+  <section
+    class="{{prefix}}Example {{prefix}}Section"
+    id="example{{id}}"
+    data-url="/api/{{@component.group}}/{{@component.name}}"
+    data-controller="[{ &quot;Component&quot;: {&quot;data&quot;:{{jsonLine data}}{{#@component.config}}, &quot;config&quot;: {{jsonLine .}}{{/@component.config}} }}]">
+
+    <header class="{{prefix}}Section-header {{prefix}}Package-header">
+      <div class="Toolbar">
+        <div class="Toolbar-section">
+          <h2 class="Toolbar-title Text-header Text-xlarge">{{name}}</h2>
+
+          {{#if config.version}}
+            <span class="{{prefix}}Package-versionTag">{{config.version}}</span>
+          {{/if}}
+        </div>
+
+        <div class="Toolbar-section">
+          {{> component:tablist items=(tablistdata id=id tabs="Render#render Data#data") inline="true"}}
+ {{!--          {{#if @component.config.schema}}
+            {{> component:tablist items=(tablistdata id=id tabs="Edit#edit") toggle="true" right="true"}}
+          {{/if}} --}}
+          <button class="{{prefix}}IconButton IconButton--medium">
+            {{> component:icon name='settings' }}
+          </button>
+
+          {{json screen}}
+        </div>
+      </div>
+    </header>
+
+    <div class="{{prefix}}Package-example">
+
+      {{#if @component.config.schema}}
+      <div class="{{prefix}}Example-edit">
+
+        {{#> component:tabarea id=(concat "edit" id) }}
+          <form class="{{prefix}}Form {{prefix}}Example-editForm js-editForm">
+
+            {{#each @component.config.schema}}
+              <label class="{{prefix}}Form-label {{prefix}}Example-editLabel">
+
+                {{@key}}:
+                <select class="{{prefix}}Form-select {{prefix}}Example-editField" name="{{@key}}">
+
+                  {{#each this}}
+                    <option value="{{#if (hasProperty this 'value')}}{{jsonLine value}}{{else}}{{this}}{{/if}}" {{#equals value (getProperty data @../key)}} selected="selected"{{/equals}}{{#equals this (getProperty data @../key)}} selected="selected"{{/equals}}>{{#if key}}{{key}}{{else}}{{.}}{{/if}}</option>
+                  {{/each}}
+
+                </select>
+              </label>
+            {{/each}}
+
+          </form>
+        {{/component:tabarea}}
+
+      </div>
+      {{/if}}
+
+      <div class="{{prefix}}Example-component">
+
+        {{#> component:tabarea id=(concat "render" id) }}
+          <div class="{{prefix}}Example-renderContainer">
+            <div class="{{prefix}}Example-rendered {{prefix}}Example-rendered--desktop js-container">
+              <iframe src="/api/{{@component.group}}/{{@component.name}}?standalone=true" class="{{prefix}}Example-iframe js-iframe" id="iframe-{{id}}-desktop"></iframe>
+            </div>
+          </div>
+        {{/component:tabarea}}
+
+        {{#> component:tabarea id=(concat "data" id) }}
+          <div class="{{prefix}}Example-code {{prefix}}Example-code--data">
+            <pre class="{{prefix}}code"><code class="js-data">{{{json data}}}</code></pre>
+          </div>
+        {{/component:tabarea}}
+
+      </div>
+    </div>
+  </section>
+{{/inline}}
+
+{{#saveas "component"}}
+<section class="{{prefix}}Section {{prefix}}Package js-component" id="Component-{{name}}">
+
+  {{#if template}}
+    {{#if config.variations}}
+      {{> example data=data id=(uid)}}
+
+      {{#each config.variations}}
+        {{> example name=@key data=(mergeObjects @component.data this) id=(uid)}}
+      {{/each}}
+    {{else}}
+      {{> example data=data id=(uid) name=false}}
+    {{/if}}
+  {{/if}}
+
+  {{#if example}}
+    {{{ example }}}
+  {{/if}}
+
+  <div class="Section-content Component-content">
+    {{#if info}}
+      {{{markdown info}}}
+    {{/if}}
+
+    <footer class="{{prefix}}Component-footer">
+      {{#if dependencies}}
+        <strong>Dependencies</strong>
+        <dl>
+          {{#if css.dependencies}}
+            <dt>CSS</dt>
+            {{#each css.dependencies}}
+              <dd>{{.}}</dd>
+            {{/each}}
+          {{/if}}
+          {{#if js.dependencies}}
+            <dt>JS</dt>
+            {{#each js.dependencies}}
+              <dd>{{.}}</dd>
+            {{/each}}
+          {{/if}}
+          {{#if hbs.dependencies}}
+            <dt>HBS</dt>
+            {{#each hbs.dependencies}}
+              <dd>{{.}}</dd>
+            {{/each}}
+          {{/if}}
+        </dl>
+      {{/if}}
+
+      {{#if config.revisions}}
+        <div class="{{prefix}}Details {{prefix}}Component-code {{prefix}}Component-code--revisions" data-controller="Details">
+          <h3 class="{{prefix}}Details-summary js-details-summary">Revisions</h3>
+          <div class="{{prefix}}Details-content js-details-content">
+            {{#each config.revisions}}
+              <div>{{this}}</div>
+            {{/each}}
+          </div>
+        </div>
+      {{/if}}
+
+    </footer>
+  </div>
+</section>
+{{/saveas}}

@@ -1,0 +1,27 @@
+:root {
+
+}
+
+.Page-root {
+  height: 100%;
+}
+
+.Page {
+  height: 100%;
+  margin: 0;
+  background: var(--color-bg-base);
+}
+
+/**
+ * Main
+ */
+.Page-main {
+  position: relative;
+  min-height: 100%;
+}
+
+@media (--min-medium) {
+  .Page-main {
+    margin-left: 16em;
+  }
+}

@@ -1,10 +1,25 @@
 :root {
   --base-font-size: 16px;
   --header-font-size: 22px;
-  --base-font-family: arial, sans-serif;
-  --plain-text: normal normal var(--base-font-size)/1.4em var(--base-font-family);
-  --default-header: normal normal var(--header-font-size)/1.3em var(--base-font-family);
-  --text-code: normal normal 12px/1.5em courier;
+  --base-font-family: TheSans, arial, sans-serif;
+
+  /* Type scale */
+  --font-size-xlarge: 30px;
+  --font-size-large: 28px;
+  --font-size-base: 16px;
+  --font-size-small: 14px;
+  --font-size-xsmall: 12px;
+
+  /* Font weight */
+  --font-weight-light: 300;
+  --font-weight-normal: 500;
+  --font-weight-semibold: 700;
+  --font-weight-bold: 900;
+
+  /* Text styles */
+  --plain-text: var(--font-weight-normal) normal var(--base-font-size)/1.4em var(--base-font-family);
+  --default-header: var(--font-weight-bold) normal var(--header-font-size)/1.3em var(--base-font-family);
+  --text-code: var(--font-weight-normal) normal 12px/1.5em courier;
 }
 
 h1, h2, h3, h4, h5 {
@@ -19,4 +34,27 @@ h1, h2, h3, h4, h5 {
 
 .Text-header {
   font: var(--default-header);
+}
+
+/**
+ * Text size utils
+ */
+.Text-xlarge {
+  font-size: var(--font-size-xlarge);
+}
+
+.Text-large {
+  font-size: var(--font-size-large);
+}
+
+.Text-base {
+  font-size: var(--font-size-base);
+}
+
+.Text-small {
+  font-size: var(--font-size-small);
+}
+
+.Text-xsmall {
+  font-size: var(--font-size-xsmall);
 }

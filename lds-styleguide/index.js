@@ -55,6 +55,7 @@ function mainNav(data) {
   return {
     items: Object.keys(data).map((groupName) => {
       var group = data[groupName];
+
       return {
         name: groupName,
         url: `/styleguide/${groupName}`,

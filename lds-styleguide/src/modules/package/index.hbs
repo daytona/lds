@@ -1,0 +1,180 @@
+{{#*inline "demo-form"}}
+  {{#> component:popover title='Edit' }}
+
+    <div class="{prefix}}Example-edit">
+
+      <form class="{{prefix}}Form {{prefix}}Example-editForm js-editForm">
+
+        {{#each @component.config.schema}}
+          <label class="{{prefix}}Form-label {{prefix}}Example-editLabel">
+
+            {{@key}}:
+            <select class="{{prefix}}Form-select {{prefix}}Example-editField" name="{{@key}}">
+
+              {{#each this}}
+                <option value="{{#if (hasProperty this 'value')}}{{jsonLine value}}{{else}}{{this}}{{/if}}" {{#equals value (getProperty data @../key)}} selected="selected"{{/equals}}{{#equals this (getProperty data @../key)}} selected="selected"{{/equals}}>{{#if key}}{{key}}{{else}}{{.}}{{/if}}</option>
+              {{/each}}
+
+            </select>
+          </label>
+        {{/each}}
+
+      </form>
+
+    </div>
+
+  {{/component:popover}}
+{{/inline}}
+
+{{#*inline "header"}}
+  {{#if @component.config.schema}}
+    {{> demo-form }}
+  {{/if}}
+
+  <header class="{{prefix}}View-header {{prefix}}Package-header">
+
+    <h2 class="Package-headerTitle View-headerTitle Text-header Text-xlarge">
+      {{name}}
+
+      {{#if config.version}}
+        <span class="{{prefix}}Package-versionTag">{{config.version}}</span>
+      {{/if}}
+    </h2>
+
+    <div class="View-headerActions">
+
+      {{#if template }}
+      <div class="Toolbar-section">
+        {{> component:tablist items=(tablistdata id=id tabs="Render#render Data#data") inline="true"}}
+        {{!--{{#if @component.config.schema}}
+          {{> component:tablist items=(tablistdata id=id tabs="Edit#edit") toggle="true" right="true"}}
+        {{/if}} --}}
+
+        {{#if @component.config.schema}}
+          <button class="{{prefix}}IconButton IconButton--large">
+            {{> component:icon name='settings' }}
+          </button>
+        {{/if}}
+
+        {{json screen}}
+      </div>
+      {{/if}}
+
+    </div>
+
+  </header>
+{{/inline}}
+
+{{#*inline "demo"}}
+  <div class="{{prefix}}Package-demo">
+
+    {{#> component:tabarea id=(concat "render" id) }}
+      <div class="{{prefix}}Package-demoView {{prefix}}Package-demoView--render">
+        <div class="{{prefix}}Example-rendered {{prefix}}Example-rendered--desktop js-container">
+          <iframe src="/api/{{@component.group}}/{{@component.name}}?standalone=true" class="{{prefix}}Example-iframe js-iframe" id="iframe-{{id}}-desktop"></iframe>
+        </div>
+      </div>
+    {{/component:tabarea}}
+
+    {{#> component:tabarea id=(concat "data" id) }}
+      <div class="{{prefix}}Package-demoView {{prefix}}Package-demoView--code">
+        <pre class="{{prefix}}code"><code class="js-data">{{{json data}}}</code></pre>
+      </div>
+    {{/component:tabarea}}
+
+  </div>
+{{/inline}}
+
+{{#*inline "top"}}
+  <div
+    {{!-- class="{{prefix}}View-section" --}}
+    id="example{{id}}"
+    data-url="/api/{{@component.group}}/{{@component.name}}"
+    data-controller="[{ &quot;Component&quot;: {&quot;data&quot;:{{jsonLine data}}{{#@component.config}}, &quot;config&quot;: {{jsonLine .}}{{/@component.config}} }}]">
+
+    {{> header }}
+
+    {{#if template}}
+
+      {{#if config.variations}}
+        {{> demo data=data }}
+
+        {{!--{{#each config.variations}}
+          {{> demo name=@key data=(mergeObjects @component.data this) id=(uid)}}
+        {{/each}} --}}
+
+      {{else}}
+        {{> demo data=data name=false}}
+      {{/if}}
+
+    {{/if}}
+
+    {{#if example}}
+      <div class="Package-demo">
+        <div class="{{prefix}}Package-demoView {{prefix}}Package-demoView--render">
+          <div class="{{prefix}}Example-rendered {{prefix}}Example-rendered--desktop js-container">
+            {{{ example }}}
+          </div>
+        </div>
+      </div>
+    {{/if}}
+  </div>
+{{/inline}}
+
+{{#saveas "component"}}
+<section
+  class="{{prefix}}View {{prefix}}Package js-component" id="Component-{{name}}">
+{{!--
+  <section
+    class="{{prefix}}View-section"
+    id="example{{id}}"
+    data-url="/api/{{@component.group}}/{{@component.name}}"
+    data-controller="[{ &quot;Component&quot;: {&quot;data&quot;:{{jsonLine data}}{{#@component.config}}, &quot;config&quot;: {{jsonLine .}}{{/@component.config}} }}]"> --}}
+
+  {{> top id=(uid) }}
+
+  <div class="View-section">
+    {{#if info}}
+      {{{markdown info}}}
+    {{/if}}
+
+    <footer class="{{prefix}}Component-footer">
+      {{#if dependencies}}
+        <strong>Dependencies</strong>
+        <dl>
+          {{#if css.dependencies}}
+            <dt>CSS</dt>
+            {{#each css.dependencies}}
+              <dd>{{.}}</dd>
+            {{/each}}
+          {{/if}}
+          {{#if js.dependencies}}
+            <dt>JS</dt>
+            {{#each js.dependencies}}
+              <dd>{{.}}</dd>
+            {{/each}}
+          {{/if}}
+          {{#if hbs.dependencies}}
+            <dt>HBS</dt>
+            {{#each hbs.dependencies}}
+              <dd>{{.}}</dd>
+            {{/each}}
+          {{/if}}
+        </dl>
+      {{/if}}
+
+      {{#if config.revisions}}
+        <div class="{{prefix}}Details {{prefix}}Component-code {{prefix}}Component-code--revisions" data-controller="Details">
+          <h3 class="{{prefix}}Details-summary js-details-summary">Revisions</h3>
+          <div class="{{prefix}}Details-content js-details-content">
+            {{#each config.revisions}}
+              <div>{{this}}</div>
+            {{/each}}
+          </div>
+        </div>
+      {{/if}}
+
+    </footer>
+  </div>
+</section>
+{{/saveas}}

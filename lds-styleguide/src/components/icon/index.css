@@ -1,0 +1,9 @@
+.Icon {
+  display: block;
+  padding: 0;
+  margin: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  transition: fill var(--transition-duration-default) var(--transition-easing-default),
+              stroke var(--transition-duration-default) var(--transition-easing-default);
+}

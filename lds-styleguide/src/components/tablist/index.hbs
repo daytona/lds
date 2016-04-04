@@ -2,7 +2,7 @@
   {{#if items}}
   <ul class="{{prefix}}Tablist-list" aria-role="tablist">
     {{#each items}}
-      <li class="{{prefix}}Tablist-tab js-tab" id="tab-{{id}}" role="tab" aria-controls="panel-{{id}}" tabIndex="0" aria-selected="false">{{title}}</li>
+      <li class="{{prefix}}Tablist-tab js-tab" id="tab-{{id}}" role="tab" aria-controls="panel-{{id}}" tabIndex="0" aria-selected="false"><span>{{title}}</span></li>
     {{/each}}
   </ul>
   {{/if}}

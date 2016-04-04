@@ -34,6 +34,7 @@ export default function Tablist(el, options) {
     if (!tab) {
       return false;
     }
+
     if (options.toggle && tab === activeTab) {
       eventListener.dispatchEvent(tab, 'tab-inactivate');
       activeTab = false;

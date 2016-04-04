@@ -1,0 +1,24 @@
+.Package {
+
+}
+
+  .Package-demo {
+    border-bottom: 1px solid rgba(48, 48, 48, 0.1); /* :/ */
+  }
+
+    .Package-demoView {
+
+    }
+
+    .Package-demoView--render {
+     /* display: flex;
+      align-items: center;
+      justify-content: center;*/
+      min-height: 50vh;
+    }
+
+    .Package-demoView--code {
+      padding: 3em 3em;
+      background: var(--color-bg-dark);
+      color: #fff;
+    }

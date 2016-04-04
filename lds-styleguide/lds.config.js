@@ -10,12 +10,12 @@ module.exports = {
   path : {
     dirname: __dirname,
     base: 'src/base',
-    components: 'src/components',
-    views: 'src/views',
-    layouts: 'src/layouts',
     dist: 'dist',
     public: '/assets',
-    icons: 'src/assets/icons',
+    components: 'src/components',
+    modules: 'src/modules',
+    views: 'src/views',
+    layouts: 'src/layouts',
     fonts: 'src/assets/fonts',
     images: 'src/assets/images'
   },

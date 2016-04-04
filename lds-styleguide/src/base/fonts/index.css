@@ -1,0 +1,60 @@
+:root {
+  --serif-font: TheSerif, serif;
+  --sans-serif-font: TheSans, sans-serif;
+}
+
+@font-face {
+  font-family: "TheSans";
+  font-weight: 300;
+  font-style: normal;
+  src: url("/assets/fonts/TheSans_B2_3_.eot");
+  src: url("/assets/fonts/TheSans_B2_3_.eot?#iefix") format("embedded-opentype"), url("/assets/fonts/TheSans_B2_3_.woff") format("woff"); }
+
+@font-face {
+  font-family: "TheSans";
+  font-weight: 300;
+  font-style: italic;
+  src: url("/assets/fonts/TheSans_B2_3i.eot");
+  src: url("/assets/fonts/TheSans_B2_3i.eot?#iefix") format("embedded-opentype"), url("/assets/fonts/TheSans_B2_3i.woff") format("woff"); }
+
+@font-face {
+  font-family: "TheSans";
+  font-weight: 500;
+  font-style: normal;
+  src: url("/assets/fonts/TheSans_B2_5_.eot");
+  src: url("/assets/fonts/TheSans_B2_5_.eot?#iefix") format("embedded-opentype"), url("/assets/fonts/TheSans_B2_5_.woff") format("woff"); }
+
+@font-face {
+  font-family: "TheSans";
+  font-weight: 500;
+  font-style: italic;
+  src: url("/assets/fonts/TheSans_B2_5i.eot");
+  src: url("/assets/fonts/TheSans_B2_5i.eot?#iefix") format("embedded-opentype"), url("/assets/fonts/TheSans_B2_5i.woff") format("woff"); }
+
+@font-face {
+  font-family: "TheSans";
+  font-weight: 700;
+  font-style: normal;
+  src: url("/assets/fonts/TheSans_B2_7_.eot");
+  src: url("/assets/fonts/TheSans_B2_7_.eot?#iefix") format("embedded-opentype"), url("/assets/fonts/TheSans_B2_7_.woff") format("woff"); }
+
+@font-face {
+  font-family: "TheSans";
+  font-weight: 700;
+  font-style: italic;
+  src: url("/assets/fonts/TheSans_B2_7i.eot");
+  src: url("/assets/fonts/TheSans_B2_7i.eot?#iefix") format("embedded-opentype"), url("/assets/fonts/TheSans_B2_7i.woff") format("woff"); }
+
+@font-face {
+  font-family: "TheSans";
+  font-weight: 900;
+  font-style: normal;
+  src: url("/assets/fonts/TheSans_B2_9_.eot");
+  src: url("/assets/fonts/TheSans_B2_9_.eot?#iefix") format("embedded-opentype"), url("/assets/fonts/TheSans_B2_9_.woff") format("woff"); }
+
+@font-face {
+  font-family: "TheSans";
+  font-weight: 900;
+  font-style: italic;
+  src: url("/assets/fonts/TheSans_B2_9i.eot");
+  src: url("/assets/fonts/TheSans_B2_9i.eot?#iefix") format("embedded-opentype"), url("/assets/fonts/TheSans_B2_9i.woff") format("woff"); }

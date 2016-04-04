@@ -1,20 +1,23 @@
-<div class="{{prefix}}Page-innerWrapper">
-  <h1>Single: {{category}} / {{component}}</h1>
+<div>
   {{#with (getProperty (getProperty this category) component)}}
     {{#equals this.category "base"}}
-      {{> component:component}}
+      {{> module:package}}
     {{/equals}}
+
     {{#equals this.category "component"}}
-      {{> component:component}}
+      {{> module:package}}
     {{/equals}}
+
     {{#equals this.category "module"}}
-      {{> component:component}}
+      {{> module:component}}
     {{/equals}}
+
     {{#equals this.category "view"}}
-      {{> component:view}}
+      {{> module:view}}
     {{/equals}}
+
     {{#equals this.category "helper"}}
-      {{> component:component}}
+      {{> module:component}}
     {{/equals}}
   {{/with}}
 </div>

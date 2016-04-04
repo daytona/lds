@@ -1,0 +1,38 @@
+.IconButton {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+  .IconButton-icon {
+
+  }
+
+.IconButton:hover .IconButton-icon {
+  fill: var(--color-fill-accent);
+}
+
+.IconButton:focus,
+.IconButton:active {
+  outline: none;
+}
+
+.IconButton--small {
+  width: 24px;
+  height: 24px;
+}
+
+.IconButton--medium {
+  width: 24px;
+  height: 24px;
+}
+
+.IconButton--large {
+  width: 48px;
+  height: 48px;
+}
+

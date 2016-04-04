@@ -1,52 +1,33 @@
 :root {
-  --color-white:      #fff;
-  --color-black:      #000;
-  --color-green:      #6cc055;
-  --color-dark-green: #3c7126;
-  --color-pink:       #ff9daa;
-  --color-light-blue: #007ec6;
-  --color-dark-blue:  #0053aa;
-  --color-brown:      #8f6c00;
-  --color-dark-brown: #433840;
-  --color-light-gray: #d8dedf;
-  --color-dark-gray:  #95a8ad;
-  --color-gray:       #95a8ad;
-  --color-purple:     #41343e;
-  --color-yellow:     #ffc000;
-  --color-orange:     #ff710f;
-  --color-red:        #ed1f27;
+  --color-white-base: #fff;
 
-  /* Active and hover colors */
-  --color-green-darken: #5fa94b;
+  --color-gray-xlight: #f4f4f4;
+  --color-gray-light: #ececec;
+  --color-gray-base: #5b5b5b;
+  --color-gray-dark: #303030;
 
-  /* Background/foreground colors */
-  --color-bg:         #f5f5f5;
-  --color-fg:         #303030;
+  --color-green-base: #6cc055;
 
   /* Text colors */
-  --color-body: #5b5b5b;
-  --color-light: #838383;
-  --color-lighter: #adadad;
-  --color-lightest: #e9e9e9;
-  --color-gray-text: #586467;
-  --color-green-text: #427634;
-  --color-green-text-link-normal: #355f2a;
-  --color-green-text-link-active: var(--color-black);
-  --color-body-on-purple: #afafaf;
+  --color-text-base: var(--color-gray-base);
+  --color-text-emphasized: var(--color-gray-dark);
+  --color-text-accent: var(--color-green-base);
 
-  /* Link colors */
-  --color-link-normal: var(--color-green);
-  --color-link-active: var(--color-green-shade);
+  /* Background colors */
+  --color-bg-base: var(--color-gray-xlight);
+  --color-bg-light: var(--color-white-base);
+  --color-bg-dark: var(--color-gray-dark);
 
-  /* UI Colors */
-  --color-purple-ui: #574d56;
-  --color-light-gray-ui: #5b5b5b;
-  --color-yellow-ui: #ffe699;
-}
-.u-color-red {
-  color: var(--color-red);
-}
+  /* Border colors */
+  --color-border-base: var(--color-gray-light);
+  --color-border-muted: var(--color-gray-xlight);
+  --color-border-accent: var(--color-green-base);
 
-.u-background-red {
-  background-color: var(--color-red);
+  /* Svg colors */
+  --color-fill-base: var(--color-gray-dark);
+  --color-fill-muted: var(--color-gray-base);
+  --color-fill-accent: var(--color-green-base);
+
+  /* UI colors */
+  --color-scrollbar-thumb: var(--color-green-base);
 }

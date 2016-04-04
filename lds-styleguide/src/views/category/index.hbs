@@ -1,31 +1,58 @@
 <div class="{{prefix}}Page-innerWrapper">
-  <h1>Category: {{category}}</h1>
-  {{#equals category "base"}}
-    {{#each base}}
-    {{> component:component}}
-    {{/each}}
-  {{/equals}}
-  {{#equals category "components"}}
-  <div class="Grid Grid--withGutter">
-    {{#each components}}
-    <div class="Grid-cell width-1of2 m-width-1of3 l-width-1of4">
-      {{> component:component-list-item}}
-    </div>
-    {{/each}}
+
+  <div class="View-header">
+    <h1 class="View-headerTitle Text-header Text-xlarge">{{category}}</h1>
+
+    <ul class="View-headerActions">
+
+      <li class="View-headerAction">
+        <button class="{{prefix}}IconButton IconButton--medium">
+          {{> component:icon name='grid' }}
+        </button>
+      </li>
+
+      <li class="View-headerAction">
+        <button class="{{prefix}}IconButton IconButton--medium">
+          {{> component:icon name='list' }}
+        </button>
+      </li>
+
+    </ul>
+
   </div>
-  {{/equals}}
-  {{#equals category "modules"}}
-    {{#each modules}}
-    {{> component:component}}
-    {{/each}}
-  {{/equals}}
-  {{#equals category "views"}}
-  <div class="Grid Grid--withGutter">
-    {{#each views}}
-    <div class="Grid-cell width-1of2 m-width-1of3 l-width-1of4">
-      {{> component:component-list-item}}
+
+  <div class="View-section">
+    {{#equals category "base"}}
+      {{#each base}}
+      {{> module:component}}
+      {{/each}}
+    {{/equals}}
+
+    {{#equals category "components"}}
+    <div class="Grid Grid--withGutter">
+      {{#each components}}
+      <div class="Grid-cell width-1of2 m-width-1of3 l-width-1of4">
+        {{> module:component-list-item}}
+      </div>
+      {{/each}}
     </div>
-    {{/each}}
+    {{/equals}}
+
+    {{#equals category "modules"}}
+      {{#each modules}}
+      {{> module:component}}
+      {{/each}}
+    {{/equals}}
+
+    {{#equals category "views"}}
+    <div class="Grid Grid--withGutter">
+      {{#each views}}
+      <div class="Grid-cell width-1of2 m-width-1of3 l-width-1of4">
+        {{> module:component-list-item}}
+      </div>
+      {{/each}}
+    </div>
+    {{/equals}}
   </div>
-  {{/equals}}
+
 </div>

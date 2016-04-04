@@ -10,8 +10,14 @@ module.exports = function buildScript(files, root, dest) {
     .add(files, {
       basedir: root
     })
-    .transform(babelify, {presets: ['es2015']})
+    .transform(babelify, {
+      presets: ['es2015']
+    })
     .transform({global: true, debug: true}, uglifyify)
     .bundle()
+    .on('error', function(error) {
+      console.log(error.message);
+      this.emit('end');
+    })
     .pipe(fs.createWriteStream(dest));
 }
