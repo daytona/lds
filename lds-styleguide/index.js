@@ -54,7 +54,9 @@ module.exports = app;
 
 function mainNav(data) {
   return {
-    items: Object.keys(data).map((groupName) => {
+    items: Object.keys(data).filter((groupName) => {
+      return data[groupName];
+    }).map((groupName) => {
       var group = data[groupName];
 
       return {

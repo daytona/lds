@@ -6,6 +6,7 @@ module.exports = function parseComponents(config) {
   return function* parser (next) {
     this[config.namespace] = {
       structure : {
+        documentation: config.path.documentation ? parseDirectory(path.join(config.path.dirname, config.path.documentation), Object.assign(config, {category: 'documentation', group: 'base'})) : false,
         base: config.path.views ? parseDirectory(path.join(config.path.dirname, config.path.base), Object.assign(config, {category: 'base', group: 'base'})) : false,
         components: config.path.components ? parseDirectory(path.join(config.path.dirname, config.path.components), Object.assign(config, {category: 'component', group: 'components'})): false,
         modules: config.path.modules ? parseDirectory(path.join(config.path.dirname, config.path.modules), Object.assign(config, {category: 'module', group: 'modules'})) : false,
@@ -46,7 +47,7 @@ function parseDirectory(directory, options) {
 
     const component = {
       name,
-      info: tree['readme.md'],
+      info: tree['readme.md'] || tree['index.md'],
       template: tree['index.' + options.engine.ext],
       example: tree['example.' + options.engine.ext],
       script: tree['index.js'] || tree['index.jsx'],

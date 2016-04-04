@@ -66,6 +66,12 @@ module.exports = function build(type, config) {
     require('./lib/build-scripts')(scripts, config.path.dirname, path.join(config.path.dirname, config.path.dist, config.dest.script));
   }
 
+  if (type === 'sass') {
+    var styles = findComponents(components, /index.scss$/, 'src/');
+    console.log('Building sass styles:', styles);
+    require('./lib/build-sass')(styles, config.path.dirname, path.join(config.path.dirname, config.path.dist, config.dest.style), config.prefix);
+  }
+
   if (!type || type === 'styles') {
     var styles = findComponents(components, /index.css$/, 'src/');
     console.log('Building styles:', styles);

@@ -25,13 +25,13 @@
 
   <div class="Page-section">
     {{#equals category "base"}}
-      <div class="Grid Grid--withGutter">
-        {{#each base}}
-        <div class="Grid-cell width-1of2 m-width-1of3 l-width-1of4">
-          {{> module:component-list-item}}
-        </div>
-        {{/each}}
+    <div class="Grid Grid--withGutter">
+      {{#each base}}
+      <div class="Grid-cell width-1of2 m-width-1of3 l-width-1of4">
+        {{> module:component-list-item}}
       </div>
+      {{/each}}
+    </div>
     {{/equals}}
 
     {{#equals category "components"}}
@@ -45,13 +45,13 @@
     {{/equals}}
 
     {{#equals category "modules"}}
-      <div class="Grid Grid--withGutter">
-        {{#each modules}}
-        <div class="Grid-cell width-1of2 m-width-1of3 l-width-1of4">
-          {{> module:component-list-item}}
-        </div>
-        {{/each}}
+    <div class="Grid Grid--withGutter">
+      {{#each modules}}
+      <div class="Grid-cell width-1of2 m-width-1of3 l-width-1of4">
+        {{> module:component-list-item}}
       </div>
+      {{/each}}
+    </div>
     {{/equals}}
 
     {{#equals category "views"}}

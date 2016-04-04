@@ -16,6 +16,11 @@ program.version('0.0.1');
 program
   .command('init')
   .description('Initialize a blank direcory as a LDS seting up a default folder structure')
+  // Style processing [stylus, sass, less, css]
+  // Template processing [handlebars, mustache, jsx]
+  // Script bundling [browserify]
+  // Optimization [uglify, imagemin, icon-font-generator]
+
   .action(function() {
     generator.init(root);
     cmd.exec('npm install --save babel-preset-es2015 handlebars')
