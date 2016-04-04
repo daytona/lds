@@ -1,29 +1,31 @@
 {{#*inline "demo-form"}}
-  {{#> component:popover title='Edit' }}
+  {{#> component:tabarea id=(concat "edit" id) }}
+    {{#> component:popover title='Edit' }}
 
-    <div class="{prefix}}Example-edit">
+      <div class="{prefix}}Example-edit">
 
-      <form class="{{prefix}}Form {{prefix}}Example-editForm js-editForm">
+        <form class="{{prefix}}Form {{prefix}}Example-editForm js-editForm">
 
-        {{#each @component.config.schema}}
-          <label class="{{prefix}}Form-label {{prefix}}Example-editLabel">
+          {{#each @component.config.schema}}
+            <label class="{{prefix}}Form-label {{prefix}}Example-editLabel">
 
-            {{@key}}:
-            <select class="{{prefix}}Form-select {{prefix}}Example-editField" name="{{@key}}">
+              {{@key}}:
+              <select class="{{prefix}}Form-select {{prefix}}Example-editField" name="{{@key}}">
 
-              {{#each this}}
-                <option value="{{#if (hasProperty this 'value')}}{{jsonLine value}}{{else}}{{this}}{{/if}}" {{#equals value (getProperty data @../key)}} selected="selected"{{/equals}}{{#equals this (getProperty data @../key)}} selected="selected"{{/equals}}>{{#if key}}{{key}}{{else}}{{.}}{{/if}}</option>
-              {{/each}}
+                {{#each this}}
+                  <option value="{{#if (hasProperty this 'value')}}{{jsonLine value}}{{else}}{{this}}{{/if}}" {{#equals value (getProperty data @../key)}} selected="selected"{{/equals}}{{#equals this (getProperty data @../key)}} selected="selected"{{/equals}}>{{#if key}}{{key}}{{else}}{{.}}{{/if}}</option>
+                {{/each}}
 
-            </select>
-          </label>
-        {{/each}}
+              </select>
+            </label>
+          {{/each}}
 
-      </form>
+        </form>
 
-    </div>
+      </div>
 
-  {{/component:popover}}
+    {{/component:popover}}
+  {{/component:tabarea}}
 {{/inline}}
 
 {{#*inline "header"}}
@@ -46,9 +48,9 @@
       {{#if template }}
       <div class="Toolbar-section">
         {{> component:tablist items=(tablistdata id=id tabs="Render#render Data#data") inline="true"}}
-        {{!--{{#if @component.config.schema}}
+        {{#if @component.config.schema}}
           {{> component:tablist items=(tablistdata id=id tabs="Edit#edit") toggle="true" right="true"}}
-        {{/if}} --}}
+        {{/if}}
 
         {{#if @component.config.schema}}
           <button class="{{prefix}}IconButton IconButton--large">
@@ -124,12 +126,6 @@
 {{#saveas "component"}}
 <section
   class="{{prefix}}View {{prefix}}Package js-component" id="Component-{{name}}">
-{{!--
-  <section
-    class="{{prefix}}View-section"
-    id="example{{id}}"
-    data-url="/api/{{@component.group}}/{{@component.name}}"
-    data-controller="[{ &quot;Component&quot;: {&quot;data&quot;:{{jsonLine data}}{{#@component.config}}, &quot;config&quot;: {{jsonLine .}}{{/@component.config}} }}]"> --}}
 
   {{> top id=(uid) }}
 

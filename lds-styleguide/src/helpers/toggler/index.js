@@ -11,8 +11,6 @@ function Toggler(el, opt) {
     // if (typeof e !== 'undefined' &&
     //     e.target !== this.elements.inner)
     //   return;
-
-    console.log(e.target);
     e.target.style.height = '';
   }
 
@@ -56,18 +54,18 @@ function Toggler(el, opt) {
   }
 
   function collapseTarget(el) {
-    const collapsedHeight = el.getBoundingClientRect().height;
-    console.log("height on collapse", collapsedHeight);
+    const expandedHeight = el.getBoundingClientRect().height;
+    console.log("height on collapse", expandedHeight);
 
     setCollapsedAttrs(el);
 
-    const expandedHeight = el.getBoundingClientRect().height;
+    const collapsedHeight = el.getBoundingClientRect().height;
 
-    setHeight(el, collapsedHeight);
+    setHeight(el, expandedHeight);
 
     let readValue = el.offsetTop;
 
-    setHeight(el, expandedHeight);
+    setHeight(el, collapsedHeight);
 
     el.addEventListener('transitionend', onTargetTransitionEnd);
     el.addEventListener('webkittransitionend', onTargetTransitionEnd);
