@@ -16,6 +16,9 @@
 .Popover.is-open {
   transform: scale(1);
 }
+.Popover.is-dragging {
+  transition: none;
+}
 
   .Popover-header {
     display: flex;

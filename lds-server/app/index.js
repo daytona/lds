@@ -16,15 +16,16 @@ function Server(config) {
   }
   var engine = new Engine(config.engine);
   var app = koa();
-  if (!config.namespace) {
-    config.namespace = 'lds';
-  }
+
+  //if (!config.namespace) {
+  config.namespace = 'lds';
+  //}
   app
     // Serve static files from /dist folder
     .use(mount(config.path.public, serve(config.path.dist)))
     .use(parseLds(config))
     .use(engine.setup(config.namespace))
-    .use(extendLds())
+    .use(extendLds(config))
     .use(router.routes())
     .use(router.allowedMethods())
     .use(mount('/styleguide', styleguide))

@@ -1,6 +1,7 @@
 var path = require('path');
 var fs = require('fs');
 var trace = require('./lib/trace');
+var pathExists = require('./lib/path-exists');
 
 module.exports = function parseComponents(config) {
   return function* parser (next) {
@@ -22,8 +23,8 @@ module.exports = function parseComponents(config) {
 
 // Parse directories for components and add them to components object
 function parseDirectory(directory, options) {
-  if (!directory) {
-    return {};
+  if (!directory || !pathExists(directory)) {
+    return false;
   }
 
   const directoryComponents = {};
@@ -36,19 +37,27 @@ function parseDirectory(directory, options) {
     const tree = componentsTree[name];
     const files = Object.keys(tree);
     const compData = tree['default.json'] || tree['index.json'];
-    // const isTemplate = new RegExp(`\.${options.engine.ext}$`);
-    // const templates = {};
-    //
-    // files.filter((file) => {
-    //   return isTemplate.test(file)
-    // }).forEach((file) => {
-    //   return templates[file.replace(isTemplate, '')] = tree[file];
-    // });
+    const isTemplate = new RegExp(`\.${options.engine.ext}$`);
+    const templates = {};
+
+    files.filter((file) => {
+      return isTemplate.test(file)
+    }).forEach((file) => {
+      return templates[file.replace(isTemplate, '')] = tree[file];
+    });
 
     const component = {
       name,
       info: tree['readme.md'] || tree['index.md'],
       template: tree['index.' + options.engine.ext],
+      templates: Object.keys(tree).filter((fileName) => {
+        return isTemplate.test(fileName);
+      }).map((templateFile) => {
+        return {
+          name: templateFile.replace(isTemplate, ''),
+          content: tree[templateFile]
+        };
+      }),
       example: tree['example.' + options.engine.ext],
       script: tree['index.js'] || tree['index.jsx'],
       styles: tree['index.css'] || tree['index.scss'] || tree['index.less'] || tree['index.styl'],

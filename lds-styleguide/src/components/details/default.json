@@ -3,5 +3,5 @@
   "title": "Fäll ut mig",
   "inline": true,
   "dropdown": true,
-  "@partial-block": "<html>"
+  "content": "Jag är innehåll"
 }

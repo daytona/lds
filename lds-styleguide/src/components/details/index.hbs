@@ -1,6 +1,16 @@
+{{#*inline "testdetail"}}
 <div class="{{prefix}}Details{{#inline}} {{prefix}}Details--inline{{/inline}}{{#dropdown}} {{prefix}}Details--dropdown{{/dropdown}}" id="{{id}}" data-controller="[{ &quot;Details&quot;: { {{#if dropdown}}&quot;dropdown&quot;:true{{#if inline}},{{/if}}{{/if}}{{#if inline}}&quot;inline&quot;:true{{/if}} }}]">
   <div class="{{prefix}}Details-summary js-summary" id="details-summary-{{id}}" aria-controls="details-content-{{id}}" role="button" aria-expanded="false" {{#if dropdown}} aria-haspopup="true"{{/if}}tabindex="0">{{title}}</div>
   <div class="{{prefix}}Details-content js-content" id="details-content-{{id}}" aria-labeledby="details-summary-{{id}}" role="region" aria-hidden="true">
-    {{> @partial-block }}
+    {{#if (hasPartialContent)}}
+      {{>@partial-block}}
+    {{else}}
+      {{#with content}}
+      {{> component:content}}
+      {{/with}}
+    {{/if}}
   </div>
 </div>
+{{/inline}}
+
+{{>testdetail}}

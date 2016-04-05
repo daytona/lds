@@ -1,25 +1,37 @@
 var path = require('path');
 var Prism = require('prismjs');
 var postcss = require('postcss');
+var languages = require('prism-languages');
 
-module.exports = function extendComponents() {
+module.exports = function extendComponents(config) {
   return function* parser(next) {
-    var structure = this.lds.structure;
+    var structure = this[config.namespace].structure;
 
-    objectDeepMap(structure, (value) => {
-      if (value && typeof value === 'object') {
-        if (value.styles) {
-          value.css = parseCSS(value);
-          value.styles = Prism.highlight(value.styles, Prism.languages.css);
-        }
-        if (value.script) {
-          value.js = parseJS(value);
-          value.script = Prism.highlight(value.script, Prism.languages.js);
+    objectDeepMap(structure, (value, key) => {
+
+      if (value && typeof value === 'object' && key !== 'highlight') {
+        if (value.styles || value.script || value.template) {
+          value.highlight = {};
+          if (value.styles) {
+            value.css = parseCSS(value);
+            value.highlight.styles = Prism.highlight(value.styles, languages.css);
+          }
+          if (value.script) {
+            value.js = parseJS(value);
+            value.highlight.script = Prism.highlight(value.script, languages.js);
+
+          }
+          if (value.template) {
+            value.hbs = parseTemplate(value);
+            value.highlight.template = Prism.highlight(value.template, languages.handlebars);
+          }
         }
         if (value.data) {
           value.data = resolveData(value.data, structure);
+          //value.highlights.data = Prism.highlight(value.data, Prism.languages.json);
         }
-        if (value.example) {
+        if (value.example && typeof value.example === 'string') {
+          // Render on server since to show pre rendered markup in styleguide
           value.example = this.render(value.example, value);
         }
       }
@@ -55,7 +67,14 @@ function resolveData(data, structure) {
   });
   return data;
 }
+function resolveDependency(url, current) {
+  // ../../{category}/{name} => category/name
+  // ../{name} => samecategory/name
+  // {category}:{name}(/special)? => category:name
 
+  // After getting depency add current to dependentBy
+  return url;
+}
 // Use postCSS to parse CSS to look for :root element and add all css variables to component object
 function parseCSS(component) {
   const variables = {};
@@ -64,9 +83,9 @@ function parseCSS(component) {
 
   postcss.parse(component.styles)
     .nodes.forEach((node) => {
-      const isModifyer = node.type === 'rule' && node.selector.match(new RegExp(`${component.name}--(.*)`, 'i'));
+      const isModifier = node.type === 'rule' && node.selector.match(new RegExp(`${component.name}--([^ :]*)`, 'i'));
       const isRoot = node.selector === ':root' && typeof node.nodes === 'object';
-      const isvar = node.type === 'rule' && node.type === 'atrule' && node.name === 'var';
+      const isImport = node.type === 'atrule' && node.name === 'import';
 
       if (isRoot) {
         node.nodes.forEach((rule) => {
@@ -74,10 +93,10 @@ function parseCSS(component) {
             variables[rule.prop.replace(/^--/, '')] = rule.value;
           }
         });
-      } else if (isModifyer) {
-        modifiers.push(isModifyer[1]);
-      } else if (isvar) {
-        dependencies.push(node.params);
+      } else if (isModifier) {
+        modifiers.push(isModifier);
+      } else if (isImport) {
+        dependencies.push(resolveDependency(node.params, component));
       }
     });
 
@@ -90,17 +109,30 @@ function parseCSS(component) {
 
 // Parse script content to register all dependencies from its content
 function parseJS(component) {
-  const dependencies = {};
+  const dependencies = [];
   const varStatements = component.script.match(/import ([^ ]*) from ["']([^"']*)["']/g);
 
   if (varStatements) {
     varStatements.forEach((statement) => {
       var matches = statement.match(/import ([^ ]*) from ["']([^"']*)["']/);
-      dependencies[matches[1]] = matches[2];
+      let dependency = {};
+      dependency[matches[1]] = matches[2];
+      dependencies.push(resolveDependency(dependency, component));
     });
   }
 
   return {
     dependencies,
   };
+}
+function parseTemplate(component) {
+  var dependencies = [];
+  var dependencyMatch = new RegExp('(base|component|module):([^ "}]*)', 'g');
+  var matches = component.template.match(dependencyMatch) || [];
+  matches.forEach((match) => {
+    dependencies.push(resolveDependency(match, component));
+  });
+  return {
+    dependencies,
+  }
 }

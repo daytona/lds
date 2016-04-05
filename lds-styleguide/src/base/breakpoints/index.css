@@ -2,12 +2,15 @@
   --breakpoint-small: 475px;
   --breakpoint-medium: 600px;
   --breakpoint-large: 910px;
+  --breakpoint-xlarge: 1200px;
 }
 
 @custom-media --min-small (min-width: 475px);
 @custom-media --min-medium (min-width: 600px);
 @custom-media --min-large (min-width: 910px);
+@custom-media --min-xlarge (min-width: 1200px);
 
 @custom-media --max-small (max-width: 474px);
 @custom-media --max-medium (max-width: 599px);
 @custom-media --max-large (max-width: 909px);
+@custom-media --max-xlarge (max-width: 1199px);

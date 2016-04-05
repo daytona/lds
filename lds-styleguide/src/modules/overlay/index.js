@@ -19,25 +19,25 @@ const pick = (keys, obj) => keys.reduce((res, key) => {
 }, {});
 
 const actions = {
-  hideOverlay: function() {
+  hideOverlay() {
     return {
       type: ACTION_TYPES.HIDE_OVERLAY
     };
   },
 
-  showPane: function(id, options) {
+  showPane(id, options) {
     return {
       type: ACTION_TYPES.SHOW_PANE
     };
   },
 
-  hidePane: function() {
+  hidePane() {
     return {
       type: ACTION_TYPES.HIDE_PANE
     };
   },
 
-  showPopover: function(options) {
+  showPopover(options) {
     let anchorRect =  pick(
       ['top', 'bottom', 'right', 'left', 'width', 'height'],
       options.anchorEl.getBoundingClientRect()
@@ -61,7 +61,7 @@ const actions = {
     };
   },
 
-  hidePopover: function() {
+  hidePopover() {
     return {
       type: ACTION_TYPES.HIDE_POPOVER
     };

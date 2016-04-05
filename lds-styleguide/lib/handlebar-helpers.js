@@ -33,7 +33,7 @@ var helpers = {
     return JSON.stringify(object, null, 0);
   },
   functionName(string) {
-    return unCapitalize(toCamelCase(string));
+    return toCamelCase(string);
   },
   prettyName(string) {
     return string.split(/[_|.|-]/).map(capitalize).join(' ');
@@ -133,6 +133,9 @@ var helpers = {
   },
   increment(value){
     return Number(value) ? Number(value)+1 : value;
+  },
+  hasPartialContent(options) {
+    return options.data['partial-block'];
   }
 };
 

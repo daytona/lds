@@ -4,3 +4,6 @@
   font: var(--text-code);
   margin: 0;
 }
+:root pre[class*=language-] {
+  white-space: pre-wrap;
+}

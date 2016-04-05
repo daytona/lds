@@ -63,19 +63,6 @@ router
     if (query.type === 'json') {
       this.type = 'text/plain; charset=utf-8';
       this.body = this.lds.structure.views[this.params.name];
-    // } else if (query.screenshot) {
-    //   this.type = 'image/png';
-    //   this.body = webshot(`http://localhost:4000/${this.params.name}`, {
-    //     siteType: 'url',
-    //     screenSize: {
-    //       width: query.screenwidth || 320,
-    //       height: query.screenwidth || 480
-    //     },
-    //     shotSize: {
-    //       width: 'all',
-    //       height: 'all'
-    //     }
-    //   });
     } else if (query.standalone) {
       var viewtemplate = this.renderView(this.params.name, query, true);
       this.body = viewtemplate.replace(/\<\/body\>/,
@@ -89,10 +76,29 @@ router
     var component = this.lds.structure[this.params.category][this.params.name];
     var query = pureQuery(this.query);
 
-    if (query.type === 'json') {
-      this.type = 'text/plain; charset=utf-8';
-      this.body = component;
-    } else if (query.type === 'js' || query.type === 'css') {
+    if (query.type === 'json' || query.type === 'js' || query.type === 'css' || query.type === 'template') {
+      var content;
+      var language = query.type;
+      switch (query.type) {
+        case 'json':
+          content = component.data;
+          break;
+        case 'js':
+          content = component.highlight.script;
+          break;
+        case 'css':
+          content = component.highlight.styles;
+          break;
+        case 'template':
+          content = component.highlight.template;
+          language = 'handlebars';
+          break;
+      }
+      if (query.clean) {
+        this.type = 'text/plain; charset=utf-8';
+        this.body = content;
+        return;
+      }
       var body = `<html>
                     <head>
                       <meta charset="utf-8">
@@ -101,7 +107,7 @@ router
                       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.4.1/themes/prism-okaidia.min.css">
                     </head>
                     <body style="margin: 0; background: #272822; ${query.screenshot ? 'transform: rotate(-3deg) translate(2%, -3%); -webkit-transform: rotate(-3deg) translate(2%, -3%); font-size: 25px;' : ''}">
-                    <code><pre class="language-${query.type}">${query.type === 'js' ? component.script : component.styles}</pre></code>
+                    <code><pre class="language-${language}">${content}</pre></code>
                     </body>
                   </html>`;
       this.body = body;
@@ -133,7 +139,7 @@ router
                     </head>
                     <body style="margin: 0;">
                     <div class="Page Page--nopadding text">
-                      <div id="Standalone-wrapper" style="display: ${query.screenshot ? 'inline-block' : 'block'}; position:relative; margin: auto; ">
+                      <div id="Standalone-wrapper" style="display: inline-block; position:relative; margin: auto; ">
                       ${this.render(component.template, Object.assign({}, component.data, query))}
                       </div>
                     </div>

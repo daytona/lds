@@ -6,6 +6,7 @@ var serve = require('koa-static');
 var Router = require('koa-router');
 var objectDeepMap = require('./lib/object-deep-map');
 var Engine = require('lds-engine');
+var pureQuery = require('./lib/pure-query');
 
 var config = require('./lds.config');
 var app = koa();
@@ -31,19 +32,22 @@ if (!config.namespace) {
 router
   .get('/', function *(next){
     yield next;
-    this.renderView('start');
+    this.renderView('start', pureQuery(this.query));
   })
   .get('/:category', function *(next){
     yield next;
-    this.renderView('category', this.params);
+    this.renderView('category', Object.assign(this.params, pureQuery(this.query)));
+  })
+  .get('/views/:component', function *(next){
+    yield next;
+    this.renderView('view', Object.assign(this.params, pureQuery(this.query)));
   })
   .get('/:category/:component', function *(next){
     yield next;
-    this.renderView('single', this.params);
+    this.renderView('single', Object.assign(this.params, pureQuery(this.query)));
   });
 
 app
-  //.use(screenshots)
   .use(mount(config.path.public, serve(path.join(config.path.dirname, config.path.dist))))
   .use(parseLds(config))
   .use(engine.setup(config.namespace, config.prefix))
@@ -55,7 +59,7 @@ module.exports = app;
 function mainNav(data) {
   return {
     items: Object.keys(data).filter((groupName) => {
-      return data[groupName];
+      return data[groupName] && Object.keys(data[groupName]).length;
     }).map((groupName) => {
       var group = data[groupName];
 

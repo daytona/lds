@@ -24,45 +24,15 @@
   </div>
 
   <div class="Page-section">
-    {{#equals category "base"}}
+    {{#with (getProperty this category)}}
     <div class="Grid Grid--withGutter">
-      {{#each base}}
-      <div class="Grid-cell width-1of2 m-width-1of3 l-width-1of4">
+      {{#each this}}
+      <div class="Grid-cell width-1of2 l-width-1of3 xl-width-1of4">
         {{> module:component-list-item}}
       </div>
       {{/each}}
     </div>
-    {{/equals}}
-
-    {{#equals category "components"}}
-    <div class="Grid Grid--withGutter">
-      {{#each components}}
-      <div class="Grid-cell width-1of2 m-width-1of3 l-width-1of4">
-        {{> module:component-list-item}}
-      </div>
-      {{/each}}
-    </div>
-    {{/equals}}
-
-    {{#equals category "modules"}}
-    <div class="Grid Grid--withGutter">
-      {{#each modules}}
-      <div class="Grid-cell width-1of2 m-width-1of3 l-width-1of4">
-        {{> module:component-list-item}}
-      </div>
-      {{/each}}
-    </div>
-    {{/equals}}
-
-    {{#equals category "views"}}
-    <div class="Grid Grid--withGutter">
-      {{#each views}}
-      <div class="Grid-cell width-1of2 m-width-1of3 l-width-1of4">
-        {{> module:component-list-item}}
-      </div>
-      {{/each}}
-    </div>
-    {{/equals}}
+    {{/with}}
   </div>
 
 </div>

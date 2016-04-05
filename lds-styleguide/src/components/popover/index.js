@@ -1,7 +1,10 @@
-import controller from '../controller';
-import eventListener from '../eventListener';
+import controller from '../../helpers/controller';
+import eventListener from '../../helpers/eventListener';
+import {addClass, removeClass} from '../../helpers/classList';
 
-function Draggable(el, opt) {
+const downClass = 'is-dragging';
+
+function Popover(el, opt) {
   const position = {
     x: 0,
     y: 0
@@ -12,7 +15,7 @@ function Draggable(el, opt) {
   };
   let moveListener,
       upListener,
-      outListener;
+      isPressing;
 
   function updatePosition() {
     el.style.transform = `translate(${-position.x}px, ${-position.y}px)`;
@@ -21,28 +24,30 @@ function Draggable(el, opt) {
     position.x = startPosition.x - event.pageX;
     position.y = startPosition.y - event.pageY;
     updatePosition();
+    clearTimeout(isPressing);
+    isPressing = setTimeout(onMouseUp, 200);
   }
-  function onMouseUp(event) {
+  function onMouseUp() {
     moveListener.destroy();
     upListener.destroy();
-    outListener.destroy();
+    removeClass(el, downClass);
   }
   function onMouseDown(event) {
     startPosition.x = position.x + event.pageX;
     startPosition.y = position.y + event.pageY;
-    el.style.zIndex = '15';
+
     moveListener = eventListener.addListener('mousemove', window, onMouseMove);
     upListener = eventListener.addListener('mouseup', window, onMouseUp);
-    outListener = eventListener.addListener('mouseout', window, onMouseUp);
+
+    addClass(el, downClass);
   }
   function bindEvents() {
     eventListener.addListener('mousedown', el, onMouseDown);
   }
   function init() {
-    console.log('init draggable');
     bindEvents();
   }
   return init();
 }
 
-controller.add('Draggable', Draggable);
+controller.add('Popover', Popover);

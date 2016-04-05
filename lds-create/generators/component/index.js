@@ -2,7 +2,7 @@ import controller from '../../helpers/controller';
 
 function {{functionName}}(el, opt) {
   function init() {
-    // DO your thing
+    // Do your thing
   }
   return {
     init

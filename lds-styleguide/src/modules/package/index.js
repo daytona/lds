@@ -1,3 +1,4 @@
+import '../../helpers/fetcher';
 import controller from '../../helpers/controller';
 import {store} from '../../helpers/store';
 import {actions as overlayActions} from '../overlay';

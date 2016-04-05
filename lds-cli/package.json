@@ -17,8 +17,14 @@
     "lds-test"
   ],
   "dependencies": {
+    "chalk": "^1.1.3",
     "cmd-exec": "^0.1.0",
     "commander": "^2.9.0",
-    "path": "^0.12.7"
+    "i": "^0.3.4",
+    "is-plain-object": "^2.0.1",
+    "path": "^0.12.7",
+    "promptly": "^1.1.0",
+    "semver": "^5.1.0",
+    "util": "^0.10.3"
   }
 }

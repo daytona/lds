@@ -22,14 +22,15 @@ program
   // Optimization [uglify, imagemin, icon-font-generator]
 
   .action(function() {
-    generator.init(root);
-    cmd.exec('npm install --save babel-preset-es2015 handlebars')
-      .then(function(){
-        cmd.exec('lds build');
-      })
-      .done(function(){
-        console.log('LDS setup successfully');
-      });
+    generator.init(root, function(){
+      cmd.exec('npm install --save babel-preset-es2015 handlebars')
+        .then(function(){
+          cmd.exec('lds build');
+        })
+        .done(function(){
+          console.log('LDS setup successfully');
+        });
+    });
   });
 
 program

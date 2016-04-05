@@ -14,14 +14,14 @@ var groups = {
   init: 'dirname',
   layout: 'layouts'
 };
-function init(root) {
+function init(root, callback) {
   var tree = trace(path.join(__dirname, '/generators/init'));
   build(tree, root, function(err) {
     if (err) {
       console.error(err);
       return;
     }
-    console.log('LDS setup');
+    callback();
   });
   return;
 }

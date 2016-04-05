@@ -1,0 +1,9 @@
+<li class="{{prefix}}Tablist-tab js-tab" id="tab-{{id}}" role="tab" aria-controls="panel-{{id}}" tabIndex="0" aria-selected="false">
+  <span>
+    {{#if title}}
+      {{{title}}}
+    {{else}}
+      {{> @partial-block}}
+    {{/if}}
+  </span>
+</li>

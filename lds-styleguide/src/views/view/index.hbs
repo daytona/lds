@@ -1,0 +1,5 @@
+<div class="{{prefix}}Page-innerWrapper">
+  {{#with (getProperty (getProperty this category) component)}}
+    {{> module:view}}
+  {{/with}}
+</div>

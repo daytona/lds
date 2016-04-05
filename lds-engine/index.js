@@ -14,12 +14,16 @@ module.exports = function Engine(options) {
         var structure = this[namespace].structure;
         // Iterate LDS-structure to register all partials as partials like component:mycomponent
         objectDeepMap(structure, (value) => {
+          // Register default template
           if (value && value.template) {
             options.registerPartial(`${value.category}:${value.name}`, value.template);
-            if (value.category === 'component') {
-              options.registerPartial(value.name, value.template);
-              options.registerPartial(`${value.name}/index.hbs`, value.template);
-            }
+          }
+          // Loop through all template files and register as child path e.g. {{> component:mycomponent/child }}
+          if (value && value.templates) {
+            value.templates.forEach((template) => {
+              options.registerPartial(`${value.category}:${value.name}/${template.name}`, template.content);
+            });
+          }
 
             // var dependencies = value.template.match(/{{#?> ?([^ }]*) ?}}/g);
             //
@@ -36,7 +40,6 @@ module.exports = function Engine(options) {
             //   // set dependencies on object
             //   value.dependencies = {hbs : dependencies};
             // }
-          }
           return value;
         });
 
@@ -48,7 +51,7 @@ module.exports = function Engine(options) {
             }
             var defaultData = this.defaultData || {};
             var viewData = Object.assign({layout: 'default'}, view.data, data);
-            var layout = structure.layouts[viewData.layout];
+            var layout = viewData.layout ? structure.layouts[viewData.layout] : false;
             var layoutData = layout && layout.data || {};
             var pageData = Object.assign(defaultData, layoutData, viewData);
             var template = layout ? layout.template.replace(/{{{@body}}}/, view.template) : view.template;
