@@ -39,6 +39,9 @@
   max-height: none;
 }
 
+.FlexEmbed--contain {
+  background-size: contain;
+}
 .FlexEmbed--outlined {
   z-index: 1;
   margin-top: 1px;

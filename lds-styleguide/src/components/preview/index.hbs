@@ -1,13 +1,17 @@
 <div class="Preview{{#if device}} Preview--{{device}}{{/if}} {{class}}" data-controller="Preview"{{#if device}}  data-device="{{device}}"{{/if}}>
   <div class="Preview-container js-container">
 
+    {{#if device}}
     <div class="Preview-device js-device">
       <div class="Preview-screen js-screen">
         <div class="Preview-browser js-browser" data-url="{{url}}">
-          <iframe src="{{url}}" class="Preview-iframe js-iframe" id="{{iframeid}}"></iframe>
+    {{/if}}
+          <iframe src="{{url}}" class="Preview-iframe js-iframe" id="{{id}}"></iframe>
+    {{#if device}}
         </div>
       </div>
     </div>
+    {{/if}}
 
   </div>
 </div>

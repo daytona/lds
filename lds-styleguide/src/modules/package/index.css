@@ -1,7 +1,11 @@
 .Package {
 
 }
-
+.Package-usage {
+  background: #efefef;
+  padding: 10px 20px;
+  border-bottom: 1px solid rgba(48, 48, 48, 0.1);
+}
   .Package-demo {
     border-bottom: 1px solid rgba(48, 48, 48, 0.1); /* :/ */
   }
@@ -21,4 +25,7 @@
       padding: 3em 3em;
       background: var(--color-bg-dark);
       color: #fff;
+    }
+    .Package-demoView--example {
+      padding: 20px;
     }

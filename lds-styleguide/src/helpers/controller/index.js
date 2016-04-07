@@ -1,4 +1,5 @@
 import isJSON from '../isJSON';
+import action from '../action';
 /**
  * Controller manager, for finding and initializing javascript controllers
  */
@@ -71,6 +72,4 @@ export default {
 document.addEventListener('DOMContentLoaded', (event) => {
   parseDom(event.target);
 });
-document.addEventListener('newDom', (event) => {
-  parseDom(event.target);
-});
+action.on('newDom', parseDom);

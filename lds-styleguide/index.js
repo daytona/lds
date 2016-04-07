@@ -18,6 +18,22 @@ function *defaultData(next) {
     mainNav: mainNav(this.lds.structure),
     prefix: config.prefix ? `${config.prefix}-` : ''
   });
+
+  yield next;
+}
+function *view(next) {
+  var component;
+  objectDeepMap(this.lds.structure, (value) => {
+    if (value && value.isLDSObject && value.id === this.request.url) {
+      component = value;
+    }
+    return value;
+  });
+  if (component) {
+    this.renderView(this[config.namespace].structure.views['single'], component);
+  } else {
+    this.renderView(this[config.namespace].structure.views['start'], this.lds.structure);
+  }
   yield next;
 }
 if (!config.engine || !config.engine.render) {
@@ -32,19 +48,19 @@ if (!config.namespace) {
 router
   .get('/', function *(next){
     yield next;
-    this.renderView('start', pureQuery(this.query));
+    this.renderView(this[config.namespace].structure.views['start'], pureQuery(this.query));
   })
   .get('/:category', function *(next){
     yield next;
-    this.renderView('category', Object.assign(this.params, pureQuery(this.query)));
+    this.renderView(this[config.namespace].structure.views['category'], Object.assign(this.params, pureQuery(this.query)));
   })
   .get('/views/:component', function *(next){
     yield next;
-    this.renderView('view', Object.assign(this.params, pureQuery(this.query)));
+    this.renderView(this[config.namespace].structure.views['view'], Object.assign(this.params, pureQuery(this.query)));
   })
   .get('/:category/:component', function *(next){
     yield next;
-    this.renderView('single', Object.assign(this.params, pureQuery(this.query)));
+    this.renderView(this[config.namespace].structure.views['single'], Object.assign(this.params, pureQuery(this.query)));
   });
 
 app
@@ -52,13 +68,25 @@ app
   .use(parseLds(config))
   .use(engine.setup(config.namespace, config.prefix))
   .use(defaultData)
-  .use(router.routes());
+  //.use(router.routes());
+  .use(view);
 
 module.exports = app;
 
 function mainNav(data) {
+  function getChildren(struct) {
+    return Object.keys(struct).map((compName) => {
+      var component = struct[compName];
+      return {
+        name: component.name,
+        url: `/styleguide${component.id}`,
+        items: component.children ? getChildren(component.children) : false
+      };
+    });
+  }
   return {
     items: Object.keys(data).filter((groupName) => {
+      // Remove empty
       return data[groupName] && Object.keys(data[groupName]).length;
     }).map((groupName) => {
       var group = data[groupName];
@@ -66,15 +94,7 @@ function mainNav(data) {
       return {
         name: groupName,
         url: `/styleguide/${groupName}`,
-        items: Object.keys(data[groupName]).filter((compName)=>{
-          return (typeof group[compName] === 'object');
-        }).map((compName) => {
-          var component = group[compName];
-          return {
-            name: component.name,
-            url: `/styleguide/${groupName}/${compName}`,
-          };
-        })
+        items: getChildren(data[groupName])
       };
     })
   };

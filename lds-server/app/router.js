@@ -5,6 +5,5 @@ var router = new Router();
 
 router
   .get('/', viewPage)
-  .get('/:view', viewPage);
 
 module.exports = router;

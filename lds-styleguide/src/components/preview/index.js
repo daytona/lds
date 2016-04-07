@@ -1,6 +1,7 @@
 import controller from '../../helpers/controller';
 import eventListener from '../../helpers/eventListener';
 import viewport from '../../helpers/viewport';
+import {store} from '../../helpers/store';
 
 function Preview(el, opt) {
   const options = Object.assign(el.dataset, opt);
@@ -10,8 +11,13 @@ function Preview(el, opt) {
   const previewDevice = el.querySelector('.js-device');
   const device = el.dataset.device;
 
+
+  function update() {
+
+  }
+
   function onResize() {
-    let viewportScale = el.clientWidth / previewDevice.clientWidth;
+    let viewportScale = el.clientWidth / (previewDevice ? previewDevice.clientWidth : containerEl.clientWidth);
     if (viewportScale > 1.5) {
       viewportScale = 1.5;
     }
@@ -30,6 +36,7 @@ function Preview(el, opt) {
   function bindEvents() {
     viewport.onResize(onResize);
     eventListener.addListener('iframeResize', document, resizeIframe);
+    //store.subscribe()
   }
 
   function init(){

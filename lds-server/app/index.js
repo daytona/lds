@@ -9,6 +9,8 @@ var editor = require('lds-editor');
 var parseLds = require('lds-parser');
 var extendLds = require('./extend-components');
 var Engine = require('lds-engine');
+var view = require('../controllers/view');
+var pageNotFound = require('../controllers/404');
 
 function Server(config) {
   if (!config.engine || !config.engine.render) {
@@ -22,15 +24,15 @@ function Server(config) {
   //}
   app
     // Serve static files from /dist folder
+    .use(pageNotFound) // Handle 404 after parsing every other middleware, if no match trigger 404
     .use(mount(config.path.public, serve(config.path.dist)))
     .use(parseLds(config))
     .use(engine.setup(config.namespace))
     .use(extendLds(config))
-    .use(router.routes())
-    .use(router.allowedMethods())
     .use(mount('/styleguide', styleguide))
     .use(mount('/api', api.app))
     .use(mount('/playground', editor))
+    .use(view)
     .listen(process.env.PORT || config.port || 4000);
 
   console.log('HTTP-Server running at port ', process.env.PORT || config.port || 4000);

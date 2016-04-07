@@ -8,22 +8,21 @@ module.exports = function extendComponents(config) {
     var structure = this[config.namespace].structure;
 
     objectDeepMap(structure, (value, key) => {
-
-      if (value && typeof value === 'object' && key !== 'highlight') {
+      if (value && value.isLDSObject) {
         if (value.styles || value.script || value.template) {
-          value.highlight = {};
+          value.code = {};
+
           if (value.styles) {
             value.css = parseCSS(value);
-            value.highlight.styles = Prism.highlight(value.styles, languages.css);
+            value.code.styles = Prism.highlight(value.styles, languages.css);
           }
           if (value.script) {
             value.js = parseJS(value);
-            value.highlight.script = Prism.highlight(value.script, languages.js);
-
+            value.code.script = Prism.highlight(value.script, languages.js);
           }
           if (value.template) {
             value.hbs = parseTemplate(value);
-            value.highlight.template = Prism.highlight(value.template, languages.handlebars);
+            value.code.template = Prism.highlight(value.template, languages.handlebars);
           }
         }
         if (value.data) {
@@ -33,6 +32,13 @@ module.exports = function extendComponents(config) {
         if (value.example && typeof value.example === 'string') {
           // Render on server since to show pre rendered markup in styleguide
           value.example = this.render(value.example, value);
+        }
+        if (value.category === 'view') {
+          value.url = value.id.replace(/^\/views/, '');
+
+          if (this.request.url === value.url) {
+            this.renderView(value.url);
+          }
         }
       }
       return value;

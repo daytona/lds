@@ -16,36 +16,20 @@ module.exports = function Engine(options) {
         objectDeepMap(structure, (value) => {
           // Register default template
           if (value && value.template) {
-            options.registerPartial(`${value.category}:${value.name}`, value.template);
+            options.registerPartial(value.partialName, value.template);
           }
           // Loop through all template files and register as child path e.g. {{> component:mycomponent/child }}
           if (value && value.templates) {
             value.templates.forEach((template) => {
-              options.registerPartial(`${value.category}:${value.name}/${template.name}`, template.content);
+              options.registerPartial(`${value.partialName}/${template.name}`, template.content);
             });
           }
 
-            // var dependencies = value.template.match(/{{#?> ?([^ }]*) ?}}/g);
-            //
-            // if (dependencies) {
-            //   dependencies = dependencies.map((str) => {
-            //     return str.replace(/\{\{#?> ?([^@ }]*) ?\}\}/, (full, s1) => {
-            //       return s1;
-            //     });
-            //   }).filter((partial) => {
-            //     // ...but remove all instances of dependencies to inline partials
-            //     return !value.template.match(new RegExp('{{#\*inline [\'\"](' + partial + ')[\'\"] ?}}', 'g'));
-            //   });
-            //
-            //   // set dependencies on object
-            //   value.dependencies = {hbs : dependencies};
-            // }
           return value;
         });
 
         var api = Object.assign(options, {
-          renderView(name, data, asReturn) {
-            var view = structure.views[name];
+          renderView(view, data, asReturn) {
             if (!view) {
               view = structure.views['404'] || {template: '404 Page Not found', data: {}};
             }

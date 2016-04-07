@@ -1,8 +1,6 @@
 :root {}
 
-.Tablist {
 
-}
 .Tablist--inline {
   display: inline-block;
 }
@@ -31,14 +29,6 @@
   font-size: var(--font-size-small);
   font-weight: var(--font-weight-bold);
   letter-spacing: 0.08em;
-}
-
-.Tablist-tab:first-child {
-  margin: 0 0.75rem 0 0;
-}
-
-.Tablist-tab:last-child {
-  margin: 0 0 0 0.75rem;
 }
 
 .Tablist-tab:focus {

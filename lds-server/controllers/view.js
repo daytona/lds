@@ -1,16 +1,26 @@
 var isJSON = require('../lib/isJSON');
+var findComponent = require('../lib/find-component');
 
 // Render a single component with request.parameters or default json.
 function* viewPage (next) {
-  let view = this.params.view || 'start';
-  const query = {};
+  let url = this.request.url.replace(/\/$/, '');
 
-  // Loop though query parameters to build an data object
-  Object.keys(this.query).forEach((key) => {
-    query[key] = isJSON(this.query[key]) ? JSON.parse(this.query[key]) : this.query[key];
-  });
+  var view = findComponent(this.lds.structure.views, '/views' + url);
 
-  this.renderView(view, query);
+  if (!view || (!view.template && view.children)) {
+    view = findComponent(this.lds.structure.views, '/views' + url + '/start');
+  }
+
+  if (view) {
+    const query = {};
+
+    // Loop though query parameters to build an data object
+    Object.keys(this.query).forEach((key) => {
+      query[key] = isJSON(this.query[key]) ? JSON.parse(this.query[key]) : this.query[key];
+    });
+
+    this.renderView(view, query);
+  }
   yield next;
 }
 

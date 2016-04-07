@@ -5,6 +5,7 @@ var koa = require('koa');
 var Router = require('koa-router');
 var pureQuery = require('./lib/pure-query');
 var screenDump = require('./lib/screenshots.js');
+var findComponent = require('./lib/find-component');
 var app = koa();
 var router = new Router();
 
@@ -58,22 +59,27 @@ router
     var query = pureQuery(this.query);
     screenDump(this.lds.structure, query.type);
   })
-  .get('/views/:name', function *(next){
+  .get('/views/:name*', function *(next){
     var query = pureQuery(this.query);
+    var view = findComponent(this.lds.structure, '/views'+ this.params.name);
     if (query.type === 'json') {
       this.type = 'text/plain; charset=utf-8';
-      this.body = this.lds.structure.views[this.params.name];
+      this.body = view;
     } else if (query.standalone) {
-      var viewtemplate = this.renderView(this.params.name, query, true);
+      var viewtemplate = this.renderView(view, query, true);
       this.body = viewtemplate.replace(/\<\/body\>/,
         "<script>document.addEventListener('click', (event)=>{event.preventDefault();});</script>\n<\/body>"
       );
     } else {
-      this.renderView(this.params.name, Object.assign({layout:'default'}, query));
+      this.renderView(view, Object.assign({layout:'default'}, query));
     }
   })
-  .get('/:category/:name', function *(next){
-    var component = this.lds.structure[this.params.category][this.params.name];
+  .get('/:path*', function *(next){
+    var component = findComponent(this.lds.structure, '/'+ this.params.path);
+
+    if (!component) {
+      return false;
+    }
     var query = pureQuery(this.query);
 
     if (query.type === 'json' || query.type === 'js' || query.type === 'css' || query.type === 'template') {
@@ -84,13 +90,13 @@ router
           content = component.data;
           break;
         case 'js':
-          content = component.highlight.script;
+          content = component.code.script;
           break;
         case 'css':
-          content = component.highlight.styles;
+          content = component.code.styles;
           break;
         case 'template':
-          content = component.highlight.template;
+          content = component.code.template;
           language = 'handlebars';
           break;
       }
@@ -137,9 +143,9 @@ router
                       <link rel="shortcut icon" href="">
                       <link rel="stylesheet" href="/assets/style.css">
                     </head>
-                    <body style="margin: 0;">
+                    <body style="margin: 0; background: #fefefe; ">
                     <div class="Page Page--nopadding text">
-                      <div id="Standalone-wrapper" style="display: inline-block; position:relative; margin: auto; ">
+                      <div id="Standalone-wrapper" style="padding: 20px; position:relative; margin: auto; max-width:500px">
                       ${this.render(component.template, Object.assign({}, component.data, query))}
                       </div>
                     </div>
@@ -194,23 +200,20 @@ router
     }
   })
   .put('/:category/:name', function *(next){
-    var component;
+    var component = findComponent(this.lds.structure, '/'+ this.params.path);
     var query = pureQuery(this.query);
 
-    try {
-      component = this.lds.structure[this.params.category][this.params.name];
+    if (component) {
       this.methods.update(component, query);
-    } catch (err) {
-      component = methods.create(Object.assign({
-        name: this.params.name,
-        category: this.params.category
-      }, query));
+    } else {
+      // Create new component
     }
       // Modify component data and write changes to file and bump component version
       // Or if component not existing, create new component
   })
   .del('/:category/:name', function *(next){
-      // Delete component from file structure, require authentication
+    var component = findComponent(this.lds.structure, '/'+ this.params.path);
+    // Delete component from file structure, require authentication
   });
 
 app.use(router.routes());

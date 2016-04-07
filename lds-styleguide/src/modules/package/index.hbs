@@ -70,7 +70,7 @@
 
     {{#> component:tabarea id=(concat "render" id) }}
         <div class="{{prefix}}Example-renderContainer">
-          {{> component:preview url=(concat "/api/" @component.group "/" @component.name "?standalone=true")}}
+          {{> component:preview url=(concat "/api/" @component.group "/" @component.name "?standalone=true&iframeid=1") id="1"}}
         </div>
       </div>
     {{/component:tabarea}}
@@ -108,10 +108,8 @@
 
     {{#if example}}
       <div class="Package-demo">
-        <div class="{{prefix}}Package-demoView {{prefix}}Package-demoView--render">
-          <div class="{{prefix}}Example-rendered {{prefix}}Example-rendered--desktop js-container">
-            {{{ example }}}
-          </div>
+        <div class="{{prefix}}Package-demoView {{prefix}}Package-demoView--example">
+          <pre>{{ example }}</pre>
         </div>
       </div>
     {{/if}}
@@ -123,7 +121,6 @@
   class="{{prefix}}Package js-component" id="Component-{{name}}">
 
   {{> top id=(uid) }}
-
   <div class="Page-section">
     {{#if info}}
       {{{markdown info}}}
@@ -196,6 +193,16 @@
       {{/if}}
 
     </footer>
+
+    {{#with children}}
+      <div class="Grid Grid--withGutter">
+        {{#each this}}
+        <div class="Grid-cell width-1of2 l-width-1of3 xl-width-1of4">
+          {{> module:component-list-item}}
+        </div>
+        {{/each}}
+      </div>
+    {{/with}}
   </div>
 </section>
 {{/saveas}}
