@@ -48,9 +48,9 @@ const PagePane = {
   }
 };
 
-const pagePane = Object.create(PagePane);
-
 export default function createPagePane(el, options) {
+  const pagePane = Object.create(PagePane);
+
   pagePane.initialize(el);
 
   return pagePane;

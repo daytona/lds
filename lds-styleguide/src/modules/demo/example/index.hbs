@@ -1,0 +1,12 @@
+<div
+  data-controller='DemoExample'
+  data-id="{{id}}"
+  class="{{prefix}}DemoView {{prefix}}DemoView--example"
+  class="{{prefix}}Example-rendered {{prefix}}Example-rendered--desktop">
+
+  <iframe
+    class="{{prefix}}Example-iframe js-iframe"
+    id="iframe-{{id}}-desktop"
+    src="/api/{{@component.group}}/{{@component.name}}?standalone=true">
+  </iframe>
+</div>

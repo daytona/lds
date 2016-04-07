@@ -1,0 +1,21 @@
+<div
+  data-controller="Demo"
+  data-id="{id}"
+  class="{{prefix}}Demo">
+
+  {{> module:demo/header title=title }}
+
+  <div class="Demo-content">
+    {{#> component:tabarea id=(concat "render" id) }}
+      <div class="{{prefix}}Package-demoView {{prefix}}Package-demoView--example">
+        {{> module:demo/example id=id url='/api/{{@component.group}}/{{@component.name}}?standalone=true' }}
+      </div>
+    {{/component:tabarea}}
+
+    {{#> component:tabarea id=(concat "data" id) }}
+      <div class="{{prefix}}Package-demoView {{prefix}}Package-demoView--data">
+        {{> module:demo/code id=id }}
+      </div>
+    {{/component:tabarea}}
+  </div>
+</div>

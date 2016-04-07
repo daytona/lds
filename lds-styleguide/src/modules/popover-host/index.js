@@ -12,6 +12,7 @@ const PopoverHost = {
     this.titleEl = el.querySelector('.js-title');
     this.contentEl = el.querySelector('.js-content');
     this.closeButtonEl = el.querySelector('.js-closeButton');
+
     this.isInitialized = true;
     this.state = null;
 
@@ -93,9 +94,9 @@ const PopoverHost = {
   }
 };
 
-const popoverHost = Object.create(PopoverHost);
-
 export default function createPopoverHost(el, options) {
+  const popoverHost = Object.create(PopoverHost);
+
   popoverHost.initialize(el);
 
   return popoverHost;

@@ -33,8 +33,6 @@ const BackdropHost = {
     window.addEventListener('resize', () => store.dispatch(actions.hideOverlay()));
     el.addEventListener('mousedown', () => store.dispatch(actions.hideOverlay()));
 
-    // this.onCloseTransitionEnd = this.onCloseTransitionEnd.bind(this);
-
     this.setState(pickOverlayState(store.getState().overlay));
 
     store.subscribe(() => {
@@ -57,15 +55,6 @@ const BackdropHost = {
     return oldState !== newState;
   },
 
-  // onCloseTransitionEnd: function(e) {
-  //   if(this.backdropEl.classList.contains(TRANSPARENT_CLASSNAME)) {
-  //     this.backdropEl.classList.remove(TRANSPARENT_CLASSNAME);
-  //   }
-
-  //   this.el.removeEventListener('transitionend', this.onCloseTransitionEnd);
-  //   this.el.removeEventListener('webkittransitionend', this.onCloseTransitionEnd);
-  // },
-
   render: function(state) {
     if(!this.isInitialized)
       return;
@@ -79,11 +68,9 @@ const BackdropHost = {
 
       this.el.classList.add(OPEN_CLASSNAME);
     } else {
-      // this.el.addEventListener('transitionend', this.onCloseTransitionEnd);
-      // this.el.addEventListener('webkittransitionend', this.onCloseTransitionEnd);
-
-      if(this.el.classList.contains(OPEN_CLASSNAME))
+      if(this.el.classList.contains(OPEN_CLASSNAME)) {
         this.el.classList.remove(OPEN_CLASSNAME);
+      }
     }
   }
 };

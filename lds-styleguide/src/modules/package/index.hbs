@@ -120,7 +120,33 @@
 <section
   class="{{prefix}}Package js-component" id="Component-{{name}}">
 
-  {{> top id=(uid) }}
+  {{!-- {{> top id=(uid) }} --}}
+
+  {{#if template}}
+
+    {{#if config.variations}}
+      {{> module:demo data=data id=(concat @component.name @component.group)}}
+
+      {{#each config.variations}}
+        {{> module:demo name=@key data=(mergeObjects @component.data this) id=(concat @component.name @component.group @key)}}
+      {{/each}}
+
+    {{else}}
+      {{> module:demo data=data name=false}}
+    {{/if}}
+
+  {{/if}}
+
+{{!--   {{#if example}}
+    <div class="Package-demo">
+      <div class="{{prefix}}Package-demoView {{prefix}}Package-demoView--render">
+        <div class="{{prefix}}Example-rendered {{prefix}}Example-rendered--desktop js-container">
+          {{{ example }}}
+        </div>
+      </div>
+    </div>
+  {{/if}} --}}
+
   <div class="Page-section">
     {{#if info}}
       {{{markdown info}}}

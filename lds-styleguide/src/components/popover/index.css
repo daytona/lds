@@ -9,8 +9,8 @@
   border: 1px solid rgba(48, 48, 48, 0.2);
   box-shadow: 0 0 12px rgba(48, 48, 48, 0.2);
   z-index: var(--z-index-popover);
-  transition: transform var(--transition-duration-default) var(--transition-easing-default);
   transform-origin: top right;
+  transition: transform var(--transition-duration-default) var(--transition-easing-default);
 }
 
 .Popover.is-open {

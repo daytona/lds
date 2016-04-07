@@ -1,0 +1,39 @@
+<div data-controller="DemoHeader">
+  {{#if @component.config.schema}}
+    {{> module:demo/form }}
+  {{/if}}
+
+  <header class="{{prefix}}PageHeader {{prefix}}Package-header">
+
+    <h2 class="Package-headerTitle PageHeader-title Text-header Text-xlarge">
+      {{name}}
+
+      {{#if config.version}}
+        <span class="{{prefix}}Package-versionTag">{{config.version}}</span>
+      {{/if}}
+    </h2>
+
+    <div class="PageHeader-nav">
+
+      {{#if template }}
+        <div class="PageHeader-menu PageHeader-menu--primary">
+          {{> component:tablist items=(tablistdata id=id tabs="Render#render Data#data") inline="true"}}
+          {{json screen}}
+        </div>
+
+        {{#if @component.config.schema}}
+        <ul class="PageHeader-menu PageHeader-menu--secondary">
+          <li class="PageHeader-menuItem">
+            <button class="js-showEditFormbutton {{prefix}}IconButton {{prefix}}IconButton--large">
+              {{> component:icon name='settings' }}
+            </button>
+          </li>
+        </ul>
+        {{/if}}
+
+      {{/if}}
+
+    </div>
+
+  </header>
+</div>

@@ -2,12 +2,12 @@
   position: fixed;
   opacity: 0;
   z-index: -1;
-  transition: opacity var(--transition-duration-slow) var(--transition-easing-default),
-              z-index var(--transition-duration-slow) var(--transition-easing-default);
 }
 
 .BackdropHost.is-open {
   display: block;
   z-index: var(--z-index-backdrop);
-  opacity: 1
+  opacity: 1;
+  transition: opacity var(--transition-duration-slow) var(--transition-easing-default),
+              z-index var(--transition-duration-slow) var(--transition-easing-default);
 }

@@ -20,15 +20,17 @@
   display: inline-block;
   vertical-align: bottom;
   display: flex;
+  align-items: center;
   height: 4.5rem;
   /*padding: 2rem 1em;*/
-  padding: 1.5rem 0.75rem;
+  padding: 0 0.75rem;
   margin: 0 0.75rem;
   cursor: pointer;
   text-transform: uppercase;
   font-size: var(--font-size-small);
   font-weight: var(--font-weight-bold);
   letter-spacing: 0.08em;
+  transition: box-shadow var(--transition-duration-default) var(--transition-easing-default);
 }
 
 .Tablist-tab:focus {

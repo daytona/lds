@@ -70,7 +70,7 @@ const actions = {
 
 export {OVERLAY_TYPES, ACTION_TYPES, actions};
 
-let initialState = {
+const initialState = {
   pane: null,
   popover: null,
   transparent: false

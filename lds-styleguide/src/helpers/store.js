@@ -1,4 +1,5 @@
 import {createStore, combineReducers} from 'redux';
+import createConnectToStore from './createConnectToStore';
 
 const INIT_ACTION = 'DOM_CONTENT_LOADED';
 
@@ -25,6 +26,8 @@ export function addReducer(name, reducer) {
 
   store.replaceReducer(combineReducers(reducers));
 }
+
+export const connectToStore = createConnectToStore(store);
 
 export {store};
 

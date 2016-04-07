@@ -70,8 +70,6 @@ function Toggler(el, opt) {
 
   function collapseTarget(el) {
     const expandedHeight = el.getBoundingClientRect().height;
-    console.log("height on collapse", expandedHeight);
-
     // setCollapsedAttrs(el);
 
     // const collapsedHeight = el.getBoundingClientRect().height;

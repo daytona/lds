@@ -1,0 +1,19 @@
+<form
+  data-controller="DemoForm"
+  data-id="{{id}}"
+  class="{{prefix}}Form {{prefix}}Example-editForm">
+
+  {{#each @component.config.schema}}
+    <label class="{{prefix}}Form-label {{prefix}}Example-editLabel">
+      {{@key}}:
+      <select class="{{prefix}}Form-select {{prefix}}Example-editField" name="{{@key}}">
+        {{#with (getProperty @component.data @key)}}
+          <option value="{{#if (hasProperty this 'value')}}{{jsonLine value}}{{else}}{{this}}{{/if}}" selected="selected">{{#if (isString this)}}{{this}}{{else}}{{default}}{{/if}}</option>
+        {{/with}}
+        {{#each this}}
+          <option value="{{#if (hasProperty this 'value')}}{{jsonLine value}}{{else}}{{this}}{{/if}}">{{#if key}}{{key}}{{else}}{{.}}{{/if}}</option>
+        {{/each}}
+      </select>
+    </label>
+  {{/each}}
+</form>

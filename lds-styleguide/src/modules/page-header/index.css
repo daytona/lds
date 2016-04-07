@@ -11,7 +11,7 @@
 
 @media (--min-medium) {
   .PageHeader {
-    height: 7rem;
+    height: 7.25rem;
     padding: 0 var(--large-page-horizontal-padding);
     align-items: flex-end;
   }
@@ -68,6 +68,10 @@
         display: flex;
         align-items: center;
         height: 4.5rem;
+        margin: 0 0.75rem 0 0;
         list-style: none;
-        margin: 0 0.75rem;
+      }
+
+      .PageHeader-menuItem:last-child {
+        margin: 0;
       }

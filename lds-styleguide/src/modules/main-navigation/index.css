@@ -48,8 +48,8 @@
        */
       .MainNavigation-subnav {
         overflow: hidden;
-        padding: 0 0 1rem 1.5rem;
-        /*margin: 0 0 1rem 0;*/
+        padding: 0 0 0 1.5rem;
+        /*box-sizing: border-box;*/
         transition: height var(--transition-easing-default) var(--transition-duration-default);
       }
 
@@ -63,6 +63,10 @@
           padding: 0.25rem 0 0.25rem 1rem;
           list-style: none;
           position: relative;
+        }
+
+        .MainNavigation-subnavItem:last-child {
+          margin: 0 0 1.25rem 0;
         }
 
         .MainNavigation-subnavItem.is-active {
