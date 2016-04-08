@@ -3,21 +3,29 @@ import formParse from 'form-parse';
 import object2query from '../../../helpers/object2query';
 import {store, connectToStore} from '../../../helpers/store';
 
+import {updateComponentParam as updateComponentParamAction} from '../actions';
+
 export default function initDemoForm(el, options = {}) {
-  const {id} = options;
-  const iframe = el.querySelector('.js-iframe');
+  const id = el.dataset.id;
+  const inputs = el.querySelectorAll('select');
 
-  const handleChange = e => store.dispatch(updateComponentParam(id, formParse(e)));
+  const handleInputChange = ({target}) => {
+    const key = target.name;
+    const value = target.value;
 
-  const selectState = state => ({
-    values: state.demo[id] && state.demo[id].params
-  });
+    store.dispatch(updateComponentParamAction(id, key, value));
+  };
 
-  connectToStore(selectState, ({params}) => {
+  // const selectState = state => ({
+  //   params: state.demo[id] && state.demo[id].params
+  // });
 
-  });
+  // connectToStore(selectState, ({params}) => {
+  //   Object.keys(params).forEach(() => {
+  //   });
+  // });
 
-  el.addEventListener('change', handleChange);
+  Array.prototype.forEach.call(inputs, input => input.addEventListener('change', handleInputChange));
 };
 
 controller.add('DemoForm', initDemoForm);

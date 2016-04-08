@@ -1,6 +1,6 @@
 import createReducer from '../../helpers/createReducer';
 
-import * as ACTION_TYPES from './actionTypes';
+import {INIT_COMPONENT, UPDATE_COMPONENT_PARAM} from './actionTypes';
 
 const defaultState = {};
 
@@ -13,14 +13,14 @@ const setParamValue = (key, value, params) => Object.assign({}, params, {
 });
 
 const demoReducer = createReducer(defaultState, {
-  [ACTION_TYPES.INIT_COMPONENT]: (state, action) => Object.assign({}, state, {
+  [INIT_COMPONENT]: (state, action) => Object.assign({}, state, {
     [action.id]: {
       id: action.id,
       params: action.defaultValues
     }
   }),
 
-  [ACTION_TYPES.UPDATE_COMPONENT_PARAM]: (state, action) => updateComponent(state, action.id, component => ({
+  [UPDATE_COMPONENT_PARAM]: (state, action) => updateComponent(state, action.id, component => ({
     params: setParamValue(action.key, action.value, component.params)
   }))
 });

@@ -42,7 +42,7 @@
     }
 
     .PageHeader-menu--primary {
-
+      margin: 0 1rem 0 0;
     }
 
     .PageHeader-menu--secondary {
@@ -57,6 +57,7 @@
 
         .PageHeader-menu--primary {
           align-self: flex-start;
+          margin: 0;
         }
 
         .PageHeader-menu--secondary {

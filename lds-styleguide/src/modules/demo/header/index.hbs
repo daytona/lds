@@ -1,6 +1,6 @@
 <div data-controller="DemoHeader">
   {{#if @component.config.schema}}
-    {{> module:demo/form }}
+    {{> module:demo/form class="js-editForm" }}
   {{/if}}
 
   <header class="{{prefix}}PageHeader {{prefix}}Package-header">
@@ -15,9 +15,9 @@
 
     <div class="PageHeader-nav">
 
-      {{#if template }}
+      {{#if @component.template }}
         <div class="PageHeader-menu PageHeader-menu--primary">
-          {{> component:tablist items=(tablistdata id=id tabs="Render#render Data#data") inline="true"}}
+          {{> component:tablist items=(tablistdata id=uid tabs="Render#render Data#data") inline="true"}}
           {{json screen}}
         </div>
 

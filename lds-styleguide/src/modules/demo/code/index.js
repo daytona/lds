@@ -3,7 +3,7 @@ import object2query from '../../../helpers/object2query';
 import {store, connectToStore} from '../../../helpers/store';
 
 export default function initDemoCode(el, options = {}) {
-  const {id} = options;
+  const id = el.dataset.id;
   const dataEl = el.querySelector('.js-data');
 
   const selectState = state => ({

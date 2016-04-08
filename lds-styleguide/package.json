@@ -37,6 +37,7 @@
     "mz": "^2.3.1",
     "path-is-absolute": "^1.0.0",
     "redux": "^3.3.1",
+    "shallow-equals": "0.0.0",
     "webshot": "^0.18.0",
     "xhr-promise": "^2.0.0"
   }

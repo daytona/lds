@@ -53,6 +53,7 @@ h1, h2, h3, h4, h5 {
 
 .Text-small {
   font-size: var(--font-size-small);
+  line-height: 1.125rem;
 }
 
 .Text-xsmall {

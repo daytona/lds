@@ -2,15 +2,15 @@ import controller from '../../helpers/controller';
 import {store, addReducer} from '../../helpers/store';
 
 import demoReducer from './reducer';
-import {initDemo as initDemoAction} from './actions';
+import {initComponent as initComponentAction} from './actions';
 
-function initDemo(el, options = {}) {
-  const {id} = options;
-  // const components = store.getState().;
+function initDemoComponent(el, options = { data: {} }) {
+  const id = el.dataset.id;
+  const {data} = options;
 
-  store.dispatch(initDemoAction(id, options));
+  store.dispatch(initComponentAction(id, data));
 }
 
 addReducer('demo', demoReducer);
-controller.add('Demo', initDemo);
+controller.add('Demo', initDemoComponent);
 

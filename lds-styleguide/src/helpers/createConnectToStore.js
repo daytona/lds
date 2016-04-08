@@ -1,10 +1,12 @@
+import shallowEquals from 'shallow-equals';
+
 export default function createConnectToStore(store) {
   return function connectToStore(selectState, listener) {
-    if(typeof selectState !== 'Function')
-      throw new Error('Expected the `selectState` param to be a function.');
+    // if(typeof selectState !== 'Function')
+    //   throw new Error('Expected the `selectState` param to be a function.');
 
-    if(typeof listener !== 'Function')
-      throw new Error('Expected the `listener` param to be a function.');
+    // if(typeof listener !== 'Function')
+    //   throw new Error('Expected the `listener` param to be a function.');
 
     let currentState = selectState(store.getState());
     let unsubscribeFromStore;
@@ -13,7 +15,7 @@ export default function createConnectToStore(store) {
     const handleStoreChange = () => {
       const newState = selectState(store.getState());
 
-      if(currentState === newState)
+      if(shallowEquals(currentState, newState))
         return;
 
       currentState = newState;

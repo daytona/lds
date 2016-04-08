@@ -1,0 +1,5 @@
+.DemoView--code {
+  padding: 3em 3em;
+  background: var(--color-bg-dark);
+  color: #fff;
+}

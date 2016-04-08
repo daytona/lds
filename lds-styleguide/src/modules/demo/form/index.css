@@ -1,0 +1,18 @@
+.DemoForm {
+
+}
+
+  .DemoForm-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 0 0.5rem 0;
+  }
+
+    .DemoForm-label {
+
+    }
+
+    .DemoForm-input {
+      width: 80%;
+    }

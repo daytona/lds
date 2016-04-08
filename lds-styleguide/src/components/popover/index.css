@@ -2,8 +2,6 @@
   position: fixed;
   width: 16rem;
   padding: 1.5rem;
-  top: 30px;
-  left: 30px;
   transform: scale(0);
   background: #fff;
   border: 1px solid rgba(48, 48, 48, 0.2);
@@ -16,6 +14,7 @@
 .Popover.is-open {
   transform: scale(1);
 }
+
 .Popover.is-dragging {
   transition: none;
 }

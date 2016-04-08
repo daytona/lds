@@ -1,138 +1,18 @@
-{{#*inline "demo-form"}}
-  {{#> component:tabarea id=(concat "edit" id) }}
-    <div class="{{prefix}}Example-edit">
-
-      <form class="{{prefix}}Form {{prefix}}Example-editForm js-editForm">
-
-        {{#each @component.config.schema}}
-          <label class="{{prefix}}Form-label {{prefix}}Example-editLabel">
-
-            {{@key}}:
-            <select class="{{prefix}}Form-select {{prefix}}Example-editField" name="{{@key}}">
-
-              {{#each this}}
-                <option value="{{#if (hasProperty this 'value')}}{{jsonLine value}}{{else}}{{this}}{{/if}}" {{#equals value (getProperty data @../key)}} selected="selected"{{/equals}}{{#equals this (getProperty data @../key)}} selected="selected"{{/equals}}>{{#if key}}{{key}}{{else}}{{.}}{{/if}}</option>
-              {{/each}}
-
-            </select>
-          </label>
-        {{/each}}
-
-      </form>
-
-    </div>
-  {{/component:tabarea}}
-{{/inline}}
-
-{{#*inline "header"}}
-  <div data-controller="Package">
-  {{#if @component.config.schema}}
-    {{> demo-form }}
-  {{/if}}
-
-  <header class="{{prefix}}PageHeader {{prefix}}Package-header">
-
-    <h2 class="Package-headerTitle PageHeader-title Text-header Text-xlarge">
-      {{name}}
-
-      {{#if config.version}}
-        <span class="{{prefix}}Package-versionTag">{{config.version}}</span>
-      {{/if}}
-    </h2>
-
-    <div class="PageHeader-nav">
-
-      {{#if template }}
-        <div class="PageHeader-menu PageHeader-menu--primary">
-          {{> component:tablist items=(tablistdata id=id tabs="Render#render Data#data") inline="true"}}
-          {{json screen}}
-        </div>
-
-        {{#if @component.config.schema}}
-        <ul class="PageHeader-menu PageHeader-menu--secondary">
-            <li class="PageHeader-menuItem">
-              <button class="js-showEditFormbutton {{prefix}}IconButton IconButton--large">
-                {{> component:icon name='settings' }}
-              </button>
-            </li>
-        </ul>
-        {{/if}}
-      {{/if}}
-
-    </div>
-
-  </header>
-  </div>
-{{/inline}}
-
-{{#*inline "demo"}}
-  <div class="{{prefix}}Package-demo">
-
-    {{#> component:tabarea id=(concat "render" id) }}
-        <div class="{{prefix}}Example-renderContainer">
-          {{> component:preview url=(concat "/api/" @component.group "/" @component.name "?standalone=true&iframeid=1") id="1"}}
-        </div>
-      </div>
-    {{/component:tabarea}}
-
-    {{#> component:tabarea id=(concat "data" id) }}
-      <div class="{{prefix}}Package-demoView {{prefix}}Package-demoView--code">
-        <code><pre class="{{prefix}}code js-data" data-controller="fetch" data-url="/api/{{@component.group}}/{{@component.name}}?clean=true&type=json">{{{json data}}}</pre></code>
-      </div>
-    {{/component:tabarea}}
-
-  </div>
-{{/inline}}
-
-{{#*inline "top"}}
-  <div
-    {{!-- class="{{prefix}}View-section" --}}
-    id="example{{id}}">
-
-    {{> header }}
-
-    {{#if template}}
-
-      {{#if config.variations}}
-        {{> demo data=data }}
-
-        {{!--{{#each config.variations}}
-          {{> demo name=@key data=(mergeObjects @component.data this) id=(uid)}}
-        {{/each}} --}}
-
-      {{else}}
-        {{> demo data=data name=false}}
-      {{/if}}
-
-    {{/if}}
-
-    {{#if example}}
-      <div class="Package-demo">
-        <div class="{{prefix}}Package-demoView {{prefix}}Package-demoView--example">
-          <pre>{{ example }}</pre>
-        </div>
-      </div>
-    {{/if}}
-  </div>
-{{/inline}}
-
 {{#saveas "component"}}
 <section
   class="{{prefix}}Package js-component" id="Component-{{name}}">
 
-  {{!-- {{> top id=(uid) }} --}}
-
   {{#if template}}
+    {{> module:demo data=data id=(concat @component.name @component.group) uid=(uid) }}
 
     {{#if config.variations}}
-      {{> module:demo data=data id=(concat @component.name @component.group)}}
 
       {{#each config.variations}}
-        {{> module:demo name=@key data=(mergeObjects @component.data this) id=(concat @component.name @component.group @key)}}
+        {{> module:demo name=@key data=(mergeObjects @component.data this) id=(concat @component.name @component.group @key) uid=(uid) }}
       {{/each}}
 
     {{else}}
-      {{> module:demo data=data name=false}}
+{{!--       {{> module:demo data=data name=false uid=(uid) }} --}}
     {{/if}}
 
   {{/if}}

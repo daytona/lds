@@ -1,13 +1,16 @@
 <div class="PopoverHost" data-controller="PopoverHost">
-  <div class="{{prefix}}Popover js-popover" data-controller="Draggable">
-    <div class="Popover-header">
-      <span class="js-title Popover-title"></span>
+  <!-- data-controller="Draggable" -->
+  <div>
+    <div class="{{prefix}}Popover js-popover">
+      <div class="Popover-header">
+        <span class="js-title Popover-title"></span>
 
-      <button class="js-closeButton Popover-closeButton IconButton IconButton--medium">
-        {{> component:icon name='close' }}
-      </button>
+        <button class="js-closeButton Popover-closeButton IconButton IconButton--medium">
+          {{> component:icon name='close' }}
+        </button>
+      </div>
+
+      <div class="js-content Popover-content"></div>
     </div>
-
-    <div class="js-content Popover-content"></div>
   </div>
 </div>

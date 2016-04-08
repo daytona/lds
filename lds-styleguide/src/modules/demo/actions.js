@@ -1,4 +1,4 @@
-import * as ACTION_TYPES from './actionTypes';
+import {INIT_COMPONENT, UPDATE_COMPONENT_PARAM} from './actionTypes';
 
 /**
  * @param {String} id
@@ -18,7 +18,7 @@ export function initComponent(id, defaultValues = {}) {
  */
 export function updateComponentParam(id, key, value) {
   return {
-    type: UPDATE_PARAM,
+    type: UPDATE_COMPONENT_PARAM,
     id,
     key,
     value

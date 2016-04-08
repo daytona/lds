@@ -54,7 +54,7 @@
                 {{@key}}:
                 <select class="{{prefix}}Form-select {{prefix}}Example-editField" name="{{@key}}">
                   {{#with (getProperty @component.data @key)}}
-                    <option value="{{#if (hasProperty this 'value')}}{{jsonLine value}}{{else}}{{this}}{{/if}}" selected="selected">{{#if (isString this)}}{{this}}{{else}}{{default}}{{/if}}</option>
+                    <option value="{{#if (hasProperty this 'value')}}{{jsonLine value}}{{else}}{{this}}{{/if}}" selected="selected">{{#if (isString this)}}{{this}}{{else}}default{{/if}}</option>
                   {{/with}}
                   {{#each this}}
                     <option value="{{#if (hasProperty this 'value')}}{{jsonLine value}}{{else}}{{this}}{{/if}}">{{#if key}}{{key}}{{else}}{{.}}{{/if}}</option>
