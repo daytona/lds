@@ -2,19 +2,42 @@
   text-align: center;
   text-decoration: none;
 }
-
   .ComponentListItem-imageContainer {
     position: relative;
-    overflow: hidden;
+    background: #eee;
     margin: 0 0 1rem;
     border: 4px solid #fff;
     border-radius: 3px;
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
     transition: box-shadow var(--transition-duration-default) var(--transition-easing-default);
   }
+  .ComponentListItem--stack .ComponentListItem-imageContainer:before,
+  .ComponentListItem--stack .ComponentListItem-imageContainer:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    border: 4px solid #fff;
+    width: 100%;
+    height: 100%;
+    border-radius: 3px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+    background: #eee;
+    z-index: -1;
+    transition: margin var(--transition-duration-default) var(--transition-easing-default);
+  }
+  .ComponentListItem--stack .ComponentListItem-imageContainer:before{
+    margin: 4px;
+  }
 
-  .ComponentListItem:hover .ComponentListItem-imageContainer {
+  .ComponentListItem:hover .ComponentListItem-imageContainer{
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+  }
+  .ComponentListItem:hover .ComponentListItem-imageContainer:before {
+    margin: 8px;
+  }
+  .ComponentListItem:hover .ComponentListItem-imageContainer:after {
+    margin: 6px;
   }
 
   .ComponentListItem-title {

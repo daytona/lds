@@ -58,16 +58,17 @@ function screenshot(url, path, config) {
     console.log(`Screen ${url} saved to ${path}`);
   });
 }
-function parseComponents(lds, category) {
-  Object.keys(lds[category]).forEach((componentName) => {
+function parseComponents(structure) {
+  Object.keys(structure).forEach((componentName) => {
     var component = lds[category][componentName];
     var url = `http://localhost:4000/api/${category}/${componentName}?screenshot=true`;
-    var dest = `dist/screens/${category}/${componentName}.png`
-    var publicpath = `/assets/screens/components/${componentName}.png`;
+    var dest = `dist/screens${component.id}.png`
+    var publicpath = `/assets/screens${component.id}.png`;
     var config;
+
     if (component.template) {
       url = url + '&standalone=true'
-      config = screenConfig.component;
+      config = component.category === 'view' ? screenConfig.desktop : screenConfig.component;
     } else if (component.example) {
       url = url + '&type=example'
       config = screenConfig.thumb;
@@ -80,37 +81,18 @@ function parseComponents(lds, category) {
     } else {
       return false;
     }
+    if (component.children) {
+      parseComponents(component.children);
+    }
     screenshot(url, dest, config);
     component.screen = publicpath;
   });
 }
-function screenDump (lds, category) {
-  if(!category || category === 'views') {
-    Object.keys(lds.views).forEach((viewName) => {
-      var view = lds.views[viewName];
-      if (view.template) {
-        view.screens = {
-          thumb: `/assets/screens/views/${viewName}.png`,
-          mobile: `/assets/screens/views/${viewName}/mobile.png`,
-          desktop: `/assets/screens/views/${viewName}/desktop.png`
-        }
-        screenshot(`http://localhost:4000/${viewName}`, `dist/screens/views/${viewName}/thumb.png`, screenConfig.thumb);
-        screenshot(`http://localhost:4000/${viewName}`, `dist/screens/views/${viewName}/mobile.png`, screenConfig.mobile);
-        screenshot(`http://localhost:4000/${viewName}`, `dist/screens/views/${viewName}/desktop.png`, screenConfig.desktop);
-      }
-    });
-  }
-  if(!category || category === 'base') {
-    parseComponents(lds, 'base');
-  }
-  if(!category || category === 'components') {
-    parseComponents(lds, 'components');
-  }
-  if(!category || category === 'helpers') {
-    parseComponents(lds, 'helpers');
-  }
-  if(!category || category === 'modules') {
-    parseComponents(lds, 'modules');
+function screenDump (structure, category) {
+  if (category) {
+    parseComponents(lds[category]);
+  } else {
+    parseComponents(lds);
   }
 }
 module.exports = screenDump;

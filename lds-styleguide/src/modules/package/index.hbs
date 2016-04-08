@@ -46,18 +46,18 @@
 
     {{#if template}}
       {{#> component:tabarea id="template"}}
-        <code><pre class="language-handlebars" data-controller="fetch" data-url="/api/{{@component.group}}/{{@component.name}}?clean=true&type=template"></pre></code>
+        <code><pre class="language-handlebars" data-controller="fetch" data-url="/api{{@component.id}}?clean=true&type=template"></pre></code>
       {{/component:tabarea}}
     {{/if}}
     {{#if script}}
 
       {{#> component:tabarea id="script"}}
-        <code><pre class="language-handlebars" data-controller="fetch" data-url="/api/{{@component.group}}/{{@component.name}}?clean=true&type=js"></pre></code>
+        <code><pre class="language-handlebars" data-controller="fetch" data-url="/api{{@component.id}}?clean=true&type=js"></pre></code>
       {{/component:tabarea}}
     {{/if}}
     {{#if styles}}
       {{#> component:tabarea id="styles"}}
-        <code><pre class="language-css" data-controller="fetch" data-url="/api/{{@component.group}}/{{@component.name}}?clean=true&type=css"></pre></code>
+        <code><pre class="language-css" data-controller="fetch" data-url="/api{{@component.id}}?clean=true&type=css"></pre></code>
       {{/component:tabarea}}
     {{/if}}
 

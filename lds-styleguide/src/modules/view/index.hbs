@@ -10,6 +10,7 @@
     </div>
   </header>
 
+{{#if template}}
   <div class="Package-demo">
     <div class="{{prefix}}Package-demoView {{prefix}}Package-demoView--render">
       <div class="{{prefix}}Example-rendered {{prefix}}Example-rendered--desktop js-container">
@@ -17,7 +18,7 @@
       </div>
     </div>
   </div>
-
+{{/if}}
 {{!--   <div class="View-content">
   {{#unless (isEmpty data)}}
     <div class="{{prefix}}View-code {{prefix}}View-code--data">
@@ -56,6 +57,15 @@
       </dl>
       {{/if}}
     </footer>
+    {{#with children}}
+      <div class="Grid Grid--withGutter">
+        {{#each this}}
+        <div class="Grid-cell width-1of2 l-width-1of3 xl-width-1of4">
+          {{> module:component-list-item}}
+        </div>
+        {{/each}}
+      </div>
+    {{/with}}
   </div>
 
 </section>

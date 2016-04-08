@@ -1,6 +1,8 @@
 var ldsbuild = require('lds-build');
 var ldstest = require('lds-test');
 
+var path = require('path');
+var fs = require('fs');
 var koa = require('koa');
 var Router = require('koa-router');
 var pureQuery = require('./lib/pure-query');
@@ -59,9 +61,33 @@ router
     var query = pureQuery(this.query);
     screenDump(this.lds.structure, query.type);
   })
-  .get('/views/:name*', function *(next){
+  .get('/screen/:path*', function *(next) {
+    var component = findComponent(this.lds.structure, '/'+ this.params.path);
+
+    if (!component) {
+      return 'not found image';
+    }
+    var type = 'png';
+    if (component.screen) {
+      type = component.screen.match(/\.(.*)$/)[1];
+      screenpath = component.screen;
+    } else if (component.template || component.exmample || component.styles || component.script) {
+      var screenpath = path.join(this.lds.config.path.dirname, this.lds.config.path.dist, 'screens', this.params.path + '.png');
+    } else if (component.children) {
+      this.redirect('/api/screen' + component.children[Object.keys(component.children)[0]].id);
+      return;
+    }
+    this.type = `image/${type}`;
+    this.body = fs.readFileSync(screenpath);
+  })
+  .get('/views/:name*', function *(next) {
     var query = pureQuery(this.query);
-    var view = findComponent(this.lds.structure, '/views'+ this.params.name);
+    var view = findComponent(this.lds.structure.views, '/views/' + this.params.name);
+
+    // if (!view || (!view.template && view.children.start)) {
+    //   view = findComponent(this.lds.structure.views, '/views/' + this.params.name + '/start');
+    // }
+
     if (query.type === 'json') {
       this.type = 'text/plain; charset=utf-8';
       this.body = view;
@@ -70,8 +96,10 @@ router
       this.body = viewtemplate.replace(/\<\/body\>/,
         "<script>document.addEventListener('click', (event)=>{event.preventDefault();});</script>\n<\/body>"
       );
-    } else {
+    } else if (!Object.keys(query).length){
       this.renderView(view, Object.assign({layout:'default'}, query));
+    } else {
+      yield next;
     }
   })
   .get('/:path*', function *(next){
@@ -123,14 +151,38 @@ router
                       <meta charset="utf-8">
                       <meta name="viewport" content="width=device-width, initial-scale=1">
                       <link rel="shortcut icon" href="">
-                      <link rel="stylesheet" href="/styleguide/assets/style.css">
+                      <link rel="stylesheet" href="/assets/style.css">
                     </head>
-                    <body>
-                    <div class="text">
+                    <body style="margin: 0; background: #fefefe; ">
+                    <div class="Page Page--nopadding text">
                       ${component.example}
-                      </div>
                     </div>
                     <script src="/assets/main.js"></script>
+                    <script>
+                      document.addEventListener('click', (event)=>{
+                        event.preventDefault();
+                      });
+                      function callMyParent(iframeID) {
+                        var documentHeight;
+                        var wrapper = document.querySelector('#Standalone-wrapper');
+
+                        function checkHeight() {
+                          if (wrapper.clientHeight !== documentHeight) {
+                            updateHeight();
+                          }
+                        }
+
+                        function updateHeight() {
+                          documentHeight = wrapper.clientHeight;
+                          window.parent.updateIframeHeight(iframeID, documentHeight);
+                        }
+                        var resizeInterval = setInterval(checkHeight, 100);
+                      }
+
+                      if (window !== window.top) {
+                        callMyParent('${query.iframeid}');
+                      }
+                    </script>
                     </body>
                   </html>`;
 
@@ -195,9 +247,12 @@ router
           height: 'all'
         }
       });
-    } else {
+    } else if (!Object.keys(query).length) {
       this.body = this.render(component.template, Object.assign({}, component.data, query));
+    } else {
+      yield next;
     }
+
   })
   .put('/:category/:name', function *(next){
     var component = findComponent(this.lds.structure, '/'+ this.params.path);

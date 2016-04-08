@@ -29,7 +29,11 @@ function parseComponent(name, tree, options) {
   Object.keys(tree).forEach((fileName) => {
     // isFolder
     if (typeof tree[fileName] === 'object') {
-      let child = parseComponent(fileName, tree[fileName], Object.assign({}, options, {partialName: `${options.category}:${name}/${fileName}`, group: `${options.group}/${name}`}));
+      let child = parseComponent(fileName, tree[fileName], Object.assign({}, options, {
+        partialName: `${options.category}:${name}/${fileName}`,
+        group: `${options.group}/${name}`,
+        path: `${options.path}/${fileName}`
+      }));
       if (child) {
         children[fileName] = child;
       }
@@ -46,6 +50,7 @@ function parseComponent(name, tree, options) {
 
   var LDSObject = {
     id: `/${options.group}/${name}`,
+    path: options.path,
     name,
     partialName: options.partialName || `${options.category}:${name}`,
     info: tree['readme.md'] || tree['index.md'],
@@ -55,7 +60,9 @@ function parseComponent(name, tree, options) {
     styles: tree['index.css'] || tree['index.scss'] || tree['index.less'] || tree['index.styl'],
     script: tree['index.js'] || tree['index.jsx'],
     config: tree['config.json'] && JSON.parse(tree['config.json']),
-    screen: tree['screen.png'] || tree['screen.jpg'] || tree['screen.gif'],
+    screen: (tree['screen.png'] && path.join(options.path, 'screen.png') ||
+             tree['screen.jpg'] && path.join(options.path, 'screen.jpg') ||
+             tree['screen.gif'] && path.join(options.path, 'screen.gif')),
     category: options.category,
     group: options.group,
     children: Object.keys(children).length > 0 && children,

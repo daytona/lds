@@ -13,9 +13,11 @@
     "lds-test"
   ],
   "dependencies": {
+    "fs": "0.0.2",
     "inherits": "^2.0.1",
     "koa": "^1.2.0",
     "koa-router": "^5.4.0",
+    "path": "^0.12.7",
     "webshot": "^0.18.0"
   }
 }
