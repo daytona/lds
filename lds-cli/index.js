@@ -25,7 +25,13 @@ program
     generator.init(root, function(){
       cmd.exec('npm install --save babel-preset-es2015 handlebars')
         .then(function(){
-          cmd.exec('lds build');
+          cmd.exec('lds build', function(err, res){
+            if (err) {
+             console.log(err.message);
+            } else {
+              console.log(res.message);
+            }
+          });
         })
         .done(function(){
           console.log('LDS setup successfully');
@@ -38,24 +44,39 @@ program
   .description('Wath for changes in JS and CSS files')
   .action(function() {
     console.log('Wathing for changes in JS and CSS files');
-    cmd.exec('lds watch:scripts & lds watch:styles');
+    cmd.exec('lds watch:scripts & lds watch:styles', function(err, res){
+      if (err) {
+       console.log(err.message);
+      } else {
+        console.log(res.message);
+      }
+    });
   });
 
 program
   .command('watch:scripts')
   .description('Wath for changes in JS files')
   .action(function() {
-    cmd.exec("nodemon -w src -q -e 'js' --exec 'lds build script'");
+    cmd.exec("nodemon -w src -q -e 'js' --exec 'lds build script'", function(err, res){
+      if (err) {
+       console.log(err.message);
+      } else {
+        console.log(res.message);
+      }
+    });
   });
 
 program
   .command('watch:styles')
   .description('Wath for changes in CSS files')
   .action(function() {
-    cmd.exec("nodemon -w src -q -e 'css' --exec 'lds build styles'")
-      .then(function(res){
+    cmd.exec("nodemon -w src -q -e 'css' --exec 'lds build styles'", function(err, res){
+      if (err) {
+       console.log(err.message);
+      } else {
         console.log(res.message);
-      });
+      }
+    });
   });
 
 program
@@ -64,10 +85,13 @@ program
   .action(function() {
     config = require(path.join(root, 'lds.config'));
     server(config);
-    cmd.exec("lds watch")
-      .then(function(res){
+    cmd.exec("lds watch", function(err, res){
+      if (err) {
+       console.log(err.message);
+      } else {
         console.log(res.message);
-      });
+      }
+    });
   });
 
 program
