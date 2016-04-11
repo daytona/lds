@@ -5,6 +5,7 @@ var path = require('path');
 var fs = require('fs');
 var koa = require('koa');
 var Router = require('koa-router');
+var marked = require('marked');
 var pureQuery = require('./lib/pure-query');
 var screenDump = require('./lib/screenshots.js');
 var findComponent = require('./lib/find-component');
@@ -71,8 +72,8 @@ router
     if (component.screen) {
       type = component.screen.match(/\.(.*)$/)[1];
       screenpath = component.screen;
-    } else if (component.template || component.exmample || component.styles || component.script) {
-      var screenpath = path.join(this.lds.config.path.dirname, this.lds.config.path.dist, 'screens', this.params.path + '.png');
+    } else if (component.template || component.example || component.styles || component.script || (component.info && !component.children)) {
+      var screenpath = path.join(this.lds.config.path.dirname, this.lds.config.path.dist, 'screens' + component.id + '.png');
     } else if (component.children) {
       this.redirect('/api/screen' + component.children[Object.keys(component.children)[0]].id);
       return;
@@ -142,6 +143,20 @@ router
                     </head>
                     <body style="margin: 0; background: #272822; ${query.screenshot ? 'transform: rotate(-3deg) translate(2%, -3%); -webkit-transform: rotate(-3deg) translate(2%, -3%); font-size: 25px;' : ''}">
                     <code><pre class="language-${language}">${content}</pre></code>
+                    </body>
+                  </html>`;
+      this.body = body;
+    } else if (query.type === 'info') {
+      var body = `<html>
+                    <head>
+                      <meta charset="utf-8">
+                      <meta name="viewport" content="width=device-width, initial-scale=1">
+                      <link rel="shortcut icon" href="">
+                    </head>
+                    <body style="margin: 0; background: #cecece;">
+                    <div style="background: #fefefe; box-shadow: 0 0 20px rgba(0,0,0,0.6); overflow:hidden; width:60%; margin: 50px auto 0; padding: 80px 60px 0; height: 70%; bottom: 0; position: absolute; left: 0; right: 0;">
+                    ${marked(component.info)}
+                    </div>
                     </body>
                   </html>`;
       this.body = body;

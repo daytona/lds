@@ -40,6 +40,19 @@ var screenConfig = {
       height: 'all'
     }
   },
+  document: {
+    siteType: 'url',
+    streamType: 'png',
+    defaultWhiteBackground: false,
+    screenSize: {
+      width: 800,
+      height: 600
+    },
+    shotSize: {
+      width: 800,
+      height: 600
+    }
+  },
   component: {
     siteType: 'url',
     streamType: 'png',
@@ -60,11 +73,15 @@ function screenshot(url, path, config) {
 }
 function parseComponents(structure) {
   Object.keys(structure).forEach((componentName) => {
-    var component = lds[category][componentName];
-    var url = `http://localhost:4000/api/${category}/${componentName}?screenshot=true`;
+    var component = structure[componentName];
+    var url = `http://localhost:4000/api${component.id}?screenshot=true`;
     var dest = `dist/screens${component.id}.png`
     var publicpath = `/assets/screens${component.id}.png`;
     var config;
+
+    if (component.children) {
+      parseComponents(component.children);
+    }
 
     if (component.template) {
       url = url + '&standalone=true'
@@ -78,21 +95,25 @@ function parseComponents(structure) {
     } else if (component.styles) {
       url = url + '&type=css'
       config = screenConfig.thumb;
+    } else if (component.info && !component.children) {
+      url = url + '&type=info'
+      config = screenConfig.document;
     } else {
       return false;
     }
-    if (component.children) {
-      parseComponents(component.children);
-    }
+
     screenshot(url, dest, config);
     component.screen = publicpath;
   });
 }
-function screenDump (structure, category) {
-  if (category) {
-    parseComponents(lds[category]);
+function screenDump (structure, group) {
+  if (group) {
+    parseComponents(structure[group]);
   } else {
-    parseComponents(lds);
+    // parse all root categories
+    Object.keys(structure).forEach((group) => {
+      parseComponents(structure[group]);
+    });
   }
 }
 module.exports = screenDump;
