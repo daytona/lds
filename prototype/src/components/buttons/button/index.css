@@ -5,12 +5,10 @@
 .Button {
   font: var(--sans-serif);
   padding: var(--button-padding);
-
   appearance: none;
 
   text-decoration: none;
   text-align: center;
-
   display: inline-block;
 
   background: var(--color-green);
