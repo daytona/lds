@@ -14,7 +14,7 @@
   <div class="Package-demo">
     <div class="{{prefix}}Package-demoView {{prefix}}Package-demoView--render">
       <div class="{{prefix}}Example-rendered {{prefix}}Example-rendered--desktop js-container">
-        {{> component:device-park url=(concat "/api/views/" @view.name "?standalone=true")}}
+        {{> component:device-park url=(concat "/api" @view.id "?standalone=true")}}
       </div>
     </div>
   </div>

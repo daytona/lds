@@ -63,28 +63,21 @@
 
 
     <footer class="{{prefix}}Component-footer">
-      {{#if dependencies}}
+      {{#if dependentBy}}
         <strong>Dependencies</strong>
-        <dl>
-          {{#if css.dependencies}}
-            <dt>CSS</dt>
-            {{#each css.dependencies}}
-              <dd>{{.}}</dd>
-            {{/each}}
-          {{/if}}
-          {{#if js.dependencies}}
-            <dt>JS</dt>
-            {{#each js.dependencies}}
-              <dd>{{.}}</dd>
-            {{/each}}
-          {{/if}}
-          {{#if hbs.dependencies}}
-            <dt>HBS</dt>
-            {{#each hbs.dependencies}}
-              <dd>{{.}}</dd>
-            {{/each}}
-          {{/if}}
-        </dl>
+        <ol>
+          {{#each dependentBy}}
+            <li><a href="/styleguide{{this.id}}">{{this.partialName}}</a></li>
+          {{/each}}
+        </ol>
+      {{/if}}
+      {{#if dependencyTo}}
+        <strong>Dependent by me</strong>
+        <ol>
+          {{#each dependencyTo}}
+            <li><a href="/styleguide{{this.id}}">{{this.partialName}}</a></li>
+          {{/each}}
+        </ol>
       {{/if}}
 
       {{#if config.revisions}}

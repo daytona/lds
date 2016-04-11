@@ -1,9 +1,17 @@
 @import '../text';
 
-.code {
+code {
   font: var(--text-code);
   margin: 0;
+  display: block;
+  background: #eee;
+  box-shadow: 0 0 1px rgba(0,0,0,0.3);
+  padding: 5px;
+  tab-size: 2;
 }
 :root pre[class*=language-] {
+  white-space: pre-wrap;
+}
+:root code[class*=lang-] {
   white-space: pre-wrap;
 }
