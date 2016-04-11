@@ -2,6 +2,7 @@ var path = require('path');
 var Prism = require('prismjs');
 var postcss = require('postcss');
 var languages = require('prism-languages');
+var findComponent = require('../lib/find-component');
 
 module.exports = function extendComponents(config) {
   return function* parser(next) {
@@ -13,15 +14,15 @@ module.exports = function extendComponents(config) {
           value.code = {};
 
           if (value.styles) {
-            value.css = parseCSS(value);
+            value = parseCSS(value, structure);
             value.code.styles = Prism.highlight(value.styles, languages.css);
           }
           if (value.script) {
-            value.js = parseJS(value);
+            value = parseJS(value, structure);
             value.code.script = Prism.highlight(value.script, languages.js);
           }
           if (value.template) {
-            value.hbs = parseTemplate(value);
+            value = parseTemplate(value, structure);
             value.code.template = Prism.highlight(value.template, languages.handlebars);
           }
         }
@@ -43,7 +44,6 @@ module.exports = function extendComponents(config) {
       }
       return value;
     });
-
     yield next;
   }
 }
@@ -52,7 +52,7 @@ function objectDeepMap(object, callback) {
   Object.keys(object).map((key) => {
     object[key] = callback(object[key], key);
 
-    if (typeof object[key] === 'object' && (key !== 'data' && key !== 'config' && key !== 'script')) {
+    if (typeof object[key] === 'object' && (key !== 'data' && key !== 'config' && key !== 'script' && key !== 'dependentBy' && key !== 'dependencyTo')) {
       objectDeepMap(object[key], callback);
     }
   })
@@ -73,19 +73,26 @@ function resolveData(data, structure) {
   });
   return data;
 }
-function resolveDependency(url, current) {
-  // ../../{category}/{name} => category/name
-  // ../{name} => samecategory/name
-  // {category}:{name}(/special)? => category:name
-
-  // After getting depency add current to dependentBy
-  return url;
+function resolvePath(current, relative, structure) {
+  var path = current.split('/');
+  relative.split('/').forEach((dir) => {
+    if (dir === '..') {
+      path.splice(-1);
+    } else if (dir !== '.') {
+      path.push(dir);
+    }
+  });
+  return findComponent(structure, path.join('/'));
+}
+function resolvePartial(partialString, structure) {
+  return findComponent(structure, (value) => {
+    return value.partialName === partialString;
+  });
 }
 // Use postCSS to parse CSS to look for :root element and add all css variables to component object
-function parseCSS(component) {
+function parseCSS(component, structure) {
   const variables = {};
   const modifiers = [];
-  const dependencies = [];
 
   postcss.parse(component.styles)
     .nodes.forEach((node) => {
@@ -102,43 +109,54 @@ function parseCSS(component) {
       } else if (isModifier) {
         modifiers.push(isModifier);
       } else if (isImport) {
-        dependencies.push(resolveDependency(node.params, component));
+        var dependency = resolvePath(component.id, node.params.replace(/[\"\']/g, ''), structure);
+        if (dependency && component.dependentBy.filter((dependencyLite) => {
+          return dependency.id === dependencyLite.id;
+        }).length === 0) {
+          component.dependentBy.push({name: dependency.name, partialName: dependency.partialName, id: dependency.id});
+          dependency.dependencyTo.push({name: component.name, partialName: component.partialName, id: component.id});
+        }
       }
     });
 
-  return {
+  component.css = {
     variables,
-    modifiers,
-    dependencies,
+    modifiers
   }
+  return component;
 }
 
 // Parse script content to register all dependencies from its content
-function parseJS(component) {
+function parseJS(component, structure) {
   const dependencies = [];
-  const varStatements = component.script.match(/import ([^ ]*) from ["']([^"']*)["']/g);
+  const varStatements = component.script.match(/import ([^ ]* from )?["']([^"']*)["']/g);
 
   if (varStatements) {
     varStatements.forEach((statement) => {
-      var matches = statement.match(/import ([^ ]*) from ["']([^"']*)["']/);
-      let dependency = {};
-      dependency[matches[1]] = matches[2];
-      dependencies.push(resolveDependency(dependency, component));
+      var matches = statement.match(/import ([^ ]* from )?["']([^"']*)["']/);
+
+      var dependency = resolvePath(component.id, matches[2], structure);
+      if (dependency && component.dependentBy.filter((dependencyLite) => {
+        return dependency.id === dependencyLite.id;
+      }).length === 0) {
+        component.dependentBy.push({name: dependency.name, partialName: dependency.partialName, id: dependency.id});
+        dependency.dependencyTo.push({name: component.name, partialName: component.partialName, id: component.id});
+      }
     });
   }
-
-  return {
-    dependencies,
-  };
+  return component;
 }
-function parseTemplate(component) {
-  var dependencies = [];
+function parseTemplate(component, structure) {
   var dependencyMatch = new RegExp('(base|component|module):([^ "}]*)', 'g');
   var matches = component.template.match(dependencyMatch) || [];
   matches.forEach((match) => {
-    dependencies.push(resolveDependency(match, component));
+    var dependency = resolvePartial(match, structure);
+    if (dependency && component.dependentBy.filter((dependencyLite) => {
+      return dependency.id === dependencyLite.id;
+    }).length === 0) {
+      component.dependentBy.push({name: dependency.name, partialName: dependency.partialName, id: dependency.id});
+      dependency.dependencyTo.push({name: component.name, partialName: component.partialName, id: component.id});
+    }
   });
-  return {
-    dependencies,
-  }
+  return component;
 }

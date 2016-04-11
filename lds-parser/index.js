@@ -7,7 +7,7 @@ module.exports = function parseComponents(config) {
   return function* parser (next) {
     this[config.namespace] = {
       structure : {
-        documentation: config.path.documentation ? parseDirectory(path.join(config.path.dirname, config.path.documentation), {config, category: 'documentation', group: 'base'}) : false,
+        documentation: config.path.documentation ? parseDirectory(path.join(config.path.dirname, config.path.documentation), {config, category: 'documentation', group: 'documentation'}) : false,
         base: config.path.views ? parseDirectory(path.join(config.path.dirname, config.path.base), {config, category: 'base', group: 'base'}) : false,
         components: config.path.components ? parseDirectory(path.join(config.path.dirname, config.path.components), {config, category: 'component', group: 'components'}): false,
         modules: config.path.modules ? parseDirectory(path.join(config.path.dirname, config.path.modules), {config, category: 'module', group: 'modules'}) : false,
@@ -49,8 +49,8 @@ function parseComponent(name, tree, options) {
   });
 
   var LDSObject = {
-    id: `/${options.group}/${name}`,
-    path: options.path,
+    id: encodeURI(`/${options.group}/${name}`),
+    path: encodeURI(options.path),
     name,
     partialName: options.partialName || `${options.category}:${name}`,
     info: tree['readme.md'] || tree['index.md'],
@@ -68,9 +68,11 @@ function parseComponent(name, tree, options) {
     children: Object.keys(children).length > 0 && children,
     templates: templates.length > 0 && templates,
     isLDSObject: true,
+    dependentBy: [],  // To be added later
+    dependencyTo: [],  // To be added later
   };
 
-  if (LDSObject.template || LDSObject.scripts || LDSObject.styles || LDSObject.data || LDSObject.info || LDSObject.config || LDSObject.example || LDSObject.children) {
+  if (LDSObject.template || LDSObject.script || LDSObject.styles || LDSObject.data || LDSObject.info || LDSObject.config || LDSObject.example || LDSObject.children) {
     return LDSObject;
   }
 }
