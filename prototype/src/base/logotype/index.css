@@ -10,6 +10,9 @@
 .Logotype--green {
   color: var(--color-green);
 }
+.Logotype--big {
+  font-size: 100px;
+}
 .Logotype::before {
   font-family: var(--icon-font-family);
   content: var(--icon-logo);

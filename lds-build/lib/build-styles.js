@@ -6,7 +6,7 @@ var cssimport = require('postcss-import');
 var cssprefix = require('postcss-class-prefix');
 var cssurl = require('postcss-url');
 
-module.exports = function buildStyles(files, src, dest, prefix) {
+module.exports = function buildStyles(files, src, dest, prefix, callback) {
   var bundle = postcss.root();
 
 // Create fake base style with imports
@@ -27,6 +27,9 @@ module.exports = function buildStyles(files, src, dest, prefix) {
       fs.writeFileSync(dest, result.css);
       if (result.map) {
         fs.writeFileSync(dest + '.map', result.map);
+      }
+      if (typeof callback === 'function') {
+        callback();
       }
     });
 }

@@ -7,8 +7,9 @@ var server = require('lds-server');
 var build = require('lds-build');
 var test = require('lds-test');
 var generator = require('lds-create');
+var watch = require('watch');
 
-root = process.cwd();
+var root = process.cwd();
 var config = {};
 
 program.version('0.0.1');
@@ -40,57 +41,22 @@ program
   });
 
 program
-  .command('watch')
-  .description('Wath for changes in JS and CSS files')
-  .action(function() {
-    console.log('Wathing for changes in JS and CSS files');
-    cmd.exec('lds watch:scripts & lds watch:styles', function(err, res){
-      if (err) {
-       console.log(err.message);
-      } else {
-        console.log(res.message);
-      }
-    });
-  });
-
-program
-  .command('watch:scripts')
-  .description('Wath for changes in JS files')
-  .action(function() {
-    cmd.exec("nodemon -w src -q -e 'js' --exec 'lds build script'", function(err, res){
-      if (err) {
-       console.log(err.message);
-      } else {
-        console.log(res.message);
-      }
-    });
-  });
-
-program
-  .command('watch:styles')
-  .description('Wath for changes in CSS files')
-  .action(function() {
-    cmd.exec("nodemon -w src -q -e 'css' --exec 'lds build styles'", function(err, res){
-      if (err) {
-       console.log(err.message);
-      } else {
-        console.log(res.message);
-      }
-    });
-  });
-
-program
   .command('start')
   .description('Start new HTTP-server to serve views and styleguide')
   .action(function() {
     config = require(path.join(root, 'lds.config'));
     server(config);
-    cmd.exec("lds watch", function(err, res){
-      if (err) {
-       console.log(err.message);
-      } else {
-        console.log(res.message);
-      }
+    watch.createMonitor(root, {
+      ignoreDirectoryPattern: /node_modules|dist/,
+      ignoreDotFiles: true,
+    },function (monitor) {
+      monitor.on("changed", function (file, curr, prev) {
+        if (/\.jsx?$/.test(file)) {
+          build('script', config);
+        } else if (/\.css$/.test(file)) {
+          build('styles', config);
+        }
+      });
     });
   });
 

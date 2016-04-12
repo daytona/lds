@@ -17,7 +17,9 @@
 
       {{#if @component.template }}
         <div class="PageHeader-menu PageHeader-menu--primary">
+          {{#if @component.data}}
           {{> component:tablist items=(tablistdata id=uid tabs="Render#render Data#data") inline="true"}}
+          {{/if}}
         </div>
 
         {{#if @component.config.schema}}

@@ -6,12 +6,12 @@ var screenConfig = {
     streamType: 'png',
     defaultWhiteBackground: true,
     screenSize: {
-      width: 320,
-      height: 320
+      width: 640,
+      height: 480
     },
     shotSize: {
-      width: 320,
-      height: 320
+      width: 640,
+      height: 480
     }
   },
   mobile: {

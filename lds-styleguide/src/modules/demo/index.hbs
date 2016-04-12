@@ -4,18 +4,24 @@
   class="{{prefix}}Demo">
 
   {{> module:demo/header title=title }}
-
-  <div class="Demo-content">
-    {{#> component:tabarea id=(concat "render" uid) }}
-      <div class="{{prefix}}Package-demoView {{prefix}}Package-demoView--example">
-        {{> module:demo/example id=../id url='/api/{{@component.group}}/{{@component.name}}?standalone=true' }}
-      </div>
-    {{/component:tabarea}}
-
-    {{#> component:tabarea id=(concat "data" uid) }}
-      <div class="{{prefix}}Package-demoView {{prefix}}Package-demoView--data">
-        {{> module:demo/code id=../id }}
-      </div>
-    {{/component:tabarea}}
-  </div>
+  {{#if template}}
+    <div class="Demo-content">
+      {{#unless data}}
+        <div class="{{prefix}}Package-demoView {{prefix}}Package-demoView--example">
+          {{> module:demo/example id=../id url='/api/{{@component.group}}/{{@component.name}}?standalone=true' }}
+        </div>
+      {{else}}
+        {{#> component:tabarea id=(concat "render" uid)}}
+          <div class="{{prefix}}Package-demoView {{prefix}}Package-demoView--example">
+            {{> module:demo/example id=../id url='/api/{{@component.group}}/{{@component.name}}?standalone=true' }}
+          </div>
+        {{/component:tabarea}}
+        {{#> component:tabarea id=(concat "data" uid) }}
+          <div class="{{prefix}}Package-demoView {{prefix}}Package-demoView--data">
+            {{> module:demo/code id=../id }}
+          </div>
+        {{/component:tabarea}}
+      {{/unless}}
+    </div>
+  {{/if}}
 </div>

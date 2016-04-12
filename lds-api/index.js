@@ -85,8 +85,8 @@ router
     var query = pureQuery(this.query);
     var view = findComponent(this.lds.structure.views, '/views/' + this.params.name);
 
-    // if (!view || (!view.template && view.children.start)) {
-    //   view = findComponent(this.lds.structure.views, '/views/' + this.params.name + '/start');
+    // if (!view || (!view.template && view.children.index)) {
+    //   view = findComponent(this.lds.structure.views, '/views/' + this.params.name + '/index');
     // }
 
     if (query.type === 'json') {
@@ -141,8 +141,8 @@ router
                       <link rel="shortcut icon" href="">
                       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.4.1/themes/prism-okaidia.min.css">
                     </head>
-                    <body style="margin: 0; background: #272822; ${query.screenshot ? 'transform: rotate(-3deg) translate(2%, -3%); -webkit-transform: rotate(-3deg) translate(2%, -3%); font-size: 25px;' : ''}">
-                    <code><pre class="language-${language}">${content}</pre></code>
+                    <body style="margin: 0; background: #272822; overflow: hidden; ${query.screenshot ? 'transform: rotate(-3deg) translate(2%, -3%); -webkit-transform: rotate(-3deg) translate(2%, -3%); font-size: 50px;' : ''}">
+                    <code><pre style="overflow:hidden;" class="language-${language}">${content}</pre></code>
                     </body>
                   </html>`;
       this.body = body;
@@ -170,7 +170,9 @@ router
                     </head>
                     <body style="margin: 0; background: #fefefe; ">
                     <div class="Page Page--nopadding text">
-                      ${component.example}
+                      <div id="Standalone-wrapper">
+                      ${this.render(component.example, Object.assign({}, component, query))}
+                      </div>
                     </div>
                     <script src="/assets/main.js"></script>
                     <script>
@@ -246,22 +248,6 @@ router
                   </html>`;
 
         this.body = body;
-    } else if (query.screenshot) {
-      this.type = 'image/png';
-      this.body = webshot(`http://localhost:4000/api/${this.params.category}/${this.params.name}?standalone=true`, {
-        siteType:'url',
-        captureSelector: '#Standalone-wrapper',
-        quality: 100,
-        streamType: 'png',
-        screenSize: {
-          width: query.screenwidth || 320,
-          height: query.screenheight || 320
-        },
-        shotSize: {
-          width: 'all',
-          height: 'all'
-        }
-      });
     } else if (!Object.keys(query).length) {
       this.body = this.render(component.template, Object.assign({}, component.data, query));
     } else {

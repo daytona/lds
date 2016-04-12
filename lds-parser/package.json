@@ -10,6 +10,9 @@
   "license": "MIT",
   "dependencies": {
     "fs": "0.0.2",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "postcss": "^5.0.19",
+    "prism-languages": "^0.3.0",
+    "prismjs": "^1.4.1"
   }
 }

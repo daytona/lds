@@ -65,19 +65,19 @@
     <footer class="{{prefix}}Component-footer">
       {{#if dependentBy}}
         <strong>Dependencies</strong>
-        <ol>
+        <ul>
           {{#each dependentBy}}
             <li><a href="/styleguide{{this.id}}">{{this.partialName}}</a></li>
           {{/each}}
-        </ol>
+        </ul>
       {{/if}}
       {{#if dependencyTo}}
         <strong>Dependent by me</strong>
-        <ol>
+        <ul>
           {{#each dependencyTo}}
             <li><a href="/styleguide{{this.id}}">{{this.partialName}}</a></li>
           {{/each}}
-        </ol>
+        </ul>
       {{/if}}
 
       {{#if config.revisions}}

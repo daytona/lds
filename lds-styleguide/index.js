@@ -35,7 +35,7 @@ if (!config.namespace) {
 router
   .get('/', function *(next){
     yield next;
-    this.renderView(this[config.namespace].structure.views['start'], pureQuery(this.query));
+    this.renderView(this[config.namespace].structure.views['index'], pureQuery(this.query));
   })
   .get('/:category', function *(next){
     yield next;
@@ -44,7 +44,7 @@ router
   .get('/views/:path*', function *(next){
     var component = findComponent(this.lds.structure.views, `/views/${this.params.path}`);
     yield next;
-    
+
     if (component) {
       this.renderView(this[config.namespace].structure.views['view'], component);
     }
@@ -57,10 +57,9 @@ router
       this.renderView(this[config.namespace].structure.views['single'], component);
     }
   });
-
 app
   .use(mount(config.path.public, serve(path.join(config.path.dirname, config.path.dist))))
-  .use(parseLds(config))
+  .use(parseLds.async(config))
   .use(engine.setup(config.namespace, config.prefix))
   .use(defaultData)
   .use(router.routes());
