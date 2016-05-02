@@ -3,7 +3,7 @@ import controller from '../../helpers/controller';
 import getKeyFromCode from '../../helpers/getkeyfromcode';
 
 function Tab(el) {
-  var panel = document.querySelector('#' + el.getAttribute('aria-controls'));
+  var panel = document.querySelector('#' + el.getAttribute('aria-controls')) || document.createElement('div');
 
   function activate() {
     panel.setAttribute('aria-hidden', false);
@@ -19,6 +19,7 @@ function Tab(el) {
   function init() {
     panel.addEventListener('tab-activate', activate);
     panel.addEventListener('tab-inactivate', inactivate);
+
     el.addEventListener('tab-activate', activate);
     el.addEventListener('tab-inactivate', inactivate);
   }

@@ -21,6 +21,9 @@ function Server(config) {
     throw new Error('No templating engine specified');
   }
 
+  var host = process.env.HOST || 'localhost';
+  var port = process.env.PORT || config.port || 4000;
+  
   if (!config.namespace) {
   config.namespace = 'lds';
   }
@@ -29,7 +32,7 @@ function Server(config) {
   var app = koa();
 
   var lds = parseLds.sync(config);
-  var port = process.env.PORT || config.port || 4000;
+
   app
     // Serve static files from /dist folder
     .use(pageNotFound) // Handle 404 after parsing every other middleware, if no match trigger 404
@@ -46,11 +49,11 @@ function Server(config) {
   console.log('HTTP-Server running at port ', port);
   objectDeepMap(lds.structure.views, (value) => {
     if (value && value.isLDSObject && value.template) {
-      console.log(value.name + ': http://localhost:' + port + value.id.replace(/^\/views/, ''));
+      console.log(`${value.name}: http://${host}:${port}${value.id.replace(/^\/views/, '')}`);
     }
     return value;
   });
-  console.log('Styleguide: http://localhost:' + port + '/styleguide');
+  console.log(`Styleguide: http://${host}:${port}/styleguide`);
   return app;
 };
 
