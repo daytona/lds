@@ -26,7 +26,10 @@ function Tab(el) {
   return init();
 }
 
+var inits = 0;
+
 export default function Tablist(el, options) {
+  console.log(++inits, "first", options);
   const tabs = el.querySelectorAll('.js-tab');
   let activeTab = el.querySelector('.js-tab[aria-selected=true]');
 
@@ -89,6 +92,7 @@ export default function Tablist(el, options) {
     });
 
     if (!activeTab && !options.toggle) {
+      console.log(options);
       activate(tabs[0]);
     }
 

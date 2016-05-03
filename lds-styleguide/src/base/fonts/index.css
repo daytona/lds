@@ -58,3 +58,46 @@
   font-style: italic;
   src: url("/assets/fonts/TheSans_B2_9i.eot");
   src: url("/assets/fonts/TheSans_B2_9i.eot?#iefix") format("embedded-opentype"), url("/assets/fonts/TheSans_B2_9i.woff") format("woff"); }
+
+
+@font-face {
+  font-family: "TheSerif";
+  font-weight: 500;
+  font-style: normal;
+  src: url("/assets/fonts/TheSerif_5_.eot");
+  src: url("/assets/fonts/TheSerif_5_.eot?#iefix") format("embedded-opentype"), url("/assets/fonts/TheSerif_5_.woff") format("woff"); }
+
+@font-face {
+  font-family: "TheSerif";
+  font-weight: 500;
+  font-style: italic;
+  src: url("/assets/fonts/TheSerif_5i.eot");
+  src: url("/assets/fonts/TheSerif_5i.eot?#iefix") format("embedded-opentype"), url("/assets/fonts/TheSerif_5i.woff") format("woff"); }
+
+@font-face {
+  font-family: "TheSerif";
+  font-weight: 700;
+  font-style: normal;
+  src: url("/assets/fonts/TheSerif_7_.eot");
+  src: url("/assets/fonts/TheSerif_7_.eot?#iefix") format("embedded-opentype"), url("/assets/fonts/TheSerif_7_.woff") format("woff"); }
+
+@font-face {
+  font-family: "TheSerif";
+  font-weight: 700;
+  font-style: italic;
+  src: url("/assets/fonts/TheSerif_7i.eot");
+  src: url("/assets/fonts/TheSerif_7i.eot?#iefix") format("embedded-opentype"), url("/assets/fonts/TheSerif_7i.woff") format("woff"); }
+
+@font-face {
+  font-family: "TheSerif";
+  font-weight: 900;
+  font-style: normal;
+  src: url("/assets/fonts/TheSerif_9_.eot");
+  src: url("/assets/fonts/TheSerif_9_.eot?#iefix") format("embedded-opentype"), url("/assets/fonts/TheSerif_9_.woff") format("woff"); }
+
+@font-face {
+  font-family: "TheSerif";
+  font-weight: 900;
+  font-style: italic;
+  src: url("/assets/fonts/TheSerif_9i.eot");
+  src: url("/assets/fonts/TheSerif_9i.eot?#iefix") format("embedded-opentype"), url("/assets/fonts/TheSerif_9i.woff") format("woff"); }

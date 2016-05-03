@@ -1,0 +1,25 @@
+.DemoHeader {
+
+}
+
+  .DemoHeader-title {
+    padding: 2rem 0 0 0;
+  }
+
+  .DemoHeader-nav {
+    display: flex;
+    /*width: 100%;*/
+    height: 3.25rem;
+    /*margin: 0 -1rem;*/
+    justify-content: space-between;
+  }
+
+
+    .DemoHeader-menu {
+      margin: 0;
+      padding: 0;
+    }
+
+      .DemoHeader-menu {
+        list-style: none;
+      }

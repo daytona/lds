@@ -9,11 +9,20 @@
   box-sizing: border-box;
 }
 
+.Page-subheader {
+  padding: 0 var(--page-horizontal-padding);
+  border-bottom: 1px solid rgba(48, 48, 48, 0.1); /* :/ */
+}
+
 @media (--min-medium) {
   .PageHeader {
     height: 7.25rem;
     padding: 0 var(--large-page-horizontal-padding);
     align-items: flex-end;
+  }
+
+  .Page-subheader {
+    padding: 0 var(--large-page-horizontal-padding);
   }
 }
 

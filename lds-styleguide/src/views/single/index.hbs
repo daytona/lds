@@ -1,3 +1,174 @@
+{{#saveas "component"}}
 <div class="{{prefix}}Page-innerWrapper">
-  {{> module:package}}
+
+  <header class="{{prefix}}PageHeader {{prefix}}Package-header">
+
+    <h2 class="Package-headerTitle PageHeader-title Text-header Text-xlarge">
+      {{capitalize name}}
+
+      {{#if config.version}}
+        <span class="{{prefix}}Package-versionTag">{{config.version}}</span>
+      {{/if}}
+    </h2>
+
+    <div class="PageHeader-nav">
+
+      <ul class="PageHeader-menu PageHeader-menu--secondary">
+        {{#> component:tablist toggle="true"}}
+          {{#> component:tablist/tab id="source"}}
+            <button class="js-showEditFormbutton {{prefix}}IconButton {{prefix}}IconButton--medium">
+              {{!-- {{> component:icon name='settings' }} --}}
+              <\>
+            </button>
+          {{/ component:tablist/tab}}
+        {{/ component:tablist}}
+
+        <li class="PageHeader-menuItem">
+
+        </li>
+      </ul>
+
+    </div>
+
+  </header>
+
+  {{#> component:tabarea id="source"}}
+
+    <div class="Page-subheader">
+      {{#> component:tablist small="true"}}
+        {{#if template}}
+          {{> component:tablist/tab id="template" title="Template"}}
+        {{/if}}
+        {{#if script}}
+          {{> component:tablist/tab id="script" title="Script"}}
+        {{/if}}
+        {{#if styles}}
+          {{> component:tablist/tab id="styles" title="Styles"}}
+        {{/if}}
+      {{/ component:tablist}}
+    </div>
+
+    <div class="Page-section--divider">
+      {{#if template}}
+        {{#> component:tabarea id="template"}}
+          <code><pre class="code language-handlebars" data-controller="fetch" data-url="/api/{{@component.group}}/{{@component.name}}?clean=true&type=template"></pre></code>
+        {{/component:tabarea}}
+      {{/if}}
+
+      {{#if script}}
+        {{#> component:tabarea id="script"}}
+          <code><pre class="code language-handlebars" data-controller="fetch" data-url="/api/{{@component.group}}/{{@component.name}}?clean=true&type=js"></pre></code>
+        {{/component:tabarea}}
+      {{/if}}
+
+      {{#if styles}}
+        {{#> component:tabarea id="styles"}}
+          <code><pre class="code language-css" data-controller="fetch" data-url="/api/{{@component.group}}/{{@component.name}}?clean=true&type=css"></pre></code>
+        {{/component:tabarea}}
+      {{/if}}
+
+    </div>
+  {{/component:tabarea}}
+
+  {{#if template}}
+
+    {{#if config.variations}}
+
+      {{> module:demo
+        id=(concat @component.name @component.group)
+        uid=(uid)
+        title=(concat "Default " (capitalize @component.name))
+        url=(concat "/api/" @component.group "/" @component.name "?standalone=true")
+        component=@component
+        data=data }}
+
+      {{#each config.variations}}
+        {{> module:demo
+              id=(concat @component.name @component.group @key)
+              uid=(uid)
+              title=(capitalize (concat @component.name " " @key))
+              url=(concat "/api/" @component.group "/" @component.name "?standalone=true")
+              component=@component
+              data=(mergeObjects @component.data this) }}
+
+      {{/each}}
+
+    {{else}}
+
+      {{> module:demo
+            id=(concat @component.name @component.group)
+            devices="true"
+            uid=(uid)
+            url=(concat "/api/" @component.group "/" @component.name "?standalone=true")
+            component=@component
+            data=data }}
+
+    {{/if}}
+
+  {{/if}}
+
+  {{#if example}}
+    {{> module:demo
+        id=(concat @component.name @component.group)
+        uid=(uid)
+        title=@component.name
+        url=(concat "/api/" @component.group "/" @component.name "?standalone=true&type=example")
+        component=@component
+        data=data }}
+  {{/if}}
+
+  <div class="Page-section">
+    {{#if info}}
+      {{{markdown info}}}
+    {{/if}}
+
+    <footer class="{{prefix}}Component-footer">
+      {{#if dependencies}}
+        <strong>Dependencies</strong>
+        <dl>
+          {{#if css.dependencies}}
+            <dt>CSS</dt>
+            {{#each css.dependencies}}
+              <dd>{{.}}</dd>
+            {{/each}}
+          {{/if}}
+          {{#if js.dependencies}}
+            <dt>JS</dt>
+            {{#each js.dependencies}}
+              <dd>{{.}}</dd>
+            {{/each}}
+          {{/if}}
+          {{#if hbs.dependencies}}
+            <dt>HBS</dt>
+            {{#each hbs.dependencies}}
+              <dd>{{.}}</dd>
+            {{/each}}
+          {{/if}}
+        </dl>
+      {{/if}}
+
+      {{#if config.revisions}}
+        <div class="{{prefix}}Details {{prefix}}Component-code {{prefix}}Component-code--revisions" data-controller="Details">
+          <h3 class="{{prefix}}Details-summary js-details-summary">Revisions</h3>
+          <div class="{{prefix}}Details-content js-details-content">
+            {{#each config.revisions}}
+              <div>{{this}}</div>
+            {{/each}}
+          </div>
+        </div>
+      {{/if}}
+
+    </footer>
+
+    {{#with children}}
+      <div class="Grid Grid--withGutter">
+        {{#each this}}
+        <div class="Grid-cell width-1of2 l-width-1of3 xl-width-1of4">
+          {{> module:component-list-item}}
+        </div>
+        {{/each}}
+      </div>
+    {{/with}}
+  </div>
 </div>
+{{/saveas}}

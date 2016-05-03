@@ -4,7 +4,7 @@
     data-id="{{id}}"
     class="{{prefix}}Form {{prefix}}DemoForm {{#if class}}{{class}}{{/if}}">
 
-    {{#each @component.config.schema}}
+    {{#each schema}}
       <div class="DemoForm-item">
 
         <label class="{{prefix}}DemoForm-label {{prefix}}Form-label {{prefix}}Text-small">
@@ -12,7 +12,7 @@
         </label>
 
         <select class="{{prefix}}DemoForm-input {{prefix}}SelectInput {{prefix}}Text-small" name="{{@key}}">
-          {{#with (getProperty @component.data @key)}}
+          {{#with (getProperty data @key)}}
             <option value="{{#if (hasProperty this 'value')}}{{jsonLine value}}{{else}}{{this}}{{/if}}" selected="selected">{{#if (isString this)}}{{this}}{{else}}default{{/if}}</option>
           {{/with}}
 

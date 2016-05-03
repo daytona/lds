@@ -1,7 +1,13 @@
 :root {
   --base-font-size: 16px;
   --header-font-size: 22px;
-  --base-font-family: TheSans, arial, sans-serif;
+
+  --primary-font-family: TheSerif, georgia, serif;
+  --secondary-font-family: TheSans, arial, sans-serif;
+
+  --base-font-family: var(--primary-font-family);
+  --display-font-family: var(--primary-font-family);
+  --ui-font-family: var(--secondary-font-family);;
 
   /* Type scale */
   --font-size-xlarge: 30px;
@@ -18,7 +24,8 @@
 
   /* Text styles */
   --plain-text: var(--font-weight-normal) normal var(--base-font-size)/1.4em var(--base-font-family);
-  --default-header: var(--font-weight-bold) normal var(--header-font-size)/1.3em var(--base-font-family);
+  --default-header: var(--font-weight-semibold) normal var(--header-font-size)/1.3em var(--display-font-family);
+  --ui-text: var(--font-weight-normal) normal var(--base-font-size)/1.4em var(--ui-font-family);
   --text-code: var(--font-weight-normal) normal 12px/1.5em courier;
 }
 

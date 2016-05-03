@@ -19,16 +19,17 @@ function parseDom(dom) {
 
       if (isJSON(attribute)) {
         const json = JSON.parse(attribute);
-
+        console.log(json);
         json.forEach((controller) => {
           const name = Object.keys(controller);
           if (!controllers[name]) { return; }
-
+          console.log(name, controller[name]);
           const instance = controllers[name](node, controller[name]);
 
           // Since some controllers might return an API for other controllers to use by importing
           // it's a good rule to also return an init method for initializing the controller
           if (instance && 'init' in instance) {
+            console.log("init exists");
             instance.init();
           }
         });

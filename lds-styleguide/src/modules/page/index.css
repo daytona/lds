@@ -13,6 +13,16 @@
   background: var(--color-bg-base);
 }
 
+.Page::-webkit-scrollbar {
+  width: 1px;
+}
+
+.Page::-webkit-scrollbar-thumb {
+  border-radius: 0px;
+  background: var(--color-scrollbar-thumb);
+  -webkit-box-shadow: none;
+}
+
 /**
  * Main
  */
@@ -29,6 +39,10 @@
 
 .Page-section {
   padding: 2rem var(--page-horizontal-padding);
+}
+
+.Page-section--divider {
+  border-bottom: 1px solid rgba(48, 48, 48, 0.1);
 }
 
 @media (--min-medium) {

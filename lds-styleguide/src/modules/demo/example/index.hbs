@@ -1,13 +1,17 @@
 <div
   data-controller='DemoExample'
   data-id="{{id}}"
-  data-url="/api/{{@component.group}}/{{@component.name}}"
-  class="{{prefix}}DemoView {{prefix}}DemoView--example"
-  class="{{prefix}}Example-rendered {{prefix}}Example-rendered--desktop">
+  data-url="{{url}}"
+  class="{{prefix}}DemoView {{prefix}}DemoView--example">
 
-  <iframe
+    {{# if devices }}
+      {{> component:device-park url=url }}
+    {{else}}
+      {{> component:preview url=url }}
+    {{/if}}
+{{!--   <iframe
     class="{{prefix}}Example-iframe js-iframe"
     id="iframe-{{id}}-desktop"
-    src="/api/{{@component.group}}/{{@component.name}}?standalone=true">
-  </iframe>
+    src="{{url}}">
+  </iframe> --}}
 </div>

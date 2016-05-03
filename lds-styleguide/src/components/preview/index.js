@@ -11,16 +11,17 @@ function Preview(el, opt) {
   const previewDevice = el.querySelector('.js-device');
   const device = el.dataset.device;
 
-
   function update() {
 
   }
 
   function onResize() {
     let viewportScale = el.clientWidth / (previewDevice ? previewDevice.clientWidth : containerEl.clientWidth);
+
     if (viewportScale > 1.5) {
       viewportScale = 1.5;
     }
+
     containerEl.style.transform = `scale(${viewportScale})`;
     containerEl.style.width = 100/viewportScale + '%';
     el.style.height = containerEl.clientHeight * viewportScale + 'px';
@@ -30,22 +31,24 @@ function Preview(el, opt) {
     if (!device && event.detail.id === iframe.id) {
       iframe.style.height = event.detail.height + 'px';
     }
+
     onResize();
   }
 
   function bindEvents() {
     viewport.onResize(onResize);
     eventListener.addListener('iframeResize', document, resizeIframe);
-    //store.subscribe()
   }
 
-  function init(){
+  function init() {
     bindEvents();
     onResize();
   }
+
   return {
     init,
   };
 
 }
+
 controller.add('Preview', Preview);

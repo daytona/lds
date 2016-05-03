@@ -7,7 +7,8 @@
     padding: 0;
   }
 
-    .MainNavigation-item {
+    /* Temporary super specific selector :D */
+    .MainNavigation-list > .MainNavigation-item {
       margin: 0;
       padding: 0 0.75rem;
       list-style: none;
@@ -19,12 +20,18 @@
       .MainNavigation-itemContainer {
         display: flex;
         align-items: center;
+      }
+
+      /* Temporary super specific selector :D */
+      .MainNavigation-list > .MainNavigation-item > .MainNavigation-itemContainer {
         padding: 0.5rem 0;
       }
 
-        .MainNavigation-link {
+        /* Temporary super specific selector :D */
+        .MainNavigation-list > .MainNavigation-item > .MainNavigation-itemContainer > .MainNavigation-link {
           display: block;
           color: var(--color-text-emphasized);
+          font-family: var(--ui-font-family);;
           font-size: var(--font-size-small);
           font-weight: var(--font-weight-bold);
           text-decoration: none;
@@ -58,22 +65,23 @@
         height: 0;
       }
 
-        .MainNavigation-subnavItem {
+        .MainNavigation-subnav .MainNavigation-item {
           margin: 0 0 0.25rem 0;
           padding: 0.25rem 0 0.25rem 1rem;
           list-style: none;
           position: relative;
+          border: none;
         }
 
-        .MainNavigation-subnavItem:last-child {
+        .MainNavigation-subnav .MainNavigation-item:last-child {
           margin: 0 0 1.25rem 0;
         }
 
-        .MainNavigation-subnavItem.is-active {
+        .MainNavigation-subnav .MainNavigation-item.is-active {
           box-shadow: 3px 0 0 var(--color-border-accent) inset;
         }
 
-          .MainNavigation-subnavLink {
+          .MainNavigation-subnav .MainNavigation-link {
             display: block;
             font-size: var(--font-size-base);
             font-weight: var(--font-weight-normal);
@@ -83,6 +91,6 @@
             transition: color var(--transition-duration-default) var(--transition-easing-default);
           }
 
-          .MainNavigation-subnavLink:hover {
+          .MainNavigation-subnav .MainNavigation-link:hover {
             color: var(--color-text-accent);
           }

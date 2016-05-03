@@ -38,6 +38,7 @@ var helpers = {
   prettyName(string) {
     return string.split(/[_|.|-]/).map(capitalize).join(' ');
   },
+  capitalize: capitalize,
   className(string) {
     return toCamelCase(string);
   },

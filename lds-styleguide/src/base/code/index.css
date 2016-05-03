@@ -2,8 +2,10 @@
 
 .code {
   font: var(--text-code);
-  margin: 0;
+  margin: 0 !important; /* sry :( */
+  border-radius: 0 !important;
 }
+
 :root pre[class*=language-] {
   white-space: pre-wrap;
 }

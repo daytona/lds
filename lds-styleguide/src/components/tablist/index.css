@@ -1,43 +1,65 @@
 :root {}
 
+.Tablist {
+  margin: 0 -0.75rem;
+}
 
 .Tablist--inline {
   display: inline-block;
 }
+
 .Tablist--right {
   float: right;
 }
 
 .Tablist-list {
   display: flex;
-  margin: 0 -0.75rem;
+  margin: 0;
   padding: 0;
 }
 
-.Tablist-tab {
-  box-sizing: border-box;
-  list-style: none;
-  display: inline-block;
-  vertical-align: bottom;
-  display: flex;
-  align-items: center;
-  height: 4.5rem;
-  /*padding: 2rem 1em;*/
-  padding: 0 0.75rem;
-  margin: 0 0.75rem;
-  cursor: pointer;
-  text-transform: uppercase;
-  font-size: var(--font-size-small);
-  font-weight: var(--font-weight-bold);
-  letter-spacing: 0.08em;
-  transition: box-shadow var(--transition-duration-default) var(--transition-easing-default);
+  .Tablist-tab {
+    box-sizing: border-box;
+    list-style: none;
+    display: inline-block;
+    vertical-align: bottom;
+    display: flex;
+    align-items: center;
+    height: 4.5rem;
+    /*padding: 2rem 1em;*/
+    /*padding: 0 1rem;*/
+    margin: 0 0.75rem;
+    cursor: pointer;
+    font-family: var(--ui-font-family);
+    font-size: var(--font-size-small);
+    transition: box-shadow var(--transition-duration-default) var(--transition-easing-default);
+  }
+
+  /* Temporary :D */
+  .Tablist:not(.Tablist--small) .Tablist-tab {
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .Tablist-tab:focus {
+    outline: 1px dashed #69C24F;
+  }
+
+  .Tablist-tab[aria-selected="true"] {
+    box-shadow: inset 0 -3px 0 #69C24F;
+    outline: none;
+  }
+
+.Tablist--small {
+
 }
 
-.Tablist-tab:focus {
-  outline: 1px dashed #69C24F;
-}
+  .Tablist--small .Tablist-tab {
+    height: 3.25rem;
+    padding: 0;
+  }
 
-.Tablist-tab[aria-selected="true"] {
-  box-shadow: inset 0 -3px 0 #69C24F;
-  outline: none;
-}
+  .Tablist--small .Tablist-tab[aria-selected="true"] {
+    box-shadow: 0 1px 0 #69C24F;
+  }
