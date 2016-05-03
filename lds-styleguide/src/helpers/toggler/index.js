@@ -54,6 +54,9 @@ function Toggler(el, opt) {
   function expandTarget(el) {
     const collapsedHeight = el.getBoundingClientRect().height;
 
+    el.removeEventListener('transitionend', onCollapseTransitionEnd);
+    el.removeEventListener('webkittransitionend', onCollapseTransitionEnd);
+
     setExpandedAttrs(el);
 
     const expandedHeight = el.getBoundingClientRect().height;
@@ -70,6 +73,9 @@ function Toggler(el, opt) {
 
   function collapseTarget(el) {
     const expandedHeight = el.getBoundingClientRect().height;
+
+    el.removeEventListener('transitionend', onExpandTransitionEnd);
+    el.removeEventListener('webkittransitionend', onExpandTransitionEnd);
     // setCollapsedAttrs(el);
 
     // const collapsedHeight = el.getBoundingClientRect().height;

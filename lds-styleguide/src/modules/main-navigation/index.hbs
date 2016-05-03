@@ -1,27 +1,29 @@
 {{#with mainNav}}
-<div class="{{prefix}}MainNavigation" data-controller="MainNavigation">
-  {{#if this.items}}
-    {{> navList listlevel=1}}
-  {{/if}}
-</div>
+  <div class="{{prefix}}MainNavigation" data-controller="MainNavigation">
+    {{#if this.items}}
+      {{> navList listlevel=1 hidden=false }}
+    {{/if}}
+  </div>
 {{/with}}
 
 {{#*inline "navList"}}
-<ul
-  class="{{prefix}}MainNavigation-list"
-  id="navlist{{listid}}">
+  <ul
+    class="{{prefix}}MainNavigation-list MainNavigation-list--level-{{listlevel}}"
+    id="navlist{{listid}}"
+    {{#if hidden}} aria-hidden="true"{{/if}}>
 
-  {{#each this.items}}
+    {{#each this.items}}
       {{> navListItem listid=(uid) listlevel=../listlevel}}
-  {{/each}}
+    {{/each}}
 
-</ul>
+  </ul>
 {{/inline}}
 
 {{#*inline "navListItem"}}
-  <li class="{{prefix}}MainNavigation-item{{#if this.items}} {{prefix}}MainNavigation-item--withChildren{{/if}}">
+  <li class="{{prefix}}MainNavigation-item{{#if this.items}} {{prefix}}MainNavigation-item--withChildren{{/if}} {{#if (equals true (equals name @root.component))}} is-active {{/if}}">
     <div class="MainNavigation-itemContainer">
-      {{#if this.items}}
+
+      {{#ifAll this.items (lt listlevel 4)}}
         <button
           class="{{prefix}}MainNavigation-toggler IconButton IconButton--small js-toggleList"
           role="button"
@@ -32,51 +34,13 @@
 
           {{> component:icon name='chevron-right' }}
         </button>
-      {{/if}}
+      {{/ifAll}}
 
       <a class="{{prefix}}MainNavigation-link" href="{{url}}">{{{name}}}</a>
     </div>
 
-    {{#if this.items}}
-      {{> subnav hidden=(equals false (equals name @root.category))}}
-    {{/if}}
-  </li>
-{{/inline}}
-
-{{#*inline "subnav"}}
-<ul
-  class="{{prefix}}MainNavigation-subnav"
-  id="navlist{{listid}}"
-  {{#if hidden}} aria-hidden="true"{{/if}}>
-
-  {{#each this.items}}
-    {{> subnavItem listid=(uid) listlevel=../listlevel}}
-  {{/each}}
-
-</ul>
-{{/inline}}
-
-{{#*inline "subnavItem"}}
-  <li class="{{prefix}}MainNavigation-subnavItem{{#if this.items}} {{prefix}}MainNavigation-subnavItem--withChildren{{/if}}">
-    <div class="MainNavigation-itemContainer">
-      {{#if this.items}}
-        <button
-          class="{{prefix}}MainNavigation-toggler IconButton IconButton--medium js-toggleList"
-          role="button"
-          aria-controls="navlist{{listid}}"
-          aria-pressed="{{equals name @root.category}}"
-          data-controller="Toggler"
-          data-target="#navlist{{listid}}">
-
-          {{> component:icon name='chevron-right' }}
-        </button>
-      {{/if}}
-
-      <a class="{{prefix}}MainNavigation-subnavLink" href="{{url}}">{{{name}}}</a>
-    </div>
-
-    {{#if this.items}}
-      {{> subnav hidden=(equals false (equals name @root.category))}}
-    {{/if}}
+    {{#ifAll this.items (lt listlevel 4)}}
+      {{> navList hidden=(equals false (equals name @root.category)) listlevel=(increment listlevel)}}
+    {{/ifAll}}
   </li>
 {{/inline}}
