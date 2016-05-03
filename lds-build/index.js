@@ -62,20 +62,24 @@ module.exports = function build(type, config) {
 
   if (!type || type === 'script') {
     var scripts = findComponents(components, /index.js$/, 'src/');
-    console.log('Building scripts:', scripts);
-    require('./lib/build-scripts')(scripts, config.path.dirname, path.join(config.path.dirname, config.path.dist, config.dest.script));
+    console.log('Bundling scripts');
+    require('./lib/build-scripts')(scripts, config.path.dirname, path.join(config.path.dirname, config.path.dist, config.dest.script), function(){
+      console.log('JS bundle written to disk: ', path.join(config.path.dirname, config.path.dist, config.dest.script));
+    });
   }
 
   if (type === 'sass') {
     var styles = findComponents(components, /index.scss$/, 'src/');
-    console.log('Building sass styles:', styles);
+    console.log('Building sass styles');
     require('./lib/build-sass')(styles, config.path.dirname, path.join(config.path.dirname, config.path.dist, config.dest.style), config.prefix);
   }
 
   if (!type || type === 'styles') {
     var styles = findComponents(components, /index.css$/, 'src/');
-    console.log('Building styles:', styles);
-    require('./lib/build-styles')(styles, config.path.dirname, path.join(config.path.dirname, config.path.dist, config.dest.style), config.prefix);
+    console.log('Bundling styles');
+    require('./lib/build-styles')(styles, config.path.dirname, path.join(config.path.dirname, config.path.dist, config.dest.style), config.prefix, function(){
+      console.log('CSS bundle written to disk: ',path.join(config.path.dirname, config.path.dist, config.dest.style));
+    });
   }
 
   // if (!type || type === 'tree') {

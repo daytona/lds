@@ -3,7 +3,7 @@ var Browserify = require('browserify');
 var babelify = require('babelify');
 var uglifyify = require('uglifyify');
 
-module.exports = function buildScript(files, root, dest) {
+module.exports = function buildScript(files, root, dest, callback) {
   var browserify = Browserify({ debug: true });
 
   browserify
@@ -18,6 +18,11 @@ module.exports = function buildScript(files, root, dest) {
     .on('error', function(error) {
       console.log(error.message);
       this.emit('end');
+    })
+    .on('end', function(stream) {
+      if (typeof callback === 'function') {
+        callback();
+      }
     })
     .pipe(fs.createWriteStream(dest));
 }

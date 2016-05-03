@@ -9,7 +9,7 @@ export default function initDemoExample(el, options = {}) {
   const {id, url: baseUrl} = el.dataset;
   const iframe = el.querySelector('.js-iframe');
 
-  const createDemoUrl = (baseUrl, params) => `${baseUrl}?standalone=true&iframeid=${id}&${object2query(params)}`;
+  const createDemoUrl = (baseUrl, params={}) => `${baseUrl}?standalone=true&iframeid=${id}&${object2query(params)}`;
 
   const selectState = state => ({
     params: state.demo[id] && state.demo[id].params
@@ -21,7 +21,13 @@ export default function initDemoExample(el, options = {}) {
       iframe.setAttribute('src', url);
     }
   });
+
+  function iframeResize(event) {
+    if (event.detail.id === id) {
+      iframe.style.height = event.detail.height + 'px';
+    }
+  }
+  document.addEventListener('iframeResize', iframeResize);
 };
 
 controller.add('DemoExample', initDemoExample);
-

@@ -1,11 +1,20 @@
 @import '../text';
 
-.code {
+code {
   font: var(--text-code);
-  margin: 0 !important; /* sry :( */
+  margin: 0 !important;
+  padding: 5px;
+  display: block;
+  background: #eee;
+  box-shadow: 0 0 1px rgba(0,0,0,0.3);
   border-radius: 0 !important;
+  tab-size: 2;
 }
 
 :root pre[class*=language-] {
+  white-space: pre-wrap;
+}
+
+:root code[class*=lang-] {
   white-space: pre-wrap;
 }

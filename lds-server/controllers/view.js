@@ -8,7 +8,7 @@ function* viewPage (next) {
   var view = findComponent(this.lds.structure.views, '/views' + url);
 
   if (!view || (!view.template && view.children)) {
-    view = findComponent(this.lds.structure.views, '/views' + url + '/start');
+    view = findComponent(this.lds.structure.views, '/views' + url + '/index');
   }
 
   if (view) {

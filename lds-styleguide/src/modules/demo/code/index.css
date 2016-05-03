@@ -3,3 +3,10 @@
   background: var(--color-bg-dark);
   color: #fff;
 }
+.DemoView code,
+.DemoView pre {
+  background: none;
+  color: inherit;
+  padding: 0;
+  margin: 0;
+}

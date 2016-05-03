@@ -7,6 +7,7 @@ var Router = require('koa-router');
 var objectDeepMap = require('./lib/object-deep-map');
 var Engine = require('lds-engine');
 var pureQuery = require('./lib/pure-query');
+var findComponent = require('./lib/find-component');
 
 var config = require('./lds.config');
 var app = koa();
@@ -21,21 +22,7 @@ function *defaultData(next) {
 
   yield next;
 }
-function *view(next) {
-  var component;
-  objectDeepMap(this.lds.structure, (value) => {
-    if (value && value.isLDSObject && value.id === this.request.url) {
-      component = value;
-    }
-    return value;
-  });
-  if (component) {
-    this.renderView(this[config.namespace].structure.views['single'], component);
-  } else {
-    this.renderView(this[config.namespace].structure.views['start'], this.lds.structure);
-  }
-  yield next;
-}
+
 if (!config.engine || !config.engine.render) {
   throw new Error('No templating engine specified');
 }
@@ -48,28 +35,34 @@ if (!config.namespace) {
 router
   .get('/', function *(next){
     yield next;
-    this.renderView(this[config.namespace].structure.views['start'], pureQuery(this.query));
+    this.renderView(this[config.namespace].structure.views['index'], pureQuery(this.query));
   })
   .get('/:category', function *(next){
     yield next;
     this.renderView(this[config.namespace].structure.views['category'], Object.assign(this.params, pureQuery(this.query)));
   })
-  .get('/views/:component', function *(next){
+  .get('/views/:path*', function *(next){
+    var component = findComponent(this.lds.structure.views, `/views/${this.params.path}`);
     yield next;
-    this.renderView(this[config.namespace].structure.views['view'], Object.assign(this.params, pureQuery(this.query)));
-  })
-  .get('/:category/:component', function *(next){
-    yield next;
-    this.renderView(this[config.namespace].structure.views['single'], Object.assign(this.params, pureQuery(this.query)));
-  });
 
+    if (component) {
+      this.renderView(this[config.namespace].structure.views['view'], component);
+    }
+  })
+  .get('/:category/:path*', function *(next){
+    var component = findComponent(this.lds.structure[this.params.category], `/${this.params.category}/${this.params.path}`);
+    yield next;
+
+    if (component) {
+      this.renderView(this[config.namespace].structure.views['single'], component);
+    }
+  });
 app
   .use(mount(config.path.public, serve(path.join(config.path.dirname, config.path.dist))))
-  .use(parseLds(config))
+  .use(parseLds.async(config))
   .use(engine.setup(config.namespace, config.prefix))
   .use(defaultData)
-  //.use(router.routes());
-  .use(view);
+  .use(router.routes());
 
 module.exports = app;
 

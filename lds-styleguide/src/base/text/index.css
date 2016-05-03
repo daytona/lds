@@ -26,7 +26,7 @@
   --plain-text: var(--font-weight-normal) normal var(--base-font-size)/1.4em var(--base-font-family);
   --default-header: var(--font-weight-semibold) normal var(--header-font-size)/1.3em var(--display-font-family);
   --ui-text: var(--font-weight-normal) normal var(--base-font-size)/1.4em var(--ui-font-family);
-  --text-code: var(--font-weight-normal) normal 12px/1.5em courier;
+  --text-code: var(--font-weight-normal) normal 12px/1.5em 'PT Mono', monospace;
 }
 
 h1, h2, h3, h4, h5 {

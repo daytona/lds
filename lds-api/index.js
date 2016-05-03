@@ -1,8 +1,11 @@
 var ldsbuild = require('lds-build');
 var ldstest = require('lds-test');
 
+var path = require('path');
+var fs = require('fs');
 var koa = require('koa');
 var Router = require('koa-router');
+var marked = require('marked');
 var pureQuery = require('./lib/pure-query');
 var screenDump = require('./lib/screenshots.js');
 var findComponent = require('./lib/find-component');
@@ -59,9 +62,33 @@ router
     var query = pureQuery(this.query);
     screenDump(this.lds.structure, query.type);
   })
-  .get('/views/:name*', function *(next){
+  .get('/screen/:path*', function *(next) {
+    var component = findComponent(this.lds.structure, '/'+ this.params.path);
+
+    if (!component) {
+      return 'not found image';
+    }
+    var type = 'png';
+    if (component.screen) {
+      type = component.screen.match(/\.(.*)$/)[1];
+      screenpath = component.screen;
+    } else if (component.template || component.example || component.styles || component.script || (component.info && !component.children)) {
+      var screenpath = path.join(this.lds.config.path.dirname, this.lds.config.path.dist, 'screens' + component.id + '.png');
+    } else if (component.children) {
+      this.redirect('/api/screen' + component.children[Object.keys(component.children)[0]].id);
+      return;
+    }
+    this.type = `image/${type}`;
+    this.body = fs.readFileSync(screenpath);
+  })
+  .get('/views/:name*', function *(next) {
     var query = pureQuery(this.query);
-    var view = findComponent(this.lds.structure, '/views'+ this.params.name);
+    var view = findComponent(this.lds.structure.views, '/views/' + this.params.name);
+
+    // if (!view || (!view.template && view.children.index)) {
+    //   view = findComponent(this.lds.structure.views, '/views/' + this.params.name + '/index');
+    // }
+
     if (query.type === 'json') {
       this.type = 'text/plain; charset=utf-8';
       this.body = view;
@@ -70,8 +97,10 @@ router
       this.body = viewtemplate.replace(/\<\/body\>/,
         "<script>document.addEventListener('click', (event)=>{event.preventDefault();});</script>\n<\/body>"
       );
-    } else {
+    } else if (!Object.keys(query).length){
       this.renderView(view, Object.assign({layout:'default'}, query));
+    } else {
+      yield next;
     }
   })
   .get('/:path*', function *(next){
@@ -112,8 +141,22 @@ router
                       <link rel="shortcut icon" href="">
                       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.4.1/themes/prism-okaidia.min.css">
                     </head>
-                    <body style="margin: 0; background: #272822; ${query.screenshot ? 'transform: rotate(-3deg) translate(2%, -3%); -webkit-transform: rotate(-3deg) translate(2%, -3%); font-size: 25px;' : ''}">
-                    <code><pre class="language-${language}">${content}</pre></code>
+                    <body style="margin: 0; background: #272822; overflow: hidden; ${query.screenshot ? 'transform: rotate(-3deg) translate(2%, -3%); -webkit-transform: rotate(-3deg) translate(2%, -3%); font-size: 50px;' : ''}">
+                    <code><pre style="overflow:hidden;" class="language-${language}">${content}</pre></code>
+                    </body>
+                  </html>`;
+      this.body = body;
+    } else if (query.type === 'info') {
+      var body = `<html>
+                    <head>
+                      <meta charset="utf-8">
+                      <meta name="viewport" content="width=device-width, initial-scale=1">
+                      <link rel="shortcut icon" href="">
+                    </head>
+                    <body style="margin: 0; background: #cecece;">
+                    <div style="background: #fefefe; box-shadow: 0 0 20px rgba(0,0,0,0.6); overflow:hidden; width:60%; margin: 50px auto 0; padding: 80px 60px 0; height: 70%; bottom: 0; position: absolute; left: 0; right: 0;">
+                    ${marked(component.info)}
+                    </div>
                     </body>
                   </html>`;
       this.body = body;
@@ -123,14 +166,40 @@ router
                       <meta charset="utf-8">
                       <meta name="viewport" content="width=device-width, initial-scale=1">
                       <link rel="shortcut icon" href="">
-                      <link rel="stylesheet" href="/styleguide/assets/style.css">
+                      <link rel="stylesheet" href="/assets/style.css">
                     </head>
-                    <body>
-                    <div class="text">
-                      ${component.example}
+                    <body style="margin: 0; background: #fefefe; ">
+                    <div class="Page Page--nopadding text">
+                      <div id="Standalone-wrapper">
+                      ${this.render(component.example, Object.assign({}, component, query))}
                       </div>
                     </div>
                     <script src="/assets/main.js"></script>
+                    <script>
+                      document.addEventListener('click', (event)=>{
+                        event.preventDefault();
+                      });
+                      function callMyParent(iframeID) {
+                        var documentHeight;
+                        var wrapper = document.querySelector('#Standalone-wrapper');
+
+                        function checkHeight() {
+                          if (wrapper.clientHeight !== documentHeight) {
+                            updateHeight();
+                          }
+                        }
+
+                        function updateHeight() {
+                          documentHeight = wrapper.clientHeight;
+                          window.parent.updateIframeHeight(iframeID, documentHeight);
+                        }
+                        var resizeInterval = setInterval(checkHeight, 100);
+                      }
+
+                      if (window !== window.top) {
+                        callMyParent('${query.iframeid}');
+                      }
+                    </script>
                     </body>
                   </html>`;
 
@@ -179,25 +248,12 @@ router
                   </html>`;
 
         this.body = body;
-    } else if (query.screenshot) {
-      this.type = 'image/png';
-      this.body = webshot(`http://localhost:4000/api/${this.params.category}/${this.params.name}?standalone=true`, {
-        siteType:'url',
-        captureSelector: '#Standalone-wrapper',
-        quality: 100,
-        streamType: 'png',
-        screenSize: {
-          width: query.screenwidth || 320,
-          height: query.screenheight || 320
-        },
-        shotSize: {
-          width: 'all',
-          height: 'all'
-        }
-      });
-    } else {
+    } else if (!Object.keys(query).length) {
       this.body = this.render(component.template, Object.assign({}, component.data, query));
+    } else {
+      yield next;
     }
+
   })
   .put('/:category/:name', function *(next){
     var component = findComponent(this.lds.structure, '/'+ this.params.path);

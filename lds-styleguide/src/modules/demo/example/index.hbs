@@ -4,14 +4,14 @@
   data-url="{{url}}"
   class="{{prefix}}DemoView {{prefix}}DemoView--example">
 
-    {{# if devices }}
-      {{> component:device-park url=url }}
-    {{else}}
-      {{> component:preview url=url }}
-    {{/if}}
-{{!--   <iframe
+  {{# if devices }}
+    {{> component:device-park url=url }}
+  {{else}}
+    {{> component:preview url=url }}
+  {{/if}}
+
+  <iframe
     class="{{prefix}}Example-iframe js-iframe"
-    id="iframe-{{id}}-desktop"
-    src="{{url}}">
-  </iframe> --}}
+    id="iframe-{{id}}">
+  </iframe>
 </div>

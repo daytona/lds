@@ -137,6 +137,9 @@ var helpers = {
   },
   hasPartialContent(options) {
     return options.data['partial-block'];
+  },
+  encodeURI(string) {
+    return encodeURI(string);
   }
 };
 
