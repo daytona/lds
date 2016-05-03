@@ -3,16 +3,14 @@
     data-controller="DemoForm"
     data-id="{{id}}"
     class="{{prefix}}Form {{prefix}}DemoForm {{#if class}}{{class}}{{/if}}">
-
     {{#each schema}}
       <div class="DemoForm-item">
 
         <label class="{{prefix}}DemoForm-label {{prefix}}Form-label {{prefix}}Text-small">
           {{@key}}:
         </label>
-
         <select class="{{prefix}}DemoForm-input {{prefix}}SelectInput {{prefix}}Text-small" name="{{@key}}">
-          {{#with (getProperty data @key)}}
+          {{#with (getProperty ../data @key)}}
             <option value="{{#if (hasProperty this 'value')}}{{jsonLine value}}{{else}}{{this}}{{/if}}" selected="selected">{{#if (isString this)}}{{this}}{{else}}default{{/if}}</option>
           {{/with}}
 

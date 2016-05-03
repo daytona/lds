@@ -37,13 +37,13 @@
     <div class="Page-subheader">
       {{#> component:tablist small="true"}}
         {{#if template}}
-          {{> component:tablist/tab id="template" title="Template"}}
+          {{> component:tablist/tab id="template" title="index.hbs"}}
         {{/if}}
         {{#if script}}
-          {{> component:tablist/tab id="script" title="Script"}}
+          {{> component:tablist/tab id="script" title="index.js"}}
         {{/if}}
         {{#if styles}}
-          {{> component:tablist/tab id="styles" title="Styles"}}
+          {{> component:tablist/tab id="styles" title="index.css"}}
         {{/if}}
       {{/ component:tablist}}
     </div>
@@ -75,19 +75,19 @@
     {{#if config.variations}}
 
       {{> module:demo
-        id=(concat @component.name @component.group)
+        id=(concat @component.name uid)
         uid=(uid)
         title=(concat "Default " (capitalize @component.name))
-        url=(concat "/api/" @component.group "/" @component.name "?standalone=true")
+        url=(concat "/api/" @component.group "/" @component.name)
         component=@component
         data=data }}
 
       {{#each config.variations}}
         {{> module:demo
-              id=(concat @component.name @component.group @key)
+              id=(concat @component.name ":" @key)
               uid=(uid)
               title=(capitalize (concat @component.name " " @key))
-              url=(concat "/api/" @component.group "/" @component.name "?standalone=true")
+              url=(concat "/api/" @component.group "/" @component.name)
               component=@component
               data=(mergeObjects @component.data this) }}
 
@@ -96,10 +96,10 @@
     {{else}}
 
       {{> module:demo
-            id=(concat @component.name @component.group)
+            id=@component.name
             devices="true"
             uid=(uid)
-            url=(concat "/api/" @component.group "/" @component.name "?standalone=true")
+            url=(concat "/api/" @component.group "/" @component.name)
             component=@component
             data=data }}
 
@@ -109,12 +109,13 @@
 
   {{#if example}}
     {{> module:demo
-        id=(concat @component.name @component.group)
+        id=(concat @component.name ":example")
         uid=(uid)
         title=@component.name
-        url=(concat "/api/" @component.group "/" @component.name "?standalone=true&type=example")
+        url=(concat "/api/" @component.group "/" @component.name)
         component=@component
-        data=data }}
+        isExample=true
+      }}
   {{/if}}
 
   <div class="Page-section">

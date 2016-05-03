@@ -55,7 +55,35 @@ function methods(config) {
     }
   }
 }
+function updateIframeScript(iframeid){
+  return `<script>
+  document.addEventListener('click', (event)=>{
+    event.preventDefault();
+  });
+  function callMyParent(iframeID) {
+    var documentHeight;
+    var wrapper = document.querySelector('#Standalone-wrapper');
 
+    function checkHeight() {
+      if (wrapper.clientHeight !== documentHeight) {
+        updateHeight();
+      }
+    }
+
+    function updateHeight() {
+      documentHeight = wrapper.clientHeight;
+      if (typeof window.parent.updateIframeHeight === 'function') {
+        window.parent.updateIframeHeight(iframeID, documentHeight);
+      }
+    }
+    var resizeInterval = setInterval(checkHeight, 100);
+  }
+
+  if (window !== window.top) {
+    callMyParent('${iframeid}');
+  }
+</script>`;
+}
 router
   .get('/screendump', function *(next){
     this.body = 'Saving screens of views';
@@ -111,7 +139,7 @@ router
     }
     var query = pureQuery(this.query);
 
-    if (query.type === 'json' || query.type === 'js' || query.type === 'css' || query.type === 'template') {
+    if (query.type === 'json' || query.type === 'js' || query.type === 'css' || query.type === 'template' || query.type === 'html') {
       var content;
       var language = query.type;
       switch (query.type) {
@@ -128,8 +156,15 @@ router
           content = component.code.template;
           language = 'handlebars';
           break;
+        case 'html':
+          content = this.render(component.template, Object.assign({}, component.data, query));
+          language = 'html';
+          break;
       }
       if (query.clean) {
+        if (query.type === 'html') {
+          content = content.replace(/</g, '&lt;');
+        }
         this.type = 'text/plain; charset=utf-8';
         this.body = content;
         return;
@@ -175,31 +210,7 @@ router
                       </div>
                     </div>
                     <script src="/assets/main.js"></script>
-                    <script>
-                      document.addEventListener('click', (event)=>{
-                        event.preventDefault();
-                      });
-                      function callMyParent(iframeID) {
-                        var documentHeight;
-                        var wrapper = document.querySelector('#Standalone-wrapper');
-
-                        function checkHeight() {
-                          if (wrapper.clientHeight !== documentHeight) {
-                            updateHeight();
-                          }
-                        }
-
-                        function updateHeight() {
-                          documentHeight = wrapper.clientHeight;
-                          window.parent.updateIframeHeight(iframeID, documentHeight);
-                        }
-                        var resizeInterval = setInterval(checkHeight, 100);
-                      }
-
-                      if (window !== window.top) {
-                        callMyParent('${query.iframeid}');
-                      }
-                    </script>
+                    ${query.iframeid && updateIframeScript(query.iframeid)}
                     </body>
                   </html>`;
 
@@ -214,36 +225,12 @@ router
                     </head>
                     <body style="margin: 0; background: #fefefe; ">
                     <div class="Page Page--nopadding text">
-                      <div id="Standalone-wrapper" style="padding: 20px; position:relative; margin: auto; max-width:500px">
+                      <div id="Standalone-wrapper" style="${component.category === 'component' ? 'padding: 20px; position:relative; margin: auto; max-width:500px':''}">
                       ${this.render(component.template, Object.assign({}, component.data, query))}
                       </div>
                     </div>
                     <script src="/assets/main.js"></script>
-                    <script>
-                      document.addEventListener('click', (event)=>{
-                        event.preventDefault();
-                      });
-                      function callMyParent(iframeID) {
-                        var documentHeight;
-                        var wrapper = document.querySelector('#Standalone-wrapper');
-
-                        function checkHeight() {
-                          if (wrapper.clientHeight !== documentHeight) {
-                            updateHeight();
-                          }
-                        }
-
-                        function updateHeight() {
-                          documentHeight = wrapper.clientHeight;
-                          window.parent.updateIframeHeight(iframeID, documentHeight);
-                        }
-                        var resizeInterval = setInterval(checkHeight, 100);
-                      }
-
-                      if (window !== window.top) {
-                        callMyParent('${query.iframeid}');
-                      }
-                    </script>
+                    ${query.iframeid && updateIframeScript(query.iframeid)}
                     </body>
                   </html>`;
 

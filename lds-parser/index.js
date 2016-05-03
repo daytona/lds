@@ -144,11 +144,12 @@ function parseDirectory(directory, options) {
   return directoryComponents;
 }
 
+// Insert data from an other component in default data
 function resolveData(data, structure) {
   objectDeepMap(data, (value) => {
-    if (typeof value === 'string' && value.match(/@data:([^:]*):(.*)/)) {
-      var strmatch = value.match(/@data:([^:]*):(.*)/);
-      var component = structure[strmatch[1]][strmatch[2]];
+    if (typeof value === 'string' && value.match(/@data:(.*)/)) {
+      var strmatch = value.match(/@data:(.*)/);
+      var component = resolvePartial(strmatch[1], structure);
       if (!component || !component.data) {
         return {};
       }
@@ -158,6 +159,7 @@ function resolveData(data, structure) {
   });
   return data;
 }
+// resolve relative URL path from one component to an other
 function resolvePath(current, relative, structure) {
   var path = current.split('/');
   relative.split('/').forEach((dir) => {
@@ -169,6 +171,8 @@ function resolvePath(current, relative, structure) {
   });
   return findComponent(structure, path.join('/'));
 }
+
+// Get component from partial string {{> component:button}}
 function resolvePartial(partialString, structure) {
   return findComponent(structure, (value) => {
     return value.partialName === partialString;

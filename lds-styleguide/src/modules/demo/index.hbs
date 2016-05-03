@@ -1,15 +1,16 @@
 <div
   data-controller="[{ &quot;Demo&quot;: {&quot;data&quot;:{{jsonLine data}}{{#component.config}}, &quot;config&quot;: {{jsonLine .}}{{/component.config}} }}]"
   data-id="{{id}}"
+  data-url="/api/{{component.group}}/{{component.name}}"
   class="{{prefix}}Demo">
 
   <div class="Demo-content">
 
-    {{#if component.config.schema }}
+    {{#if (and component.config.schema (not isExample))}}
 
       {{> module:demo/header
             title=title
-            data=component.config.data
+            data=component.data
             schema=component.config.schema }}
 
       {{#> component:tabarea id=(concat "render" uid) }}
@@ -23,13 +24,16 @@
           {{> module:demo/code id=../id data=data }}
         </div>
       {{/component:tabarea}}
+      {{#> component:tabarea id=(concat "html" uid) }}
+        <div class="{{prefix}}Package-demoView {{prefix}}Package-demoView--html">
+          <code><pre class="js-html"></pre></code>
+        </div>
+      {{/component:tabarea}}
 
     {{else}}
-
       <div class="{{prefix}}Package-demoView {{prefix}}Package-demoView--example">
         {{> module:demo/example id=id url=url }}
       </div>
-
     {{/if}}
 
   </div>

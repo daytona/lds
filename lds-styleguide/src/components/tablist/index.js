@@ -5,20 +5,23 @@ import getKeyFromCode from '../../helpers/getkeyfromcode';
 function Tab(el) {
   var panel = document.querySelector('#' + el.getAttribute('aria-controls')) || document.createElement('div');
 
-  function activate() {
+  function activate(event) {
     panel.setAttribute('aria-hidden', false);
     el.setAttribute('aria-selected', true);
     el.focus();
   }
 
-  function inactivate() {
+  function inactivate(event) {
     panel.setAttribute('aria-hidden', true);
     el.setAttribute('aria-selected', false);
   }
 
   function init() {
-    panel.addEventListener('tab-activate', activate);
-    panel.addEventListener('tab-inactivate', inactivate);
+    if (!panel) {
+      return false;
+    }
+    //   panel.addEventListener('tab-activate', activate);
+    //   panel.addEventListener('tab-inactivate', inactivate);
 
     el.addEventListener('tab-activate', activate);
     el.addEventListener('tab-inactivate', inactivate);
@@ -30,7 +33,6 @@ function Tab(el) {
 var inits = 0;
 
 export default function Tablist(el, options) {
-  console.log(++inits, "first", options);
   const tabs = el.querySelectorAll('.js-tab');
   let activeTab = el.querySelector('.js-tab[aria-selected=true]');
 
@@ -93,7 +95,6 @@ export default function Tablist(el, options) {
     });
 
     if (!activeTab && !options.toggle) {
-      console.log(options);
       activate(tabs[0]);
     }
 

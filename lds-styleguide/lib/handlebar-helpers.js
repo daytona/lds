@@ -58,6 +58,15 @@ var helpers = {
       return false;
     }
   },
+  not(arg) {
+    return !arg;
+  },
+  and() {
+    var args = Array.prototype.slice.call(arguments, 0, -1);
+    return args.filter((arg)=> {
+      return !arg;
+    }).length === 0;
+  },
   or() {
     var args = Array.prototype.slice.call(arguments, 0, -1);
     return args.filter((arg)=> {
@@ -111,7 +120,7 @@ var helpers = {
     return options.fn(this);
   },
   uid() {
-    uid = uid + 1
+    uid = uid + 1;
     return uid;
   },
   tablistdata(options) {
@@ -159,6 +168,18 @@ var helpers = {
         break;
     }
     return fn(this);
+  },
+  querifyObject(obj) {
+    if (!obj) {
+      return;
+    }
+    var queries = [];
+    Object.keys(obj).forEach((key) => {
+      queries.push(`${key}=${(typeof obj[key] === 'object' ?
+                              JSON.stringify(obj[key], null, 0) :
+                              obj[key])}`);
+    });
+    return queries.join('&');
   }
 };
 

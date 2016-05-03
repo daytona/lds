@@ -1,14 +1,14 @@
 import controller from '../controller';
 import XMLHttpRequestPromise from 'xhr-promise';
 
-export default function fetch(el) {
+export default function fetcher(el) {
   const url = el.dataset.url;
   const xhr = new XMLHttpRequestPromise();
 
   function update(response) {
     el.innerHTML = typeof response.responseText === 'object' ? JSON.stringify(response.responseText, false, 2) : response.responseText;
   }
-  function send() {
+  function send(url) {
     xhr.send({
       method: 'get',
       url,
@@ -17,11 +17,12 @@ export default function fetch(el) {
   }
   function init() {
     if (url) {
-      send();
+      send(url);
     }
   }
   return {
-    init
+    init,
+    fetch: send
   };
 }
-controller.add('fetch', fetch);
+controller.add('fetcher', fetcher);

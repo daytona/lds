@@ -4,13 +4,8 @@
   data-url="{{url}}"
   class="{{prefix}}DemoView {{prefix}}DemoView--example">
 
-  {{# if devices }}
-    {{> component:device-park url=url }}
-  {{else}}
-    {{> component:preview url=url }}
-  {{/if}}
-
   <iframe
+    src="{{{url}}}?standalone=true&iframeid={{id}}&{{querifyObject data}}"
     class="{{prefix}}Example-iframe js-iframe"
     id="iframe-{{id}}">
   </iframe>

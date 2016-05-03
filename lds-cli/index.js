@@ -64,7 +64,6 @@ program
   .command('build [type]')
   .description('Build all assets to dist folder, starting watchtasks')
   .action(function(type) {
-    console.log('Building', (type ? type : 'assets'));
     config = require(path.join(root, 'lds.config'));
     build(type, config);
   });

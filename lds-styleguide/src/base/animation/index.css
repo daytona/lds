@@ -1,6 +1,6 @@
 :root {
 
-  --transition-easing-default: cubic-bezier(0,0,0.21,1);
+  --transition-easing-default: cubic-bezier(0, 0, 0.21, 1);
 
   --transition-duration-default: 0.33333s;
   --transition-duration-slow: 0.666666s;
