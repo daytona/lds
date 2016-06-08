@@ -1,3 +1,5 @@
+var marked = require('marked');
+
 module.exports = {
   isEmpty(obj) {
     return Object.keys(obj).length === 0;
@@ -39,5 +41,8 @@ module.exports = {
   },
   hasContent(options) {
     return options.data['partial-block'] && options.data['partial-block'].program > 1;
-  }
+  },
+  markdown(string) {
+    return marked(string);
+  },
 };

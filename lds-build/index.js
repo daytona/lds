@@ -50,14 +50,14 @@ module.exports = function build(type, config) {
     });
   }
 
-  if(!type || type === 'fonts') {
+  if(!type || type === 'fonts' && config.path.fonts) {
     console.log('Copying webfonts');
-    require('./lib/build-fonts')(path.join(config.path.dirname, config.path.fonts), path.join(root, config.path.dist, config.dest.fonts));
+    require('./lib/build-fonts')(path.join(config.path.dirname, config.path.fonts), path.join(config.path.dirname, config.path.dist, config.dest.fonts));
   }
 
   if (!type || type === 'images') {
     console.log('Building images');
-    require('./lib/build-images')(path.join(config.path.dirname, config.path.images), path.join(root, config.path.dist, config.dest.images));
+    require('./lib/build-images')(path.join(config.path.dirname, config.path.images), path.join(config.path.dirname, config.path.dist, config.dest.images));
   }
 
   if (!type || type === 'script') {

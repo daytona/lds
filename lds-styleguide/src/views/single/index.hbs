@@ -12,37 +12,32 @@
     </h2>
 
     <div class="PageHeader-nav">
-
-      <ul class="PageHeader-menu PageHeader-menu--secondary">
-        {{#> component:tablist toggle="true"}}
-          {{#> component:tablist/tab id="source"}}
-            <button class="js-showEditFormbutton {{prefix}}IconButton {{prefix}}IconButton--medium">
-              {{!-- {{> component:icon name='settings' }} --}}
-              <\>
-            </button>
-          {{/ component:tablist/tab}}
-        {{/ component:tablist}}
-
-        <li class="PageHeader-menuItem">
-
-        </li>
-      </ul>
+      {{#if code}}
+        <ul class="PageHeader-menu PageHeader-menu--secondary">
+          {{#> component:tablist toggle="true"}}
+            {{#> component:tablist/tab id="source"}}
+              <button class="js-showEditFormbutton {{prefix}}IconButton {{prefix}}IconButton--medium">
+                {{!-- {{> component:icon name='settings' }} --}}
+                <\>
+              </button>
+            {{/ component:tablist/tab}}
+          {{/ component:tablist}}
+        </ul>
+      {{/if}}
 
     </div>
-
   </header>
 
   {{#> component:tabarea id="source"}}
-
     <div class="Page-subheader">
       {{#> component:tablist small="true"}}
-        {{#if template}}
+        {{#if @component.template}}
           {{> component:tablist/tab id="template" title="index.hbs"}}
         {{/if}}
-        {{#if script}}
+        {{#if @component.script}}
           {{> component:tablist/tab id="script" title="index.js"}}
         {{/if}}
-        {{#if styles}}
+        {{#if @component.styles}}
           {{> component:tablist/tab id="styles" title="index.css"}}
         {{/if}}
       {{/ component:tablist}}
@@ -51,19 +46,19 @@
     <div class="Page-section--divider">
       {{#if template}}
         {{#> component:tabarea id="template"}}
-          <code><pre class="code language-handlebars" data-controller="fetch" data-url="/api/{{@component.group}}/{{@component.name}}?clean=true&type=template"></pre></code>
+          <code><pre class="code language-handlebars" data-controller="fetcher" data-url="/api/{{@component.group}}/{{@component.name}}?clean=true&type=template"></pre></code>
         {{/component:tabarea}}
       {{/if}}
 
       {{#if script}}
         {{#> component:tabarea id="script"}}
-          <code><pre class="code language-handlebars" data-controller="fetch" data-url="/api/{{@component.group}}/{{@component.name}}?clean=true&type=js"></pre></code>
+          <code><pre class="code language-handlebars" data-controller="fetcher" data-url="/api/{{@component.group}}/{{@component.name}}?clean=true&type=js"></pre></code>
         {{/component:tabarea}}
       {{/if}}
 
       {{#if styles}}
         {{#> component:tabarea id="styles"}}
-          <code><pre class="code language-css" data-controller="fetch" data-url="/api/{{@component.group}}/{{@component.name}}?clean=true&type=css"></pre></code>
+          <code><pre class="code language-css" data-controller="fetcher" data-url="/api/{{@component.group}}/{{@component.name}}?clean=true&type=css"></pre></code>
         {{/component:tabarea}}
       {{/if}}
 
@@ -124,28 +119,21 @@
     {{/if}}
 
     <footer class="{{prefix}}Component-footer">
-      {{#if dependencies}}
+      {{#if dependentBy}}
         <strong>Dependencies</strong>
-        <dl>
-          {{#if css.dependencies}}
-            <dt>CSS</dt>
-            {{#each css.dependencies}}
-              <dd>{{.}}</dd>
-            {{/each}}
-          {{/if}}
-          {{#if js.dependencies}}
-            <dt>JS</dt>
-            {{#each js.dependencies}}
-              <dd>{{.}}</dd>
-            {{/each}}
-          {{/if}}
-          {{#if hbs.dependencies}}
-            <dt>HBS</dt>
-            {{#each hbs.dependencies}}
-              <dd>{{.}}</dd>
-            {{/each}}
-          {{/if}}
-        </dl>
+        <ul>
+          {{#each dependentBy}}
+            <li><a href="/styleguide{{this.id}}">{{this.partialName}}</a></li>
+          {{/each}}
+        </ul>
+      {{/if}}
+      {{#if dependencyTo}}
+        <strong>Dependent by me</strong>
+        <ul>
+          {{#each dependencyTo}}
+            <li><a href="/styleguide{{this.id}}">{{this.partialName}}</a></li>
+          {{/each}}
+        </ul>
       {{/if}}
 
       {{#if config.revisions}}

@@ -11,7 +11,16 @@ export default function initDemoForm(el, options = {}) {
 
   const handleInputChange = ({target}) => {
     const key = target.name;
-    const value = target.value;
+    let value = target.value;
+
+    switch (value) {
+      case 'false':
+        value = false;
+        break;
+      case 'undefined':
+        value = undefined;
+        break;
+    }
 
     store.dispatch(updateComponentParamAction(id, key, value));
   };

@@ -11,7 +11,9 @@
         </label>
         <select class="{{prefix}}DemoForm-input {{prefix}}SelectInput {{prefix}}Text-small" name="{{@key}}">
           {{#with (getProperty ../data @key)}}
-            <option value="{{#if (hasProperty this 'value')}}{{jsonLine value}}{{else}}{{this}}{{/if}}" selected="selected">{{#if (isString this)}}{{this}}{{else}}default{{/if}}</option>
+            <option value="{{jsonLine this}}" selected="selected">{{#if (isString this)}}{{this}}{{else}}default{{/if}}</option>
+          {{else}}
+            <option value="{{toString (getProperty ../data @key)}}" selected="selected">{{toString (getProperty ../data @key)}}</option>
           {{/with}}
 
           {{#each this}}

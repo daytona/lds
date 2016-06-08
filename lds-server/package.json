@@ -1,6 +1,6 @@
 {
-  "name": "lds-server",
-  "version": "1.0.0",
+  "name": "@daytona/lds-server",
+  "version": "0.0.1",
   "description": "A Koa server to render views, with components as partials. Including styleguide for listing components under /components and single component under /component/:name",
   "main": "index.js",
   "scripts": {
@@ -8,12 +8,6 @@
   },
   "author": "Daytona Stockholm",
   "license": "MIT",
-  "links": [
-    "lds-api",
-    "lds-editor",
-    "lds-engine",
-    "lds-styleguide"
-  ],
   "dependencies": {
     "assign-deep": "^0.4.3",
     "babel": "^6.5.1",
@@ -33,10 +27,16 @@
     "koa-mount": "^1.3.0",
     "koa-router": "^5.4.0",
     "koa-static": "^2.0.0",
+    "koa-sub-domain": "^1.0.2",
     "mz": "^2.3.1",
     "path": "^0.12.7",
     "postcss": "^5.0.16",
     "prism-languages": "^0.3.0",
-    "prismjs": "^1.4.1"
+    "prismjs": "^1.4.1",
+    "@daytona/lds-api": "^0.0.1",
+    "@daytona/lds-styleguide": "^0.0.1",
+    "@daytona/lds-editor": "^0.0.1",
+    "@daytona/lds-parser": "^0.0.1",
+    "@daytona/lds-engine": "^0.0.1"
   }
 }

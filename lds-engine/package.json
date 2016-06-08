@@ -1,6 +1,6 @@
 {
-  "name": "lds-engine",
-  "version": "1.0.0",
+  "name": "@daytona/lds-engine",
+  "version": "0.0.1",
   "description": "Templating engine for LDS",
   "main": "index.js",
   "scripts": {

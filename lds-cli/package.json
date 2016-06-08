@@ -1,6 +1,6 @@
 {
-  "name": "lds-cli",
-  "version": "1.0.0",
+  "name": "@daytona/lds-cli",
+  "version": "0.0.1",
   "description": "A CLI to manage components and builds of a LDS framwork",
   "main": "index.js",
   "bin": {
@@ -26,6 +26,10 @@
     "promptly": "^1.1.0",
     "semver": "^5.1.0",
     "util": "^0.10.3",
-    "watch": "^0.17.1"
+    "watch": "^0.17.1",
+    "@daytona/lds-server": "^0.0.1",
+    "@daytona/lds-build": "^0.0.1",
+    "@daytona/lds-test": "^0.0.1",
+    "@daytona/lds-create": "^0.0.1"
   }
 }

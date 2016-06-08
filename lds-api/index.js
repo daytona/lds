@@ -1,6 +1,3 @@
-var ldsbuild = require('lds-build');
-var ldstest = require('lds-test');
-
 var path = require('path');
 var fs = require('fs');
 var koa = require('koa');
@@ -144,7 +141,7 @@ router
       var language = query.type;
       switch (query.type) {
         case 'json':
-          content = component.data;
+          content = JSON.stringify(component.data, null, 2);
           break;
         case 'js':
           content = component.code.script;
@@ -162,9 +159,6 @@ router
           break;
       }
       if (query.clean) {
-        if (query.type === 'html') {
-          content = content.replace(/</g, '&lt;');
-        }
         this.type = 'text/plain; charset=utf-8';
         this.body = content;
         return;

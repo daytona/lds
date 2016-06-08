@@ -1,14 +1,16 @@
 var path = require('path');
 var koa = require('koa');
 var serve = require('koa-static');
+var subdomain = require('koa-sub-domain');
 var mount = require('koa-mount');
 var router = require('./router');
-var styleguide = require('lds-styleguide');
-var api = require('lds-api');
-var editor = require('lds-editor');
-var parseLds = require('lds-parser');
-//var extendLds = require('./extend-components');
-var Engine = require('lds-engine');
+
+var styleguide = require('@daytona/lds-styleguide');
+var api = require('@daytona/lds-api');
+var editor = require('@daytona/lds-editor');
+var parseLds = require('@daytona/lds-parser');
+var Engine = require('@daytona/lds-engine');
+
 var view = require('../controllers/view');
 var pageNotFound = require('../controllers/404');
 var objectDeepMap = require('../lib/object-deep-map');
@@ -23,7 +25,7 @@ function Server(config) {
 
   var host = process.env.HOST || 'localhost';
   var port = process.env.PORT || config.port || 4000;
-  
+
   if (!config.namespace) {
   config.namespace = 'lds';
   }
@@ -43,7 +45,13 @@ function Server(config) {
     .use(mount('/styleguide', styleguide))
     .use(mount('/api', api.app))
     .use(mount('/playground', editor))
+    .use(mount('/info', function* infoView(next) {
+      this.showinfo = true;
+      yield next;
+    }))
+    .use(mount('/info', view))
     .use(view)
+
     .listen(port);
 
   console.log('HTTP-Server running at port ', port);

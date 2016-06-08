@@ -180,6 +180,9 @@ var helpers = {
                               obj[key])}`);
     });
     return queries.join('&');
+  },
+  toString(value) {
+    return typeof value === 'undefined' ? 'undefined' : value.toString();
   }
 };
 

@@ -1,6 +1,6 @@
 {
-  "name": "lds-api",
-  "version": "1.0.0",
+  "name": "@daytona/lds-api",
+  "version": "0.0.1",
   "description": "Methods and API endpoints for LDS",
   "main": "index.js",
   "scripts": {

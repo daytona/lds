@@ -8,18 +8,21 @@ function* viewPage (next) {
   var view = findComponent(this.lds.structure.views, '/views' + url);
 
   if (!view || (!view.template && view.children)) {
-    view = findComponent(this.lds.structure.views, '/views' + url + '/index');
+    view = findComponent(this.lds.structure.views, '/views' + url + '/index') ||
+           findComponent(this.lds.structure.views, '/views' + url + '/start');
   }
 
   if (view) {
-    const query = {};
-
+    const data = {};
+    if (this.showinfo) {
+      data.readme = view.info;
+    }
     // Loop though query parameters to build an data object
     Object.keys(this.query).forEach((key) => {
-      query[key] = isJSON(this.query[key]) ? JSON.parse(this.query[key]) : this.query[key];
+      data[key] = isJSON(this.query[key]) ? JSON.parse(this.query[key]) : this.query[key];
     });
 
-    this.renderView(view, query);
+    this.renderView(view, data);
   }
   yield next;
 }

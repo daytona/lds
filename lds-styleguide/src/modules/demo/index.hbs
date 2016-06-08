@@ -1,12 +1,11 @@
 <div
   data-controller="[{ &quot;Demo&quot;: {&quot;data&quot;:{{jsonLine data}}{{#component.config}}, &quot;config&quot;: {{jsonLine .}}{{/component.config}} }}]"
   data-id="{{id}}"
-  data-url="/api/{{component.group}}/{{component.name}}"
   class="{{prefix}}Demo">
 
   <div class="Demo-content">
 
-    {{#if (and component.config.schema (not isExample))}}
+    {{#if (not isExample)}}
 
       {{> module:demo/header
             title=title
@@ -26,7 +25,7 @@
       {{/component:tabarea}}
       {{#> component:tabarea id=(concat "html" uid) }}
         <div class="{{prefix}}Package-demoView {{prefix}}Package-demoView--html">
-          <code><pre class="js-html"></pre></code>
+          {{> module:demo/html id=../id url=(concat "/api/" component.group "/" component.name)}}
         </div>
       {{/component:tabarea}}
 

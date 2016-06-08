@@ -1,7 +1,7 @@
 {
   "title": "Exempelblock",
-  "theme": ["bg-purple", "white"],
   "content": [
     "Blocks are used to create vertical spacing between content and are stylable with different themes to modify background and text color."
-  ]
+  ],
+  "theme": false
 }

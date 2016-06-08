@@ -3,11 +3,12 @@
 var cmd = require('cmd-exec').init();
 var program = require('commander');
 var path = require('path');
-var server = require('lds-server');
-var build = require('lds-build');
-var test = require('lds-test');
-var generator = require('lds-create');
 var watch = require('watch');
+
+var server = require('@daytona/lds-server');
+var build = require('@daytona/lds-build');
+var test = require('@daytona/lds-test');
+var generator = require('@daytona/lds-create');
 
 var root = process.cwd();
 var config = {};

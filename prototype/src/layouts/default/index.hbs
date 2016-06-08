@@ -10,6 +10,11 @@
     {{/unless}}
   </head>
   <body class="text">
+    {{#if readme}}
+    <div class="Readme" style="position: fixed; bottom: 0; background: #efefef; z-index: 1000; right: 0; left: 0; padding: 10px 30px; max-height: 50%; overflow: auto; box-shadow: inset 0px 1px 0px rgba(0,0,0,.9);">
+      {{{markdown readme}}}
+    </div>
+    {{/if}}
     {{#>module:page}}
       {{{@body}}}
     {{/module:page}}

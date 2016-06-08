@@ -5,13 +5,15 @@ var mount = require('koa-mount');
 var serve = require('koa-static');
 var Router = require('koa-router');
 var objectDeepMap = require('./lib/object-deep-map');
-var Engine = require('lds-engine');
+
+var Engine = require('@daytona/lds-engine');
+var parseLds = require('@daytona/lds-parser');
+
 var pureQuery = require('./lib/pure-query');
 var findComponent = require('./lib/find-component');
 
 var config = require('./lds.config');
 var app = koa();
-var parseLds = require('lds-parser');
 var router = new Router();
 
 function *defaultData(next) {
