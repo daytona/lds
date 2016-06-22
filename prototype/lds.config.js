@@ -35,7 +35,8 @@ module.exports = {
     script: 'main.js',
     style: 'style.css',
     images: 'images',
-    fonts: 'fonts'
+    fonts: 'fonts',
+    html: 'html'
   },
   server: {
     port: 4000
