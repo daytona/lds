@@ -1,6 +1,6 @@
 {
   "name": "@daytona/lds-styleguide",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Creating a styleguide based on LDS-structure to present all components, views and helpers in GUI ",
   "main": "index.js",
   "scripts": {
@@ -16,6 +16,9 @@
     "lds-engine"
   ],
   "dependencies": {
+    "@daytona/living-design-system": "latest",
+    "@daytona/lds-engine": "latest",
+    "@daytona/lds-parser": "latest",
     "any-promise": "^1.1.0",
     "babel": "^6.5.1",
     "babel-core": "^6.5.2",
@@ -41,8 +44,6 @@
     "redux": "^3.3.1",
     "shallow-equals": "0.0.0",
     "webshot": "^0.18.0",
-    "xhr-promise": "^2.0.0",
-    "@daytona/lds-engine": "^0.0.1",
-    "@daytona/lds-parser": "^0.0.1"
+    "xhr-promise": "^2.0.0"
   }
 }
