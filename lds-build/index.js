@@ -1,6 +1,7 @@
 var fs = require('fs-extra')
 var path = require('path');
 var trace = require('./lib/trace');
+var folderExists = require('is-existing-folder');
 
 // Step through a object of files and return all file names which match a certain reg exp
 function findComponents(branch, regexp, path) {
@@ -24,6 +25,7 @@ function findComponents(branch, regexp, path) {
 
 // Build scripts for bundling scripts and styles, generating icon-fonts, minifying imagages and copying font files.
 module.exports = function build(type, config) {
+  console.log('Buildning', type);
   var components = {
     base : config.path.base ? trace(path.join(config.path.dirname, config.path.base)) : false,
     components : config.path.components ? trace(path.join(config.path.dirname, config.path.components)) : false,
@@ -32,7 +34,14 @@ module.exports = function build(type, config) {
     helpers :  config.path.helpers ? trace(path.join(config.path.dirname, config.path.helpers)) : false
   };
 
-  // If build all, first empty dist-folder
+  // Look if folder exists, otherwise create it
+  try  {
+    return fs.statSync(path.join(config.path.dirname, config.path.dist)).isDirectory();
+  }
+  catch (e) {
+    fs.mkdirSync(path.join(config.path.dirname, config.path.dist));
+  };
+
   if (!type) {
     fs.emptyDirSync(path.join(config.path.dirname, config.path.dist), function (err) {
       if (!err) console.log('Empty DIST')
@@ -81,9 +90,5 @@ module.exports = function build(type, config) {
       console.log('CSS bundle written to disk: ',path.join(config.path.dirname, config.path.dist, config.dest.style));
     });
   }
-
-  // if (!type || type === 'tree') {
-  //   require('./lib/build-tree')(config);
-  // }
 
 };
