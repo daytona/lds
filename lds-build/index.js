@@ -36,7 +36,7 @@ module.exports = function build(type, config) {
 
   // Look if folder exists, otherwise create it
   try  {
-    return fs.statSync(path.join(config.path.dirname, config.path.dist)).isDirectory();
+    fs.statSync(path.join(config.path.dirname, config.path.dist)).isDirectory();
   }
   catch (e) {
     fs.mkdirSync(path.join(config.path.dirname, config.path.dist));
