@@ -3,6 +3,7 @@
 var fs = require('fs');
 var fileExists = require('file-exists');
 var path = require('path');
+var watch = require('watch');
 var cli = require('@daytona/lds-cli');
 var server = require('@daytona/lds-server');
 var generator = require('@daytona/lds-create');
@@ -26,7 +27,7 @@ var dependencies = {
 };
 
 function setup(config) {
-  cli({
+  var commands = {
     start: {
       description: "Start new HTTP-server to serve views and styleguide",
       action() {
@@ -36,8 +37,34 @@ function setup(config) {
     build: {
       description: "Build all assets to dist folder, starting watchtasks",
       action(type = '') {
-        console.log('build assets');
         return build(type, config);
+      }
+    },
+    watch: {
+      description: "Look for changes in files and callappropriate build task",
+      action(type = '') {
+        // Start server forst
+        commands.start.action();
+        console.log('--------------------------------');
+        console.log('Watching for changes in files...');
+        watch.createMonitor(config.path.dirname, {
+          ignoreDirectoryPattern: /node_modules|dist/,
+          ignoreDotFiles: true,
+        },function (monitor) {
+          monitor.on("changed", function (file, curr, prev) {
+            if (/\.jsx?$/.test(file)) {
+              build('script', config);
+            } else if (/\.css$/.test(file)) {
+              build('styles', config);
+            } else if (/\.(png|jpg|gif)$/.test(file)) {
+              build('images', config);
+            } else if (/\.svg$/.test(file)) {
+              build('icons', config);
+            } else if (/\.(woff|ttf|otf|eot))$/.test(file)) {
+              build('fonts', config);
+            }
+          });
+        });
       }
     },
     create: {
@@ -52,7 +79,9 @@ function setup(config) {
         console.log('Tests not yet implemented. sorry');
       }
     }
-  });
+  };
+
+  cli(commands);
 }
 
 // If run from CLI
