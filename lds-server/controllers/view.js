@@ -3,7 +3,7 @@ var findComponent = require('../lib/find-component');
 
 // Render a single component with request.parameters or default json.
 function* viewPage (next) {
-  let url = this.request.url.replace(/\/$/, '');
+  var url = this.request.url.replace(/\/$/, '');
 
   var view = findComponent(this.lds.structure.views, '/views' + url);
 
@@ -13,7 +13,7 @@ function* viewPage (next) {
   }
 
   if (view) {
-    const data = {};
+    var data = {};
     if (this.showinfo) {
       data.readme = view.info;
     }
