@@ -36,6 +36,10 @@ module.exports = {
     images: 'images',       // Destination for optimized image files
     fonts: 'fonts'          // Destination folder for web-fonts to be copied
   },
+  login: {                  // Restict production environment with a simple auth
+    name: 'daytona',
+    pass: 'd4y70n4'
+  },
   server: {
     port: 4000              // Port on which server should set up HTTP-Server
   }

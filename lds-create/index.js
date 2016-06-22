@@ -4,6 +4,8 @@ var trace = require('./lib/readTree');
 var build = require('./lib/writeTree');
 var Mustache = require('mustache');
 var objectDeepMap = require('./lib/object-deep-map');
+var cmd = require("cmd-exec").init();
+var fileExists = require('file-exists');
 
 var groups = {
   base: 'base',
@@ -15,13 +17,25 @@ var groups = {
   layout: 'layouts'
 };
 function init(root, callback) {
+  console.log('Setting up a Living Design System');
   var tree = trace(path.join(__dirname, '/generators/init'));
   build(tree, root, function(err) {
     if (err) {
       console.error(err);
       return;
     }
-    callback();
+    console.log('Setting up npm dependencies');
+    var cmdString = '';
+    if (!fileExists(root + '/package.json')) {
+      cmdString += 'npm init --y && ';
+    }
+    cmdString += 'npm i -s handlebars eslint babel-core babel-eslint babel-preset-es2015';
+    cmd.exec(cmdString).then(function(){
+      console.log('Building initial assets');
+      return cmd.exec('lds build');
+    }).then(function(){
+      callback();
+    });
   });
   return;
 }

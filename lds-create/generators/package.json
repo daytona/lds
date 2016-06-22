@@ -1,0 +1,16 @@
+{
+  "scripts": {
+    "test": "eslint && lds test",
+    "run": "lds start",
+    "build": "lds build"
+  },
+  "dependencies": {
+    "@daytona/living-design-system": "latest",
+    "babel-core": "^6.5.2",
+    "babel-eslint": "^4.1.8",
+    "babel-preset-es2015": "^6.5.0",
+    "babel-register": "^6.5.2",
+    "eslint": "^1.10.3",
+    "handlebars": "^4.0.5"
+  }
+}
