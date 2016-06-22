@@ -60,21 +60,29 @@ var screenConfig = {
     captureSelector: '#Standalone-wrapper',
     screenSize: {
       width: 0
-    },
+    }
   },
 };
-function screenshot(url, path, config) {
-  webshot(url, path, config, (err) => {
-    if (err) {
-      throw new Error(err);
-    }
-    console.log(`Screen ${url} saved to ${path}`);
-  });
+var queue = [];
+
+function screenshot() {
+  if (queue.length) {
+    console.log('queue.length', queue.length);
+    var job = queue.pop();
+    webshot(job.url, job.dest, job.config, (err) => {
+      if (err) {
+        throw new Error(err);
+      }
+      console.log(`Screen ${job.url} saved to ${job.dest}`);
+      screenshot();
+    });
+  }
 }
+
 function parseComponents(structure) {
   Object.keys(structure).forEach((componentName) => {
     var component = structure[componentName];
-    var url = `http://localhost:4000/api${component.id}?screenshot=true`;
+    var url = `http://localhost:4000/api${component.id}?standalone=true&screenshot=true`;
     var dest = `dist/screens${component.id}.png`
     var publicpath = `/assets/screens${component.id}.png`;
     var config;
@@ -102,7 +110,11 @@ function parseComponents(structure) {
       return false;
     }
 
-    screenshot(url, dest, config);
+    queue.push({
+      url,
+      dest,
+      config
+    });
     component.screen = publicpath;
   });
 }
@@ -115,5 +127,6 @@ function screenDump (structure, group) {
       parseComponents(structure[group]);
     });
   }
+  screenshot();
 }
 module.exports = screenDump;

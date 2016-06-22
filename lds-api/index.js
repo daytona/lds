@@ -6,6 +6,7 @@ var marked = require('marked');
 var pureQuery = require('./lib/pure-query');
 var screenDump = require('./lib/screenshots.js');
 var findComponent = require('./lib/find-component');
+var objectDeepMap = require('./lib/object-deep-map');
 var app = koa();
 var router = new Router();
 
@@ -86,6 +87,46 @@ router
     this.body = 'Saving screens of views';
     var query = pureQuery(this.query);
     screenDump(this.lds.structure, query.type);
+  })
+  .get('/export', function *(next){
+    var views = [];
+    objectDeepMap(this.lds.structure.views, (value) => {
+      if (value && value.isLDSObject && value.template) {
+        value.exporturl = value.url + '/index.html';
+        views.push(value);
+      }
+      return value;
+    });
+    views.forEach((view) => {
+      var viewpath = view.url.replace(/\/index$/, '');
+
+      var relativePath = viewpath.replace(/^\//, '').replace(/([^\/]+)/g, '..');
+      if (relativePath == '/') {
+        relativePath = '';
+      }
+      var dir = path.join(this.lds.config.path.dirname, this.lds.config.path.dist, 'html', viewpath);
+
+      // Render view content
+      var html = this.renderView(view, {}, true);
+
+      // Replace all assets links with relative urls
+      html = html.replace(/\/assets/g, relativePath ? '../' + relativePath : '..');
+
+      // Replace all view URLs to relative urls
+      views.forEach(otherview => {
+
+        var viewurl = new RegExp('="' + otherview.url || '/' + '"', 'g');
+        html = html.replace(viewurl, '="' + relativePath + otherview.exporturl + '"');
+      })
+      html = html.replace(/="\//g, '="' + relativePath);
+      fs.mkdir(dir, () => {
+        fs.writeFile( dir + '/index.html', html, (err) => {
+           if (err) throw err;
+           console.log(viewpath, ' saved!');
+        });
+      });
+    });
+    this.body = 'Exporting views to <a href="/assets/html">/dist/html</a>';
   })
   .get('/screen/:path*', function *(next) {
     var component = findComponent(this.lds.structure, '/'+ this.params.path);
@@ -219,7 +260,7 @@ router
                     </head>
                     <body style="margin: 0; background: #fefefe; ">
                     <div class="Page Page--nopadding text">
-                      <div id="Standalone-wrapper" style="${component.category === 'component' ? 'padding: 20px; position:relative; margin: auto; max-width:500px':''}">
+                      <div id="Standalone-wrapper" style="${component.category === 'component' ? 'padding: 20px; position:relative; margin: auto; max-width:800px':''}">
                       ${this.render(component.template, Object.assign({}, component.data, query))}
                       </div>
                     </div>
