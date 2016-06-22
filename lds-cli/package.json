@@ -1,21 +1,17 @@
 {
   "name": "@daytona/lds-cli",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A CLI to manage components and builds of a LDS framwork",
   "main": "index.js",
   "bin": {
-    "lds": "index.js"
+    "lds": "index.js",
+    "system": "index.js"
   },
   "scripts": {
     "test": "eslint"
   },
   "author": "Daytona Stockholm",
   "license": "MIT",
-  "links": [
-    "lds-build",
-    "lds-server",
-    "lds-test"
-  ],
   "dependencies": {
     "chalk": "^1.1.3",
     "cmd-exec": "^0.1.0",
@@ -26,10 +22,6 @@
     "promptly": "^1.1.0",
     "semver": "^5.1.0",
     "util": "^0.10.3",
-    "watch": "^0.17.1",
-    "@daytona/lds-server": "^0.0.1",
-    "@daytona/lds-build": "^0.0.1",
-    "@daytona/lds-test": "^0.0.1",
-    "@daytona/lds-create": "^0.0.1"
+    "watch": "^0.17.1"
   }
 }
