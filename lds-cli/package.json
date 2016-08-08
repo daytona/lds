@@ -1,12 +1,8 @@
 {
   "name": "@daytona/lds-cli",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A CLI to manage components and builds of a LDS framwork",
   "main": "index.js",
-  "bin": {
-    "lds": "index.js",
-    "system": "index.js"
-  },
   "scripts": {
     "test": "eslint"
   },

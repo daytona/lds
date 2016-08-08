@@ -6,7 +6,6 @@ var serve = require('koa-static');
 var Router = require('koa-router');
 var objectDeepMap = require('./lib/object-deep-map');
 
-var lds = require('@daytona/living-design-system');
 var Engine = require('@daytona/lds-engine');
 var parseLds = require('@daytona/lds-parser');
 

@@ -1,6 +1,6 @@
 {
   "name": "@daytona/lds-api",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Methods and API endpoints for LDS",
   "main": "index.js",
   "scripts": {
@@ -8,10 +8,6 @@
   },
   "author": "Daytona Stockholm",
   "license": "MIT",
-  "links": [
-    "lds-build",
-    "lds-test"
-  ],
   "dependencies": {
     "fs": "0.0.2",
     "inherits": "^2.0.1",

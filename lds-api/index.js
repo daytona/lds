@@ -87,6 +87,7 @@ router
     this.body = 'Saving screens of views';
     var query = pureQuery(this.query);
     screenDump(this.lds.structure, query.type);
+    yield next;
   })
   .get('/export', function *(next){
     var views = [];

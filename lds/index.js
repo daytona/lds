@@ -1,5 +1,3 @@
-#!/usr/bin/env node --use_strict
-
 var fs = require('fs');
 var fileExists = require('file-exists');
 var path = require('path');
@@ -36,13 +34,13 @@ function setup(config) {
     },
     build: {
       description: "Build all assets to dist folder, starting watchtasks",
-      action(type = '') {
+      action(command, type = '') {
         return build(type, config);
       }
     },
     watch: {
       description: "Look for changes in files and callappropriate build task",
-      action(type = '') {
+      action(command, type = '') {
         // Start server forst
         commands.start.action();
         console.log('--------------------------------');

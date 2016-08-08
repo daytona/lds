@@ -10,9 +10,7 @@ module.exports = function cli(params) {
     program
       .command(command + (params[command].args ? ' ' + params[command].args : ''))
       .description(params[command].description || '')
-      .action(function() {
-        return params[command].action(arguments.splice(1));
-      });
+      .action(params[command].action);
   });
 
   program.parse(process.argv);
