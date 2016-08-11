@@ -34,13 +34,13 @@ function setup(config) {
     },
     build: {
       description: "Build all assets to dist folder, starting watchtasks",
-      action(command, type = '') {
+      action(command, type) {
         return build(type, config);
       }
     },
     watch: {
       description: "Look for changes in files and callappropriate build task",
-      action(command, type = '') {
+      action(command, type) {
         // Start server forst
         commands.start.action();
         console.log('--------------------------------');
@@ -58,7 +58,7 @@ function setup(config) {
               build('images', config);
             } else if (/\.svg$/.test(file)) {
               build('icons', config);
-            } else if (/\.(woff|ttf|otf|eot))$/.test(file)) {
+            } else if (/\.(woff|ttf|otf|eot)$/.test(file)) {
               build('fonts', config);
             }
           });
@@ -73,7 +73,7 @@ function setup(config) {
     },
     test: {
       description: "Test your LDS strucuture, file syntax and all nessecary functions",
-      action(type = 'all') {
+      action(type) {
         console.log('Tests not yet implemented. sorry');
       }
     }
