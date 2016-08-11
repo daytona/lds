@@ -6,6 +6,9 @@ module.exports = function buildIcons(config) {
   var files = fs.readdirSync(config.iconSrc).filter(function(file) {
     return file.substr(-4) === '.svg';
   }).map(function(file) {
+    if (config.iconDest) {
+      fs.copy(config.iconSrc + '/' + file, config.iconDest + '/' + file);
+    }
     return config.iconSrc + '/' + file;
   });
 

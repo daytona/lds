@@ -42,9 +42,9 @@ module.exports = function build(type, config) {
   };
 
   if (!type) {
-    fs.emptyDirSync(path.join(config.path.dirname, config.path.dist), function (err) {
-      if (!err) console.log('Empty DIST')
-    });
+    // fs.emptyDirSync(path.join(config.path.dirname, config.path.dist), function (err) {
+    //   if (!err) console.log('Empty DIST')
+    // });
   }
 
   if (!type || type === 'icons') {
@@ -53,7 +53,8 @@ module.exports = function build(type, config) {
     require('./lib/build-icons')({
       iconSrc: path.join(config.path.dirname, config.path.icons),
       fontName: 'icons',
-      fontDest: path.join(config.path.dirname, config.path.fonts),
+      fontDest: path.join(config.path.dirname, config.path.dist, config.dest.fonts || 'fonts'),
+      iconDest: path.join(config.path.dirname, config.path.dist, config.dest.icons || 'icons'),
       cssDest: path.join(config.path.dirname, config.path.base + '/icon/index.css')
     });
   }
@@ -84,10 +85,25 @@ module.exports = function build(type, config) {
 
   if (!type || type === 'styles') {
     var styles = findComponents(components, /index.css$/, 'src/');
+    var buildStyles = require('./lib/build-styles');
     console.log('Bundling styles');
-    require('./lib/build-styles')(styles, config.path.dirname, path.join(config.path.dirname, config.path.dist, config.dest.style), config.prefix, function(){
+
+    buildStyles(styles, config.path.dirname, path.join(config.path.dirname, config.path.dist, config.dest.style), config.prefix, function() {
       console.log('CSS bundle written to disk: ',path.join(config.path.dirname, config.path.dist, config.dest.style));
     });
+console.log('looking for styleguide styles');
+    try {
+      // Query the entry
+      stats = fs.lstatSync(path.join(config.path.dirname, 'styleguide.css'));
+
+      if(stats.isFile()) {
+        buildStyles([path.join(config.path.dirname, 'styleguide.css')], config.path.dirname, path.join(config.path.dirname, config.path.dist, 'styleguide.css'), false, function() {
+          console.log('Styleguide theme css written to disk');
+        });
+      }
+    } catch(err) {
+      // No styleguide.css available
+    }
   }
 
 };
