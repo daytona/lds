@@ -1,3 +1,5 @@
+// Tests and lints, to make sure LDS is working correctly before trying a build, serving content or commiting
+
 var mocha = require('mocha');
 
 module.exports = function test(type, root) {

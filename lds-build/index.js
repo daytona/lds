@@ -55,7 +55,8 @@ module.exports = function build(type, config) {
       fontName: 'icons',
       fontDest: path.join(config.path.dirname, config.path.dist, config.dest.fonts || 'fonts'),
       iconDest: path.join(config.path.dirname, config.path.dist, config.dest.icons || 'icons'),
-      cssDest: path.join(config.path.dirname, config.path.base + '/icon/index.css')
+      cssDest: path.join(config.path.dirname, config.path.base + '/icon/index.css'),
+      templateDest: path.join(config.path.dirname, config.path.base + '/icon/index.hbs')
     });
   }
 

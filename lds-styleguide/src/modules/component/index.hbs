@@ -1,6 +1,11 @@
 {{#saveas "component"}}
 <section class="{{prefix}}Section {{prefix}}Package js-component" id="Component-{{name}}">
   {{#if template}}
+    {{#if data}}
+      {{> component:example data=data id=(uid) name=false}}
+    {{/if}}
+  {{/if}}
+  {{#if example}}
     {{> component:example data=data id=(uid) name=false}}
   {{/if}}
   <header class="{{prefix}}Component-header">

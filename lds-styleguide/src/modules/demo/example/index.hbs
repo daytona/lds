@@ -3,10 +3,17 @@
   data-id="{{id}}"
   data-url="{{url}}"
   class="{{prefix}}DemoView {{prefix}}DemoView--example">
-
-  <iframe
-    src="{{{url}}}?standalone=true&iframeid={{id}}&{{querifyObject data}}"
-    class="{{prefix}}Example-iframe js-iframe"
-    id="iframe-{{id}}">
-  </iframe>
+  {{#if (not isExample)}}
+    <iframe
+      src="{{{url}}}?standalone=true&iframeid={{id}}&{{querifyObject data}}"
+      class="{{prefix}}Example-iframe js-iframe"
+      id="iframe-{{id}}">
+    </iframe>
+  {{else}}
+    <iframe
+      src="{{{url}}}?type=example&iframeid={{id}}&{{querifyObject data}}"
+      class="{{prefix}}Example-iframe js-iframe"
+      id="iframe-{{id}}">
+    </iframe>
+  {{/if}}
 </div>

@@ -145,6 +145,7 @@ router
       this.redirect('/api/screen' + component.children[Object.keys(component.children)[0]].id);
       return;
     }
+    if (screenpath)
     this.type = `image/${type}`;
     this.body = fs.readFileSync(screenpath);
   })
@@ -266,7 +267,7 @@ router
                       </div>
                     </div>
                     <script src="/assets/main.js"></script>
-                    ${query.iframeid && updateIframeScript(query.iframeid)}
+                    ${query.iframeid ? updateIframeScript(query.iframeid) : ''}
                     </body>
                   </html>`;
 

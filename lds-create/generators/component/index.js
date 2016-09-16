@@ -1,6 +1,6 @@
 import controller from '../../helpers/controller';
 
-function {{functionName}}(el, opt) {
+function {{className}}(el, opt) {
   function init() {
     // Do your thing
   }
@@ -8,4 +8,4 @@ function {{functionName}}(el, opt) {
     init
   }
 }
-controller.add('{{functionName}}', {{functionName}});
+controller.add('{{className}}', {{className}});

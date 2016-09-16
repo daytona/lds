@@ -2,7 +2,8 @@
   "scripts": {
     "test": "eslint && lds test",
     "run": "lds start",
-    "build": "lds build"
+    "build": "lds build",
+    "watch": "lds watch"
   },
   "dependencies": {
     "@daytona/living-design-system": "latest",

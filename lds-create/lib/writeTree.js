@@ -1,4 +1,5 @@
 var fs = require('fs');
+var mkdirp = require('mkdirp');
 var path = require('path');
 var isPlainObject = require('is-plain-object');
 
@@ -27,13 +28,15 @@ function build(object, dir, callback) {
 
   if (!dir) {
     return callback(new Error('Build can not write to disk without a root directory.'));
+  } else {
+    mkdirp.sync(dir);
   }
 
-  const stack = [];
+  var stack = [];
 
   // A makeshift promise implementation for queueing the callback
   function defer() {
-    const pointer = id;
+    var pointer = id;
 
     stack.push(id += 1);
 
@@ -49,8 +52,8 @@ function build(object, dir, callback) {
   }
 
   Object.keys(object).forEach((key) => {
-    const file = path.normalize(dir + '/' + key);
-    const promise = (callback && defer());
+    var file = path.normalize(dir + '/' + key);
+    var promise = (callback && defer());
 
     let value = object[key];
 

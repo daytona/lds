@@ -1,6 +1,6 @@
 {
   "name": "@daytona/lds-create",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Create parts of an LDS",
   "main": "index.js",
   "scripts": {
@@ -12,6 +12,7 @@
     "cmd-exec": "^0.1.0",
     "file-exists": "^1.0.0",
     "is-plain-object": "^2.0.1",
+    "mkdirp": "^0.5.1",
     "mustache": "^2.2.1",
     "mz": "^2.4.0",
     "path": "^0.12.7"

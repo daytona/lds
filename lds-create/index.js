@@ -27,12 +27,16 @@ function init(root, callback) {
     console.log('Setting up npm dependencies');
     var cmdString = '';
     if (!fileExists(root + '/package.json')) {
+      // Copy "./generators/package.json" to root
       cmdString += 'npm init --y && ';
     }
-    cmdString += 'npm i -s handlebars eslint babel-core babel-eslint babel-preset-es2015';
+    cmdString += 'npm i --save handlebars eslint babel-core babel-eslint babel-preset-es2015';
     cmd.exec(cmdString).then(function(){
       console.log('Building initial assets');
       return cmd.exec('lds build');
+    }).then(function(){
+      console.log('Starting upp server');
+      return cmd.exec('lds watch');
     }).then(function(){
       callback();
     });

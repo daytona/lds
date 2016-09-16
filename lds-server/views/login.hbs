@@ -1,0 +1,28 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login</title>
+    <style>
+      .LoginForm {
+        max-width: 500px;
+        margin: 100px auto;
+      }
+      label {}
+      input {}
+      button {}
+    </style>
+  </head>
+  <body>
+    <form action="/" method="post" class="LoginForm">
+      <h1>Logga in</h1>
+      <label for="lds_username">Användarnamn</label>
+      <input id="lds_username" type="text" name="lds_username" value="{{{lds_username}}}"/>
+      <br />
+      <label for="lds_password">Lösenord</label>
+      <input id="lds_password" type="password" name="lds_password" />
+      <br />
+      <button type="submit">Logga in</button>
+    </form>
+  </body>
+</html>

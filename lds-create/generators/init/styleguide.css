@@ -1,1 +1,14 @@
-.link-color {red}
+.Page {
+  /* Background and text color */
+}
+.Pane {
+  /* Styling of navigation pane */
+}
+.Logotype {
+  /* Change logotype background */
+}
+.Text {
+  /* Define general font size and family */
+}
+
+/* Or just go nuts with restyling the entire thing */

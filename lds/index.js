@@ -34,13 +34,15 @@ function setup(config) {
     },
     build: {
       description: "Build all assets to dist folder, starting watchtasks",
-      action(command, type) {
+      args: '[type]',
+      action(type) {
+        type = type || false;
         return build(type, config);
       }
     },
     watch: {
       description: "Look for changes in files and callappropriate build task",
-      action(command, type) {
+      action() {
         // Start server forst
         commands.start.action();
         console.log('--------------------------------');
@@ -67,12 +69,15 @@ function setup(config) {
     },
     create: {
       description: "Create new component,view,base,helper,layout",
+      args: '<type> <name>',
       action(type, name) {
+        console.log('create', type, name);
         generator.create(type, name, config);
       }
     },
     test: {
       description: "Test your LDS strucuture, file syntax and all nessecary functions",
+      args: '[type]',
       action(type) {
         console.log('Tests not yet implemented. sorry');
       }
@@ -92,8 +97,10 @@ if (process.argv && process.cwd()) {
     cli({
       init: {
         description: "Initialize a blank direcory as a LDS seting up a default folder structure",
-        action() {
-          return generator.init(root, function() {
+        args: '<relative>',
+        action(relative) {
+          var path = typeof(relative) === 'string' ? path.resolve(root, path) : root;
+          return generator.init(path, function() {
             console.log('A new living design system is set up');
           });
         }

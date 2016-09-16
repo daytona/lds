@@ -65,15 +65,15 @@ function parseComponentsAsync(config) {
 }
 
 function parseComponent(name, tree, options) {
-  let isComponent = false;
-  const isTemplate = new RegExp(`\.${options.config.engine.ext}$`);
-  const children = {};
-  const templates = [];
+  var isComponent = false;
+  var isTemplate = new RegExp(`\.${options.config.engine.ext}$`);
+  var children = {};
+  var templates = [];
 
   Object.keys(tree).forEach((fileName) => {
     // isFolder
     if (typeof tree[fileName] === 'object') {
-      let child = parseComponent(fileName, tree[fileName], Object.assign({}, options, {
+      var child = parseComponent(fileName, tree[fileName], Object.assign({}, options, {
         partialName: `${options.category}:${name}/${fileName}`,
         group: `${options.group}/${name}`,
         path: `${options.path}/${fileName}`
@@ -127,16 +127,16 @@ function parseDirectory(directory, options) {
     return false;
   }
 
-  const directoryComponents = {};
-  const componentsTree = trace(directory);
+  var directoryComponents = {};
+  var componentsTree = trace(directory);
 
   Object.keys(componentsTree).forEach((name) => {
-    let fileStat = fs.statSync(path.join(directory, name));
+    var fileStat = fs.statSync(path.join(directory, name));
     if (fileStat.isFile()) {
       return false;
     }
-    const tree = componentsTree[name];
-    const component = parseComponent(name, tree, Object.assign(options, {path: path.join(directory, name)}));
+    var tree = componentsTree[name];
+    var component = parseComponent(name, tree, Object.assign(options, {path: path.join(directory, name)}));
     if (component) {
       directoryComponents[name] = component;
     }
@@ -181,14 +181,14 @@ function resolvePartial(partialString, structure) {
 
 // Use postCSS to parse CSS to look for :root element and add all css variables to component object
 function parseCSS(component, structure) {
-  const variables = {};
-  const modifiers = [];
+  var variables = {};
+  var modifiers = [];
 
   postcss.parse(component.styles)
     .nodes.forEach((node) => {
-      const isModifier = node.type === 'rule' && node.selector.match(new RegExp(`${component.name}--([^ :]*)`, 'i'));
-      const isRoot = node.selector === ':root' && typeof node.nodes === 'object';
-      const isImport = node.type === 'atrule' && node.name === 'import';
+      var isModifier = node.type === 'rule' && node.selector.match(new RegExp(`${component.name}--([^ :]*)`, 'i'));
+      var isRoot = node.selector === ':root' && typeof node.nodes === 'object';
+      var isImport = node.type === 'atrule' && node.name === 'import';
 
       if (isRoot) {
         node.nodes.forEach((rule) => {
@@ -218,8 +218,8 @@ function parseCSS(component, structure) {
 
 // Parse script content to register all dependencies from its content
 function parseJS(component, structure) {
-  const dependencies = [];
-  const varStatements = component.script.match(/import ([^ ]* from )?["']([^"']*)["']/g);
+  var dependencies = [];
+  var varStatements = component.script.match(/import ([^ ]* from )?["']([^"']*)["']/g);
 
   if (varStatements) {
     varStatements.forEach((statement) => {

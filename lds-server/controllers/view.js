@@ -1,3 +1,4 @@
+var marked = require('marked');
 var isJSON = require('../lib/isJSON');
 var findComponent = require('../lib/find-component');
 
@@ -15,7 +16,7 @@ function* viewPage (next) {
   if (view) {
     var data = {};
     if (this.showinfo) {
-      data.readme = view.info;
+      data.readme = marked(view.info);
     }
     // Loop though query parameters to build an data object
     Object.keys(this.query).forEach((key) => {
