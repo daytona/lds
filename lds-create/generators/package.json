@@ -1,7 +1,7 @@
 {
   "scripts": {
     "test": "eslint && lds test",
-    "run": "lds start",
+    "run": "lds build && lds start",
     "build": "lds build",
     "watch": "lds watch"
   },

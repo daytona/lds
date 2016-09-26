@@ -5,14 +5,14 @@ LDS is a component management service, defining a way to write and manage compon
 ## One folder per component
 A component is a folder with all its defining assets within, like CSS, JavaScript, Template, default JSON data, configurations, screenshots, examples and description.
 for instance:
-
+```
  - MyComponent
   -- index.css
   -- index.js
   -- index.hbs
   -- default.json
   -- readme.md
-
+```
 By handling all component specifications in one place we can easier make sure CSS, JS and HTML are functioning together. And works as an instance independent on where in the DOM you put it.
 
 Further more, by relying on a standardized way of strucuring your components, we can then parse the file structure and get a complete library of all components and their dependencies.
@@ -32,7 +32,7 @@ LDS consists of several vital parts to make your job easier.
  - [LDS Editor](https://www.npmjs.com/package/@daytona/lds-editor): (TODO)Opens a sandbox environment for a component, where you can modify and even save your changes.
  - [LDS Git](https://www.npmjs.com/package/@daytona/lds-git): (TODO) A Git implementation allowing for changes made in styleguide and editor to be committed to the project.
 
-You can customize the file structure or templating engine, using the lds.config.js in your root project directory. Read more about customization in out [documentation](ducumentation/customization.md)
+You can customize the file structure or templating engine, using the lds.config.js in your root project directory. Read more about customization in out [documentation](docs/customization.md)
 
 ## Installation
 

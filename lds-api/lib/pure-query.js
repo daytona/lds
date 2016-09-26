@@ -2,9 +2,9 @@ var isJSON = require('./isJSON');
 
 module.exports = function pureQuery(rawQuery) {
   var query = {};
-  console.log(rawQuery)
   Object.keys(rawQuery).forEach((key) => {
-    query[key] = isJSON(rawQuery[key]) ? JSON.parse(rawQuery[key]) : rawQuery[key];
+    var value = (typeof rawQuery[key] === 'string') ? rawQuery[key].replace(/\%23/g, '#') : rawQuery[key];
+    query[key] = isJSON(value) ? JSON.parse(value) : value;
   });
   return query;
 }

@@ -40,7 +40,5 @@ module.exports = {
     name: 'daytona',
     pass: 'd4y70n4'
   },
-  server: {
-    port: 4000              // Port on which server should set up HTTP-Server
-  }
+  port: 4000              // Port on which server should set up HTTP-Server
 };

@@ -1,3 +1,11 @@
 <div class="{{prefix}}Page-innerWrapper">
-  <h1>Styleguide</h1>
+  <div class="PageHeader">
+    <h1 class="PageHeader-title Text-header Text-xlarge">Styleguide</h1>
+  </div>
+
+  <div class="Page-section" style="max-width: 40em;">
+    {{#if @root.info}}
+      {{{markdown @root.info}}}
+    {{/if}}
+  </div>
 </div>

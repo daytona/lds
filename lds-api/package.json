@@ -1,6 +1,6 @@
 {
   "name": "@daytona/lds-api",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Methods and API endpoints for LDS",
   "main": "index.js",
   "scripts": {
@@ -10,6 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "fs": "0.0.2",
+    "handlebars": "^4.0.5",
     "inherits": "^2.0.1",
     "koa": "^1.2.0",
     "koa-router": "^5.4.0",

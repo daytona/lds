@@ -17,9 +17,17 @@ var app = koa();
 var router = new Router();
 
 function *defaultData(next) {
+  var info = false;
+  try {
+    info = fs.readFileSync(path.join(this.lds.config.path.dirname, 'readme.md'), 'utf-8');
+  } catch (err) {
+    // No readme found
+  }
+
   this.defaultData = Object.assign(this.lds.structure, {
     mainNav: mainNav(this.lds.structure),
-    prefix: config.prefix ? `${config.prefix}-` : ''
+    prefix: config.prefix ? `${config.prefix}-` : '',
+    info: info
   });
 
   yield next;

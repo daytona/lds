@@ -5,5 +5,6 @@ export default function object2query(obj) {
                             JSON.stringify(obj[key], null, 0) :
                             obj[key])}`);
   });
-  return queries.join('&');
+
+  return encodeURI(queries.join('&').replace(/#/g, '%23'));
 }

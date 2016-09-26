@@ -46,19 +46,19 @@
     <div class="Page-section--divider">
       {{#if template}}
         {{#> component:tabarea id="template"}}
-          <code><pre class="code language-handlebars" data-controller="fetcher" data-url="/api/{{@component.group}}/{{@component.name}}?clean=true&type=template"></pre></code>
+          {{> component:codeEditor language="handlebars" fetch=(concat '/api/' @component.group '/' @component.name '?clean=true&type=template')}}
         {{/component:tabarea}}
       {{/if}}
 
       {{#if script}}
         {{#> component:tabarea id="script"}}
-          <code><pre class="code language-handlebars" data-controller="fetcher" data-url="/api/{{@component.group}}/{{@component.name}}?clean=true&type=js"></pre></code>
+          {{> component:codeEditor language="javascript" fetch=(concat '/api/' @component.group '/' @component.name '?clean=true&type=js')}}
         {{/component:tabarea}}
       {{/if}}
 
       {{#if styles}}
         {{#> component:tabarea id="styles"}}
-          <code><pre class="code language-css" data-controller="fetcher" data-url="/api/{{@component.group}}/{{@component.name}}?clean=true&type=css"></pre></code>
+          {{> component:codeEditor language="css" fetch=(concat '/api/' @component.group '/' @component.name '?clean=true&type=css')}}
         {{/component:tabarea}}
       {{/if}}
 

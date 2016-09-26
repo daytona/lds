@@ -79,10 +79,10 @@ function screenshot() {
   }
 }
 
-function parseComponents(structure) {
+function parseComponents(structure, baseUrl) {
   Object.keys(structure).forEach((componentName) => {
     var component = structure[componentName];
-    var url = `http://localhost:4000/api${component.id}?standalone=true&screenshot=true`;
+    var url = `${baseUrl}/api${component.id}?standalone=true&screenshot=true`;
     var dest = `dist/screens${component.id}.png`
     var publicpath = `/assets/screens${component.id}.png`;
     var config;
@@ -118,13 +118,13 @@ function parseComponents(structure) {
     component.screen = publicpath;
   });
 }
-function screenDump (structure, group) {
+function screenDump (structure, group, baseUrl) {
   if (group) {
     parseComponents(structure[group]);
   } else {
     // parse all root categories
     Object.keys(structure).forEach((group) => {
-      parseComponents(structure[group]);
+      parseComponents(structure[group], baseUrl);
     });
   }
   screenshot();
