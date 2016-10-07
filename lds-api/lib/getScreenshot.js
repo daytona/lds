@@ -18,7 +18,13 @@ module.exports = function* getScreenshot (next) {
     this.redirect('/api/screen' + component.children[Object.keys(component.children)[0]].id);
     return;
   }
-  if (screenpath)
+  try {
+    fs.lstatSync(screenpath);
+  } catch (error) {
+    // File not found
+    this.body = '';
+    return;
+  }
   this.type = `image/${type}`;
   this.body = fs.readFileSync(screenpath);
 };
