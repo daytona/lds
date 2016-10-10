@@ -6,22 +6,27 @@ var cssimport = require('postcss-import');
 var cssprefix = require('postcss-class-prefix');
 var cssurl = require('postcss-url');
 
-module.exports = function buildStyles(files, src, dest, prefix, callback) {
+module.exports = function buildStyles(files, src, dest, prefix, plugins, callback) {
   var bundle = postcss.root();
-
+  var plugins = plugins || [];
 // Create fake base style with imports
   var imports = files.map(function(file) {
     return '@import \"' + file + '\";';
   }).join('\n');
-
-  postcss()
+  var processor = postcss()
     .use(cssimport({
       map: {inline: true, sourcesContent: true}
     }))
     .use(cssprefix(prefix ? prefix + '-' : ''))
     .use(cssurl())
     .use(cssnext())
-    .use(cssnano())
+    .use(cssnano());
+
+  plugins.forEach(function(plugin) {
+    processor.use(plugin);
+  });
+
+  processor
     .process(imports, { from: src + '/imports.css', to: dest })
     .then(function (result) {
       fs.writeFileSync(dest, result.css);

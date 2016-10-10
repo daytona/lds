@@ -11,7 +11,7 @@ function unCapitalize(string) {
 
 function toCamelCase(string) {
   return string.split(/[_|.|-]/).reduce((str, part) => {
-    const camelString = (str + capitalize(part));
+    var camelString = (str + capitalize(part));
     return camelString;
   }, '');
 }
@@ -83,8 +83,8 @@ var helpers = {
     return Object.assign(object1, object2);
   },
   eachProperty(context, options) {
-    let ret = '';
-    for (const prop in context) {
+    var ret = '';
+    for (var prop in context) {
       if (context) {
         ret = ret + options.fn({ key: prop, value: context[prop] });
       }
@@ -93,7 +93,7 @@ var helpers = {
   },
   grid(items, options) {
     return `<div class="Grid">${items.map((item) => {
-      const cell = `<div class="Grid-cell">${options.fn(item)}</div>`;
+      var cell = `<div class="Grid-cell">${options.fn(item)}</div>`;
       return cell;
     })}</div>`;
   },
@@ -126,7 +126,7 @@ var helpers = {
   tablistdata(options) {
     var id = options.hash.id;
     return options.hash.tabs.split(' ').map((tab) => {
-      let split = tab.split('#');
+      var split = tab.split('#');
       return {
         id: split[1] + id,
         title: split[0]

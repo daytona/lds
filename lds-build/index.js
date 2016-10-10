@@ -57,17 +57,23 @@ module.exports = function build(type, config) {
       iconDest: path.join(config.path.dirname, config.path.dist, config.dest.icons || 'icons'),
       cssDest: path.join(config.path.dirname, config.path.base + '/icon/index.css'),
       templateDest: path.join(config.path.dirname, config.path.base + '/icon/index.hbs')
+    }, function(){
+      console.log('Iconfont generated');
     });
   }
 
   if(!type || type === 'fonts' && config.path.fonts) {
     console.log('Copying webfonts');
-    require('./lib/build-fonts')(path.join(config.path.dirname, config.path.fonts), path.join(config.path.dirname, config.path.dist, config.dest.fonts));
+    require('./lib/build-fonts')(path.join(config.path.dirname, config.path.fonts), path.join(config.path.dirname, config.path.dist, config.dest.fonts), function(){
+      console.log('All fonts written to disk');
+    });
   }
 
   if (!type || type === 'images') {
     console.log('Building images');
-    require('./lib/build-images')(path.join(config.path.dirname, config.path.images), path.join(config.path.dirname, config.path.dist, config.dest.images));
+    require('./lib/build-images')(path.join(config.path.dirname, config.path.images), path.join(config.path.dirname, config.path.dist, config.dest.images), function(files) {
+      console.log(files.length, 'images written to disk');
+    });
   }
 
   if (!type || type === 'script') {
@@ -89,16 +95,16 @@ module.exports = function build(type, config) {
     var buildStyles = require('./lib/build-styles');
     console.log('Bundling styles');
 
-    buildStyles(styles, config.path.dirname, path.join(config.path.dirname, config.path.dist, config.dest.style), config.prefix, function() {
+    buildStyles(styles, config.path.dirname, path.join(config.path.dirname, config.path.dist, config.dest.style), config.prefix, config.postcss, function() {
       console.log('CSS bundle written to disk: ',path.join(config.path.dirname, config.path.dist, config.dest.style));
     });
-console.log('looking for styleguide styles');
+    console.log('looking for styleguide styles');
     try {
       // Query the entry
       stats = fs.lstatSync(path.join(config.path.dirname, 'styleguide.css'));
 
       if(stats.isFile()) {
-        buildStyles([path.join(config.path.dirname, 'styleguide.css')], config.path.dirname, path.join(config.path.dirname, config.path.dist, 'styleguide.css'), false, function() {
+        buildStyles([path.join(config.path.dirname, 'styleguide.css')], config.path.dirname, path.join(config.path.dirname, config.path.dist, 'styleguide.css'), config.prefix, config.postcss, function() {
           console.log('Styleguide theme css written to disk');
         });
       }

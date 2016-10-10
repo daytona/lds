@@ -1,0 +1,17 @@
+{{#if (isString this)}}
+  <p>{{{this}}}</p>
+{{else if component}}
+  {{>(partial component)}}
+{{else if (and tag content)}}
+  <{{tag}}{{#if class}} class="{{{class}}}"{{/if}}>{{{content}}}</{{tag}}>
+{{else}}
+  {{#each this}}
+    {{#if component}}
+      {{>(partial component)}}
+    {{else if (and tag content)}}
+      <{{tag}}{{#if class}} class="{{{class}}}"{{/if}}>{{{content}}}</{{tag}}>
+    {{else if (isString this)}}
+      <p>{{{this}}}</p>
+    {{/if}}
+  {{/each}}
+{{/if}}

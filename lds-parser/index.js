@@ -91,6 +91,28 @@ function parseComponent(name, tree, options) {
       });
     }
   });
+  var componentData;
+  var componentConfig;
+
+  if (tree['index.json'] || tree['default.json']) {
+    try {
+      var json = tree['index.json'] || tree['default.json'];
+      componentData = JSON.parse(json);
+    } catch (err) {
+      console.error('Invalid JSON data in component', encodeURI(`/${options.group}/${name}`));
+      throw err;
+    }
+  }
+
+  if (tree['config.json']) {
+    try {
+      var json = tree['config.json'];
+      componentConfig = JSON.parse(json);
+    } catch (err) {
+      console.error('Invalid JSON config in component', encodeURI(`/${options.group}/${name}`));
+      throw err;
+    }
+  }
 
   var LDSObject = {
     id: encodeURI(`/${options.group}/${name}`),
@@ -100,10 +122,10 @@ function parseComponent(name, tree, options) {
     info: tree['readme.md'] || tree['index.md'],
     template: tree['index.' + options.config.engine.ext],
     example: tree['example.' + options.config.engine.ext],
-    data: (tree['index.json'] && JSON.parse(tree['index.json'])) || (tree['default.json'] && JSON.parse(tree['default.json'])),
+    data: componentData,
     styles: tree['index.css'] || tree['index.scss'] || tree['index.less'] || tree['index.styl'],
     script: tree['index.js'] || tree['index.jsx'],
-    config: tree['config.json'] && JSON.parse(tree['config.json']),
+    config: componentConfig,
     screen: (tree['screen.png'] && path.join(options.path, 'screen.png') ||
              tree['screen.jpg'] && path.join(options.path, 'screen.jpg') ||
              tree['screen.gif'] && path.join(options.path, 'screen.gif')),

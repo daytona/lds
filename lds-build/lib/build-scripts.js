@@ -13,7 +13,9 @@ module.exports = function buildScript(files, root, dest, callback) {
     .transform(babelify, {
       presets: ['es2015']
     })
-    .transform({global: true, debug: true}, uglifyify)
+    .transform({global: true, debug: true}, uglifyify);
+
+  browserify
     .bundle()
     .on('error', function(error) {
       console.log(error.message);

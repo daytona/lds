@@ -1,6 +1,6 @@
 {
   "name": "@daytona/living-design-system",
-  "version": "0.3.0",
+  "version": "0.3.5",
   "description": "A component management system, which handles building, testing, and serving your application and all you have to worry outout is the UI, automatically creating a HTTP-server serving your Views, a full styleguide, rendering your components as partials, bundling assets and allowing for control via a CLI to create, test, run and build.",
   "main": "index.js",
   "bin": {

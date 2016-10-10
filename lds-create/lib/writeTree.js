@@ -55,7 +55,7 @@ function build(object, dir, callback) {
     var file = path.normalize(dir + '/' + key);
     var promise = (callback && defer());
 
-    let value = object[key];
+    var value = object[key];
 
     if (typeof value === 'function') {
       value = value(file);

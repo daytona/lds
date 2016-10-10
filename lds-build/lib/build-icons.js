@@ -4,7 +4,7 @@ var mkdirp = require('mkdirp');
 var webfontsGenerator = require('webfonts-generator')
 var SVGSpriter = require('svg-sprite');
 
-module.exports = function buildIcons(config) {
+module.exports = function buildIcons(config, callback) {
   var files = fs.readdirSync(config.iconSrc).filter(function(file) {
     return file.substr(-4) === '.svg';
   }).map(function(file) {
@@ -80,6 +80,9 @@ module.exports = function buildIcons(config) {
         }
       }
     });
+    if (typeof callback === 'function') {
+      callback();
+    }
   }
 
   // Generate @font-face set of icons

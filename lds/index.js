@@ -7,10 +7,10 @@ var server = require('@daytona/lds-server');
 var generator = require('@daytona/lds-create');
 var build = require('@daytona/lds-build');
 var styleguide = require('@daytona/lds-styleguide');
-var test = require('@daytona/lds-test');
 var api = require('@daytona/lds-api');
 var engine = require('@daytona/lds-engine');
 var parser = require('@daytona/lds-parser');
+var test = require('@daytona/lds-test');
 var config = process.cwd() && fileExists(process.cwd() + '/lds.config.js') ? require(process.cwd() + '/lds.config') : false;
 
 var dependencies = {
@@ -50,20 +50,10 @@ function setup(config) {
         watch.createMonitor(config.path.dirname, {
           ignoreDirectoryPattern: /node_modules|dist/,
           ignoreDotFiles: true,
-        },function (monitor) {
-          monitor.on("changed", function (file, curr, prev) {
-            if (/\.jsx?$/.test(file)) {
-              build('script', config);
-            } else if (/\.css$/.test(file)) {
-              build('styles', config);
-            } else if (/\.(png|jpg|gif)$/.test(file)) {
-              build('images', config);
-            } else if (/\.svg$/.test(file)) {
-              build('icons', config);
-            } else if (/\.(woff|ttf|otf|eot)$/.test(file)) {
-              build('fonts', config);
-            }
-          });
+        }, function (monitor) {
+          monitor.on("created", fileWatcher);
+          monitor.on("changed", fileWatcher);
+          monitor.on("removed", fileWatcher);
         });
       }
     },
@@ -77,9 +67,9 @@ function setup(config) {
     },
     test: {
       description: "Test your LDS strucuture, file syntax and all nessecary functions",
-      args: '[type]',
-      action(type) {
-        console.log('Tests not yet implemented. sorry');
+      args: '[silent]',
+      action(silent) {
+        test(process.cwd(), silent);
       }
     }
   };
@@ -97,15 +87,28 @@ if (process.argv && process.cwd()) {
     cli({
       init: {
         description: "Initialize a blank direcory as a LDS seting up a default folder structure",
-        args: '<relative>',
-        action(relative) {
-          var path = typeof(relative) === 'string' ? path.resolve(root, path) : root;
+        action() {
+          var path = root;
           return generator.init(path, function() {
             console.log('A new living design system is set up');
           });
         }
       }
     });
+  }
+}
+
+function fileWatcher (file) {
+  if (/\.jsx?$/.test(file)) {
+    build('script', config);
+  } else if (/\.css$/.test(file)) {
+    build('styles', config);
+  } else if (new RegExp(config.path.images +'/.*\.(png|jpg|gif|svg)$').test(file)) {
+    build('images', config);
+  } else if (new RegExp(config.path.icons +'/.*\.svg$').test(file)) {
+    build('icons', config);
+  } else if (new RegExp(config.path.fonts +'/.*\.(woff|ttf|otf|eot)$').test(file)) {
+    build('fonts', config);
   }
 }
 
