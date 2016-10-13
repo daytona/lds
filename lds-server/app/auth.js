@@ -10,7 +10,7 @@ module.exports = function auth(login, token) {
       this.session.token = token;
     }
 
-    if(this.session.token === token) {
+    if (this.session.token === token) {
       yield next;
     } else {
       var view = fs.readFileSync(path.resolve(__dirname, '../views/login.hbs'), 'utf8');
