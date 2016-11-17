@@ -15,7 +15,7 @@ module.exports = function buildStyles(files, src, dest, prefix, plugins, callbac
   }).join('\n');
   var processor = postcss()
     .use(cssimport({
-      map: {inline: true, sourcesContent: true}
+      map: {inline: true, sourcesContent: false}
     }))
     .use(cssprefix(prefix ? prefix + '-' : ''))
     .use(cssurl())

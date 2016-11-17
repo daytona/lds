@@ -88,9 +88,10 @@ module.exports = function test(root, onlyErrors) {
     if (!component.info) {
       warn(component.id, 'has no readme.md');
     }
-    if (component.template && !component.data && component.template.match(/\{\{.*\}\}/g).length) {
+    if (component.template && !component.data && component.template.match(/\{\{.*\}\}/g)) {
       warn(component.id, 'has no default.json');
     }
+
     if (component.data) {
       try {
         isJSON(component.data);
@@ -102,7 +103,6 @@ module.exports = function test(root, onlyErrors) {
       }
     }
   }
-
 
   info('');
   info('');

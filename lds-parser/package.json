@@ -1,6 +1,6 @@
 {
   "name": "@daytona/lds-parser",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Parse LDS structure and return indexable object",
   "main": "index.js",
   "scripts": {

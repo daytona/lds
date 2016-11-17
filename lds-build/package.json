@@ -1,6 +1,6 @@
 {
   "name": "@daytona/lds-build",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "Build scripts for a LDS project",
   "main": "index.js",
   "scripts": {
