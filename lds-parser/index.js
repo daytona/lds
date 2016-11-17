@@ -57,6 +57,7 @@ function parseComponents(config) {
     config
   };
 }
+
 function parseComponentsAsync(config) {
   return function* parser (next) {
     this[config.namespace] = parseComponents(config);
@@ -113,9 +114,16 @@ function parseComponent(name, tree, options) {
       throw err;
     }
   }
+  var id = encodeURI(`/${options.group}/${name}`);
+  var screendumpUrl = path.join(options.config.path.dirname, options.config.path.dist, 'screens' + id + '.png');
+
+  var screen = (tree['screen.png'] && path.join(options.path, 'screen.png') ||
+               tree['screen.jpg'] && path.join(options.path, 'screen.jpg') ||
+               tree['screen.gif'] && path.join(options.path, 'screen.gif') ||
+               path.join(options.config.path.public, 'screens' + id + '.png'))
 
   var LDSObject = {
-    id: encodeURI(`/${options.group}/${name}`),
+    id,
     path: encodeURI(options.path),
     name,
     partialName: options.partialName || `${options.category}:${name}`,
@@ -126,9 +134,7 @@ function parseComponent(name, tree, options) {
     styles: tree['index.css'] || tree['index.scss'] || tree['index.less'] || tree['index.styl'],
     script: tree['index.js'] || tree['index.jsx'],
     config: componentConfig,
-    screen: (tree['screen.png'] && path.join(options.path, 'screen.png') ||
-             tree['screen.jpg'] && path.join(options.path, 'screen.jpg') ||
-             tree['screen.gif'] && path.join(options.path, 'screen.gif')),
+    screen,
     category: options.category,
     group: options.group,
     children: Object.keys(children).length > 0 && children,

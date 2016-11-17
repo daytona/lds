@@ -1,7 +1,7 @@
 {{#saveas "component"}}
 <a href="/styleguide/{{group}}/{{name}}" class="ComponentListItem{{#if children}} ComponentListItem--stack{{/if}}" data-childcount="{{children.length}}">
   <div class="ComponentListItem-imageContainer">
-    <div class="FlexEmbed FlexEmbed--outlined FlexEmbed--4by3{{#if (equals @component.group 'views')}} FlexEmbed--scroll{{else}} FlexEmbed--contain{{/if}}" style="background-image: url('/api/screen{{@component.id}}');"></div>
+    <div class="FlexEmbed FlexEmbed--outlined FlexEmbed--4by3{{#if (equals @component.group 'views')}} FlexEmbed--scroll{{else}} FlexEmbed--contain{{/if}}" style="background-image: url('{{@component.screen}}');"></div>
   </div>
 
   <h3 class="ComponentListItem-title">{{name}}</h3>

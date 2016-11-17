@@ -40,13 +40,20 @@ function Server(config) {
 
   app.use(session(app));
 
-
+  if (process.env.NODE_ENV === 'production') {
+    app.use(function* (next) {
+      this[config.namespace] = lds;
+      yield next;
+    });
+  } else {
+    app.use(parseLds.async(config));
+  }
+  
   app
     .use(bodyParser())
     // Serve static files from /dist folder
     .use(pageNotFound) // Handle 404 after parsing every other middleware, if no match trigger 404
     .use(mount(config.path.public, serve(path.join(config.path.dirname, config.path.dist))))
-    .use(parseLds.async(config))
     .use(engine.setup(config.namespace));
     //.use(extendLds(config))
 

@@ -87,6 +87,7 @@ function mainNav(data) {
       };
     });
   }
+
   return {
     items: Object.keys(data).filter((groupName) => {
       // Remove empty
