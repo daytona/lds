@@ -37,6 +37,7 @@ if (!config.engine || !config.engine.render) {
   throw new Error('No templating engine specified');
 }
 var engine = new Engine(config.engine);
+var styleguideLds = parseLds.sync(config);
 
 if (!config.namespace) {
   config.namespace = 'styleguide';
@@ -67,9 +68,18 @@ router
       this.renderView(this[config.namespace].structure.views['single'], component);
     }
   });
+
+//if (process.env.NODE_ENV === 'production') {
+  app.use(function* (next) {
+    this[config.namespace] = styleguideLds;
+    yield next;
+  });
+// } else {
+//   app.use(parseLds.async(config));
+// }
+
 app
   .use(mount(config.path.public, serve(path.join(config.path.dirname, config.path.dist))))
-  .use(parseLds.async(config))
   .use(engine.setup(config.namespace, config.prefix))
   .use(defaultData)
   .use(router.routes());
