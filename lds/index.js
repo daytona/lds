@@ -23,13 +23,14 @@ var dependencies = {
   parser,
   engine : engine,
 };
-
+var runningServer;
 function setup(config) {
   var commands = {
     start: {
       description: "Start new HTTP-server to serve views and styleguide",
       action() {
-        return server(config);
+        runningServer = server(config);
+        return runningServer;
       }
     },
     build: {
@@ -43,7 +44,7 @@ function setup(config) {
     watch: {
       description: "Look for changes in files and callappropriate build task",
       action() {
-        // Start server forst
+        // Start server first
         commands.start.action();
         console.log('--------------------------------');
         console.log('Watching for changes in files...');
@@ -109,6 +110,8 @@ function fileWatcher (file) {
     build('icons', config);
   } else if (new RegExp(config.path.fonts +'/.*\.(woff|ttf|otf|eot)$').test(file)) {
     build('fonts', config);
+  } else if (new RegExp('\.(json|md|' + (config.engine.ext  || 'hbs') + ')$').test(file)) {
+    runningServer.parse();
   }
 }
 

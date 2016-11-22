@@ -40,15 +40,11 @@ function Server(config) {
 
   app.use(session(app));
 
-  if (process.env.NODE_ENV === 'production') {
-    app.use(function* (next) {
-      this[config.namespace] = lds;
-      yield next;
-    });
-  } else {
-    app.use(parseLds.async(config));
-  }
-  
+  app.use(function* (next) {
+    this[config.namespace] = lds;
+    yield next;
+  });
+
   app
     .use(bodyParser())
     // Serve static files from /dist folder
@@ -82,7 +78,15 @@ function Server(config) {
     return value;
   });
   console.log(`Styleguide: http://${host}:${port}/styleguide`);
-  return app;
+
+  return {
+    parse: function(){
+      console.log('Re-parsing structure');
+      lds = parseLds.sync(config);
+      return;
+    },
+    app
+  };
 };
 
 module.exports = Server;
