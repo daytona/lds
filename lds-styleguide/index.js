@@ -24,7 +24,7 @@ function *defaultData(next) {
     // No readme found
   }
 
-  this.defaultData = Object.assign(this.lds.structure, {
+  this.defaultData = Object.assign({}, this.lds.structure, {
     mainNav: mainNav(this.lds.structure),
     prefix: config.prefix ? `${config.prefix}-` : '',
     info: info
