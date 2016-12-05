@@ -23,94 +23,100 @@ function findComponents(branch, regexp, path) {
   return matches;
 }
 
+// Short for log
+var log = console.log.bind(console);
+
 // Build scripts for bundling scripts and styles, generating icon-fonts, minifying imagages and copying font files.
 module.exports = function build(type, config) {
+  var cfgPath = config.path;
   var components = {
-    base : config.path.base ? trace(path.join(config.path.dirname, config.path.base)) : false,
-    components : config.path.components ? trace(path.join(config.path.dirname, config.path.components)) : false,
-    modules : config.path.modules ? trace(path.join(config.path.dirname, config.path.modules)) : false,
-    views :  config.path.views ? trace(path.join(config.path.dirname, config.path.views)) : false,
-    helpers :  config.path.helpers ? trace(path.join(config.path.dirname, config.path.helpers)) : false
+    base : cfgPath.base ? trace(path.join(cfgPath.dirname, cfgPath.base)) : false,
+    components : cfgPath.components ? trace(path.join(cfgPath.dirname, cfgPath.components)) : false,
+    modules : cfgPath.modules ? trace(path.join(cfgPath.dirname, cfgPath.modules)) : false,
+    views :  cfgPath.views ? trace(path.join(cfgPath.dirname, cfgPath.views)) : false,
+    helpers :  cfgPath.helpers ? trace(path.join(cfgPath.dirname, cfgPath.helpers)) : false
   };
 
-  // Look if folder exists, otherwise create it
+  // Look if dist folder exists, otherwise create it
   try  {
-    fs.statSync(path.join(config.path.dirname, config.path.dist)).isDirectory();
+    fs.statSync(path.join(cfgPath.dirname, cfgPath.dist)).isDirectory();
   }
   catch (e) {
-    fs.mkdirSync(path.join(config.path.dirname, config.path.dist));
+    fs.mkdirSync(path.join(cfgPath.dirname, cfgPath.dist));
   };
 
-  if (!type) {
-    // fs.emptyDirSync(path.join(config.path.dirname, config.path.dist), function (err) {
-    //   if (!err) console.log('Empty DIST')
-    // });
-  }
+  /**
+   * Define all possible build engines
+   */
+  var builders = {
 
-  if (!type || type === 'icons') {
-    console.log('Generating iconfont');
+    icons: (config) => {
+      if (!cfgPath.icons) return;
+      require('./lib/build-icons')({
+        iconSrc: path.join(cfgPath.dirname, cfgPath.icons),
+        fontName: 'icons',
+        fontDest: path.join(cfgPath.dirname, cfgPath.dist, config.dest.fonts || 'fonts'),
+        iconDest: path.join(cfgPath.dirname, cfgPath.dist, config.dest.icons || 'icons'),
+        cssDest: path.join(cfgPath.dirname, cfgPath.base + '/icon/index.css'),
+        templateDest: path.join(cfgPath.dirname, cfgPath.base + '/icon/index.hbs')
+      }, function(){
+        log('Iconfont generated');
+      });
+    },
 
-    require('./lib/build-icons')({
-      iconSrc: path.join(config.path.dirname, config.path.icons),
-      fontName: 'icons',
-      fontDest: path.join(config.path.dirname, config.path.dist, config.dest.fonts || 'fonts'),
-      iconDest: path.join(config.path.dirname, config.path.dist, config.dest.icons || 'icons'),
-      cssDest: path.join(config.path.dirname, config.path.base + '/icon/index.css'),
-      templateDest: path.join(config.path.dirname, config.path.base + '/icon/index.hbs')
-    }, function(){
-      console.log('Iconfont generated');
-    });
-  }
+    fonts: (config) => {
+      if (!cfgPath.fonts) return;
+      log('Copying webfonts');
+      require('./lib/build-fonts')(path.join(cfgPath.dirname, cfgPath.fonts), path.join(cfgPath.dirname, cfgPath.dist, config.dest.fonts), function(){
+        log('All fonts written to disk');
+      });
+    },
 
-  if(!type || type === 'fonts' && config.path.fonts) {
-    console.log('Copying webfonts');
-    require('./lib/build-fonts')(path.join(config.path.dirname, config.path.fonts), path.join(config.path.dirname, config.path.dist, config.dest.fonts), function(){
-      console.log('All fonts written to disk');
-    });
-  }
+    images: (config) => {
+      if (!cfgPath.images) return;
+      log('Building images');
+      require('./lib/build-images')(path.join(cfgPath.dirname, cfgPath.images), path.join(cfgPath.dirname, cfgPath.dist, config.dest.images), function(files) {
+        log(files.length, 'images written to disk');
+      });
+    },
 
-  if (!type || type === 'images') {
-    console.log('Building images');
-    require('./lib/build-images')(path.join(config.path.dirname, config.path.images), path.join(config.path.dirname, config.path.dist, config.dest.images), function(files) {
-      console.log(files.length, 'images written to disk');
-    });
-  }
+    scripts: (config) => {
+      var scripts = findComponents(components, /index.js$/, 'src/');
+      log('Bundling scripts');
+      require('./lib/build-scripts')(scripts, cfgPath.dirname, path.join(cfgPath.dirname, cfgPath.dist, config.dest.script), function(){
+        log('JS bundle written to disk: ', path.join(cfgPath.dirname, cfgPath.dist, config.dest.script));
+      });
+    },
 
-  if (!type || type === 'script') {
-    var scripts = findComponents(components, /index.js$/, 'src/');
-    console.log('Bundling scripts');
-    require('./lib/build-scripts')(scripts, config.path.dirname, path.join(config.path.dirname, config.path.dist, config.dest.script), function(){
-      console.log('JS bundle written to disk: ', path.join(config.path.dirname, config.path.dist, config.dest.script));
-    });
-  }
+    styles: (config) => {
+      var styles = findComponents(components, /index.css$/, 'src/');
+      var buildStyles = require('./lib/build-styles');
+      log('Bundling styles');
 
-  if (type === 'sass') {
-    var styles = findComponents(components, /index.scss$/, 'src/');
-    console.log('Building sass styles');
-    require('./lib/build-sass')(styles, config.path.dirname, path.join(config.path.dirname, config.path.dist, config.dest.style), config.prefix);
-  }
+      buildStyles(styles, cfgPath.dirname, path.join(cfgPath.dirname, cfgPath.dist, config.dest.style), config.prefix, config.postcss, function() {
+        log('CSS bundle written to disk: ',path.join(cfgPath.dirname, cfgPath.dist, config.dest.style));
+      });
+      log('looking for styleguide styles');
+      try {
+        // Query the entry
+        stats = fs.lstatSync(path.join(cfgPath.dirname, 'styleguide.css'));
 
-  if (!type || type === 'styles') {
-    var styles = findComponents(components, /index.css$/, 'src/');
-    var buildStyles = require('./lib/build-styles');
-    console.log('Bundling styles');
-
-    buildStyles(styles, config.path.dirname, path.join(config.path.dirname, config.path.dist, config.dest.style), config.prefix, config.postcss, function() {
-      console.log('CSS bundle written to disk: ',path.join(config.path.dirname, config.path.dist, config.dest.style));
-    });
-    console.log('looking for styleguide styles');
-    try {
-      // Query the entry
-      stats = fs.lstatSync(path.join(config.path.dirname, 'styleguide.css'));
-
-      if(stats.isFile()) {
-        buildStyles([path.join(config.path.dirname, 'styleguide.css')], config.path.dirname, path.join(config.path.dirname, config.path.dist, 'styleguide.css'), config.prefix, config.postcss, function() {
-          console.log('Styleguide theme css written to disk');
-        });
+        if(stats.isFile()) {
+          buildStyles([path.join(cfgPath.dirname, 'styleguide.css')], cfgPath.dirname, path.join(cfgPath.dirname, cfgPath.dist, 'styleguide.css'), config.prefix, config.postcss, function() {
+            log('Styleguide theme css written to disk');
+          });
+        }
+      } catch(err) {
+        // No styleguide.css available
       }
-    } catch(err) {
-      // No styleguide.css available
     }
+  }
+
+  // Build specific build type or all viable
+  if (type) {
+    builders[type](config);
+  } else {
+    Object.keys(builders).map(type => builders[type](config));
   }
 
 };
