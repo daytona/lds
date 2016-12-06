@@ -7,7 +7,7 @@
   </head>
   <body style="margin: 0; background: #fefefe; ">
   <div class="Page Page--nopadding text">
-    <div id="Standalone-wrapper" style="{{#if isComponent}}padding: 20px; position:relative; margin: auto; max-width:800px; min-height: 100px;{{/if}}">
+    <div id="Standalone-wrapper" style="{{#if isComponent}}padding: 20px; position:relative; margin: auto; max-width:{{#if config.viewport}}{{config.viewport}}{{else}}800px{{/if}}; min-height: 100px;{{else}}padding: 1px 0 0 0; width: 100%;{{/if}}">
     {{{content}}}
     </div>
   </div>

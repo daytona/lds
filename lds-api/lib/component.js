@@ -57,6 +57,7 @@ module.exports = function* component (next) {
   } else if (query.standalone) {
     this.body = handlebars.compile(templates['standalone.hbs'])({
       isComponent: component.category === 'component',
+      config: component.config,
       content: this.render(component.template, Object.assign({}, component.data, query)),
       updateIframeScript: updateIframeScript(query.iframeid)
     });
