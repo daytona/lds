@@ -16,7 +16,7 @@ var config = require('./lds.config');
 var app = koa();
 var router = new Router();
 
-var lds = Object.assign({}, (config.styleguide || {}), ldsParser.sync(config));
+var lds = ldsParser.sync(config);
 
 if (!config.engine || !config.engine.render) {
   throw new Error('No templating engine specified');
@@ -71,7 +71,8 @@ function *defaultData(next) {
   this.defaultData = Object.assign({}, config.styleguide, structure, {
     mainNav: buildMainNavTree(structure),
     prefix: config.prefix ? `${config.prefix}-` : '',
-    info: readme
+    info: readme,
+    styleguide: config.styleguide
   });
   yield next;
 }
