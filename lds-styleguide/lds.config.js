@@ -34,5 +34,10 @@ module.exports = {
     style: 'style.css',
     images: 'images',
     fonts: 'fonts'
+  },
+  port: 4001,
+  styleguide: {
+    clientName: 'Naturvårdsverket',
+    guideName: 'Style Guide'
   }
 };

@@ -16,7 +16,7 @@ var config = require('./lds.config');
 var app = koa();
 var router = new Router();
 
-var lds = ldsParser.sync(config);
+var lds = Object.assign({}, (config.styleguide || {}), ldsParser.sync(config));
 
 if (!config.engine || !config.engine.render) {
   throw new Error('No templating engine specified');
@@ -68,7 +68,7 @@ function buildMainNavTree(data) {
  */
 function *defaultData(next) {
   var structure = this.lds.structure;
-  this.defaultData = Object.assign({}, structure, {
+  this.defaultData = Object.assign({}, config.styleguide, structure, {
     mainNav: buildMainNavTree(structure),
     prefix: config.prefix ? `${config.prefix}-` : '',
     info: readme
@@ -80,8 +80,9 @@ function *defaultData(next) {
  * Middleware: Updates styleguide state if query string "live" is present
  */
 function* updateState(next) {
-  var shouldUpdate = this.query && this.query.live;
-  this[config.namespace] = shouldUpdate ? ldsParser.sync(config) : lds;
+  var shouldUpdate = this.query && this.query.ltrue;
+  var currentState = this[config.namespace] || {};
+  this[config.namespace] = shouldUpdate ? Object.assign({}, currentState, ldsParser.sync(config)) : lds;
   yield next;
 }
 
