@@ -12,7 +12,7 @@ function initDemoHTML(el) {
   });
 
   connectToStore(selectState, ({params}={}) => {
-    htmlFetcher.fetch(url + '?type=html&clean=true&' + object2query(params));
+    htmlFetcher.fetch(url + '?type=html&clean=true&' + (params ? object2query(params) : ''));
   });
 }
 

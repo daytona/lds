@@ -19,7 +19,7 @@
 
       {{#> component:tabarea id=(concat "data" uid) }}
         <div class="{{prefix}}Package-demoView {{prefix}}Package-demoView--data">
-          {{> module:demo/code id=../id data=data }}
+          {{> module:demo/code id=../id language="json" url=(concat "/api/" component.group "/" component.name) }}
         </div>
       {{/component:tabarea}}
       {{#> component:tabarea id=(concat "html" uid) }}
