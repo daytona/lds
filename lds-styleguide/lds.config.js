@@ -37,7 +37,7 @@ module.exports = {
   },
   port: 4001,
   styleguide: {
-    clientName: 'Naturvårdsverket',
+    clientName: 'Sveriges Miljömål',
     guideName: 'Style Guide'
   }
 };
