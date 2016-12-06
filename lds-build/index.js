@@ -80,7 +80,7 @@ module.exports = function build(type, config) {
       });
     },
 
-    scripts: (config) => {
+    script: (config) => {
       var scripts = findComponents(components, /index.js$/, 'src/');
       log('Bundling scripts');
       require('./lib/build-scripts')(scripts, cfgPath.dirname, path.join(cfgPath.dirname, cfgPath.dist, config.dest.script), function(){
