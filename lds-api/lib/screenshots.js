@@ -120,7 +120,7 @@ function parseComponents(structure, baseUrl) {
 }
 function screenDump (structure, group, baseUrl) {
   if (group) {
-    parseComponents(structure[group]);
+    parseComponents(structure[group], baseUrl);
   } else {
     // parse all root categories
     Object.keys(structure).forEach((group) => {
