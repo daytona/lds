@@ -1,7 +1,8 @@
 <div
-  data-controller='DemoCode'
+  data-controller='[{"DemoCode": { "language": "{{language}}" }}]'
   data-id="{{id}}"
+  data-url="{{url}}"
   class="{{prefix}}DemoView {{prefix}}DemoView--code">
 
-  <pre class="{{prefix}}code"><code class="js-data">{{{json data}}}</code></pre>
+  <code><pre class="js-data {{prefix}}code language-{{language}}">{{{json data}}}</pre></code>
 </div>
