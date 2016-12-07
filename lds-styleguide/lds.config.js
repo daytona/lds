@@ -37,7 +37,7 @@ module.exports = {
   },
   port: 4001,
   styleguide: {
-    clientName: 'Sveriges Miljömål',
+    clientName: 'Daytona',
     guideName: 'Style Guide'
   }
 };
