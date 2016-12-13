@@ -29,7 +29,7 @@ export default function Example(el, options = {}) {
 
   function update(params) {
     if (params && params.variations) {
-      params = Object.assign(params, JSON.parse(params.variations));
+      params = Object.assign({}, params, JSON.parse(params.variations));
       delete params.variations;
     }
     state = Object.assign({}, data, params);
@@ -59,17 +59,13 @@ export default function Example(el, options = {}) {
     const button = event.target;
     setViewportWidth(button.dataset.width);
   }
-  // function setViewportWidth(width) {
-  //   iframeWidth = width;
-  //   iframe.style.width = iframeWidth + 'px';
-  //   resize();
-  // }
+
   function resizeIframe(event) {
     if (event.detail.id === iframe.getAttribute('id')) {
       iframe.style.height = event.detail.height + 'px';
-      //resize();
     }
   }
+  
   function changeVariation(event) {
     console.log(event.target, variationsSelect.options, variationsSelect.selectedIndex);
     let newIndex = variationsSelect.selectedIndex + (event.target.rel === 'prev' ? -1 : 1);
