@@ -108,7 +108,7 @@ function fileWatcher (file) {
     build('images', config);
   } else if (new RegExp(config.path.icons +'/.*\.svg$').test(file)) {
     build('icons', config);
-  } else if (new RegExp(config.path.fonts +'/.*\.(woff|ttf|otf|eot)$').test(file)) {
+  } else if (new RegExp(config.path.fonts +'/.*\.(woff|woff2|ttf|otf|eot)$').test(file)) {
     build('fonts', config);
   } else if (new RegExp('\.(json|md|' + (config.engine.ext  || 'hbs') + ')$').test(file)) {
     runningServer.parse();
