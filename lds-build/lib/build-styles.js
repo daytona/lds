@@ -18,7 +18,7 @@ module.exports = function buildStyles(files, src, dest, prefix, plugins, callbac
       map: {inline: true, sourcesContent: false}
     }))
     .use(cssprefix(prefix ? prefix + '-' : ''))
-    .use(cssurl())
+    //.use(cssurl())
     .use(cssnext())
     .use(cssnano());
 

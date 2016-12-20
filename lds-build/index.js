@@ -118,5 +118,4 @@ module.exports = function build(type, config) {
   } else {
     Object.keys(builders).map(type => builders[type](config));
   }
-
 };
