@@ -88,7 +88,7 @@ function parseComponents(structure, baseUrl) {
     var config;
 
     if (component.children) {
-      parseComponents(component.children);
+      parseComponents(component.children, baseUrl);
     }
 
     if (component.template) {
