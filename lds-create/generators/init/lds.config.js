@@ -4,20 +4,20 @@ var handlebars = require('handlebars').create(); // Include templating engine an
 module.exports = {
   version: '0.0.1',             // Current semver version of library
   engine: {                     // Setup a templating engine
-    render(string, data) {      // Define custom render method
+    render (string, data) {      // Define custom render method
       return handlebars.compile(string)(data);
     },
-    registerHelper(name, fn) {  // Define custom helperRegister
+    registerHelper (name, fn) {  // Define custom helperRegister
       return handlebars.registerHelper(name, fn);
     },
-    registerPartial(name, fn) { // Define custom partialRegister
+    registerPartial (name, fn) { // Define custom partialRegister
       return handlebars.registerPartial(name, fn);
     },
     helpers,                    // Custom handlebar helpers which are used in template files
     ext: 'hbs'                  // Define file extension for templating files
   },
-  path : {
-    dirname: __dirname,         // Current working directory of LDS
+  path: {
+    dirname: process.cwd(),     // Current working directory of LDS
     base: 'src/base',           // Source of base components
     components: 'src/components', // Source of regular components
     modules: false,             // Source of complex CMS modules
