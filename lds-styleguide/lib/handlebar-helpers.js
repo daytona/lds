@@ -80,7 +80,7 @@ var helpers = {
     return object && object[key];
   },
   mergeObjects(object1, object2) {
-    return Object.assign(object1, object2);
+    return Object.assign({}, object1, object2);
   },
   eachProperty(context, options) {
     var ret = '';
