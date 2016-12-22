@@ -1,6 +1,6 @@
 {
   "name": "@daytona/lds-server",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "A Koa server to render views, with components as partials. Including styleguide for listing components under /components and single component under /component/:name",
   "main": "index.js",
   "scripts": {

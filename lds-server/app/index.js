@@ -27,9 +27,9 @@ function Server(config) {
   var host = process.env.HOST || 'localhost';
   var port = process.env.PORT || config.port || 4000;
 
-  if (!config.namespace) {
-    config.namespace = 'lds';
-  }
+  //if (!config.namespace) {
+    var namespace = 'lds';
+  //}
 
   var engine = new Engine(config.engine);
   var app = koa();
@@ -41,7 +41,7 @@ function Server(config) {
   app.use(session(app));
 
   app.use(function* (next) {
-    this[config.namespace] = lds;
+    this[namespace] = lds;
     yield next;
   });
 
@@ -50,7 +50,7 @@ function Server(config) {
     // Serve static files from /dist folder
     .use(pageNotFound) // Handle 404 after parsing every other middleware, if no match trigger 404
     .use(mount(config.path.public, serve(path.join(config.path.dirname, config.path.dist))))
-    .use(engine.setup(config.namespace));
+    .use(engine.setup(namespace));
     //.use(extendLds(config))
 
   if (config.login && process.env.NODE_ENV === 'production') {
