@@ -101,6 +101,9 @@ module.exports = function test(root, onlyErrors) {
       if (Object.keys(component.data).length === 0) {
         warn(component.id, 'default.json is empty object');
       }
+      if (component.config && component.config.schema) {
+        // Test component data with schema rules
+      }
     }
   }
 
