@@ -1,0 +1,46 @@
+{{#with mainNav}}
+  <div class="MainNavigation" data-controller="MainNavigation">
+    {{#if this.items}}
+      {{> navList listlevel=1 hidden=false }}
+    {{/if}}
+  </div>
+{{/with}}
+
+{{#*inline "navList"}}
+  <ul
+    class="MainNavigation-list MainNavigation-list--level-{{listlevel}}"
+    id="navlist{{listid}}"
+    {{#if hidden}} aria-hidden="true"{{/if}}>
+
+    {{#each this.items}}
+      {{> navListItem listid=(uid) listlevel=../listlevel}}
+    {{/each}}
+
+  </ul>
+{{/inline}}
+
+{{#*inline "navListItem"}}
+  <li class="MainNavigation-item{{#if this.items}} MainNavigation-item--withChildren{{/if}} {{#if (equals true (equals name @root.component))}} is-active {{/if}}">
+    <div class="MainNavigation-itemContainer">
+
+      {{#ifAll this.items (lt listlevel 4)}}
+        <button
+          class="MainNavigation-toggler IconButton IconButton--small js-toggleList"
+          role="button"
+          aria-controls="navlist{{listid}}"
+          aria-pressed="{{equals name @root.category}}"
+          data-controller="Toggler"
+          data-target="#navlist{{listid}}">
+
+          {{> component:Icon name='chevron-right' }}
+        </button>
+      {{/ifAll}}
+
+      <a class="MainNavigation-link" href="{{url}}">{{{name}}}</a>
+    </div>
+
+    {{#ifAll this.items (lt listlevel 4)}}
+      {{> navList hidden=(equals false (equals name @root.category)) listlevel=(increment listlevel)}}
+    {{/ifAll}}
+  </li>
+{{/inline}}

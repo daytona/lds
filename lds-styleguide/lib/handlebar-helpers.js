@@ -107,7 +107,6 @@ var helpers = {
     return '    ' + string;
   },
   undent(string) {
-
     return string.split("\n").map((row) => {
       return row.replace(/^ {4}/, '');
     }).join("\n");
@@ -132,6 +131,14 @@ var helpers = {
         title: split[0]
       };
     });
+  },
+  split (str, separator) {
+    separator = typeof separator === 'string' ? separator : ' ';
+    // Skip if already an array
+    if (!str || Array.isArray(str)) {
+      return str;
+    }
+    return str.split(separator);
   },
   concat() {
     // remove trailing options argument

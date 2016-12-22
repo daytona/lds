@@ -1,13 +1,16 @@
-<div class="{{prefix}}Popover js-popover" draggable>
+<div class="Popover js-popover" draggable>
   <div class="Popover-header">
     <span class="Popover-title">{{title}}</span>
-
-    <button class="Popover-closeButton IconButton IconButton--medium">
-      {{> component:icon name='close' }}
-    </button>
+    {{>component:IconButton modifiers="small" class="js-closeButton Popover-closeButton" icon="close"}}
   </div>
 
-  <div class="Popover-content">
-    {{> @partial-block }}
+  <div class="Popover-content js-content">
+    {{#if partial-content}}
+      {{> @partial-block }}
+    {{else}}
+      {{#with content}}
+        {{>helper:content}}
+      {{/with}}
+    {{/if}}
   </div>
 </div>

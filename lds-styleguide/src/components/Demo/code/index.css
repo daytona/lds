@@ -1,0 +1,13 @@
+.DemoCode {
+  padding: 3em 3em;
+  background: var(--color-bg-dark);
+  color: #fff;
+}
+.DemoCode code,
+.DemoCode pre {
+  background: none;
+  color: inherit;
+  padding: 0;
+  margin: 0;
+  white-space: pre-wrap;
+}

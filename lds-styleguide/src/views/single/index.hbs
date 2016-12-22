@@ -1,75 +1,75 @@
 {{#saveas "component"}}
-<div class="{{prefix}}Page-innerWrapper">
+<div class="Page-innerWrapper">
 
-  <header class="{{prefix}}PageHeader {{prefix}}Package-header">
+  <header class="PageHeader Package-header">
 
     <h2 class="Package-headerTitle PageHeader-title Text-header Text-xlarge">
       {{capitalize name}}
 
       {{#if config.version}}
-        <span class="{{prefix}}Package-versionTag">{{config.version}}</span>
+        <span class="Package-versionTag">{{config.version}}</span>
       {{/if}}
     </h2>
 
     <div class="PageHeader-nav">
       {{#if code}}
         <ul class="PageHeader-menu PageHeader-menu--secondary">
-          {{#> component:tablist toggle="true"}}
-            {{#> component:tablist/tab id="source"}}
-              <button class="js-showEditFormbutton {{prefix}}IconButton {{prefix}}IconButton--medium">
-                {{!-- {{> component:icon name='settings' }} --}}
+          {{#> component:Tablist toggle="true"}}
+            {{#> component:Tablist/tab id="source"}}
+              <button class="js-showEditFormbutton IconButton IconButton--medium">
+                {{!-- {{> component:Icon name='settings' }} --}}
                 <\>
               </button>
-            {{/ component:tablist/tab}}
-          {{/ component:tablist}}
+            {{/ component:Tablist/tab}}
+          {{/ component:Tablist}}
         </ul>
       {{/if}}
 
     </div>
   </header>
 
-  {{#> component:tabarea id="source"}}
+  {{#> component:Tabarea id="source"}}
     <div class="Page-subheader">
-      {{#> component:tablist small="true"}}
+      {{#> component:Tablist small="true"}}
         {{#if @component.template}}
-          {{> component:tablist/tab id="template" title="index.hbs"}}
+          {{> component:Tablist/tab id="template" title="index.hbs"}}
         {{/if}}
         {{#if @component.script}}
-          {{> component:tablist/tab id="script" title="index.js"}}
+          {{> component:Tablist/tab id="script" title="index.js"}}
         {{/if}}
         {{#if @component.styles}}
-          {{> component:tablist/tab id="styles" title="index.css"}}
+          {{> component:Tablist/tab id="styles" title="index.css"}}
         {{/if}}
-      {{/ component:tablist}}
+      {{/ component:Tablist}}
     </div>
 
     <div class="Page-section--divider">
       {{#if template}}
-        {{#> component:tabarea id="template"}}
-          {{> component:codeEditor language="handlebars" fetch=(concat '/api/' @component.group '/' @component.name '?clean=true&type=template')}}
-        {{/component:tabarea}}
+        {{#> component:Tabarea id="template"}}
+          {{> component:CodeEditor language="handlebars" fetch=(concat '/api/' @component.group '/' @component.name '?clean=true&type=template')}}
+        {{/component:Tabarea}}
       {{/if}}
 
       {{#if script}}
-        {{#> component:tabarea id="script"}}
-          {{> component:codeEditor language="javascript" fetch=(concat '/api/' @component.group '/' @component.name '?clean=true&type=js')}}
-        {{/component:tabarea}}
+        {{#> component:Tabarea id="script"}}
+          {{> component:CodeEditor language="javascript" fetch=(concat '/api/' @component.group '/' @component.name '?clean=true&type=js')}}
+        {{/component:Tabarea}}
       {{/if}}
 
       {{#if styles}}
-        {{#> component:tabarea id="styles"}}
-          {{> component:codeEditor language="css" fetch=(concat '/api/' @component.group '/' @component.name '?clean=true&type=css')}}
-        {{/component:tabarea}}
+        {{#> component:Tabarea id="styles"}}
+          {{> component:CodeEditor language="css" fetch=(concat '/api/' @component.group '/' @component.name '?clean=true&type=css')}}
+        {{/component:Tabarea}}
       {{/if}}
 
     </div>
-  {{/component:tabarea}}
+  {{/component:Tabarea}}
 
   {{#if template}}
 
     {{#if config.variations}}
 
-      {{> module:demo
+      {{> component:Demo
         id=(concat @component.name uid)
         uid=(uid)
         title=(concat "Default " (capitalize @component.name))
@@ -78,19 +78,19 @@
         data=data }}
 
       {{#each config.variations}}
-        {{> module:demo
+        {{> component:Demo
               id=(concat @component.name ":" @key)
               uid=(uid)
-              title=(capitalize (concat @component.name " " @key))
+              title=(capitalize (concat @component.name " " name))
               url=(concat "/api/" @component.group "/" @component.name)
               component=@component
-              data=(mergeObjects @component.data this) }}
+              data=(mergeObjects @component.data value) }}
 
       {{/each}}
 
     {{else}}
 
-      {{> module:demo
+      {{> component:Demo
             id=@component.name
             devices="true"
             uid=(uid)
@@ -103,7 +103,7 @@
   {{/if}}
 
   {{#if example}}
-    {{> module:demo
+    {{> component:Demo
         id=(concat @component.name ":example")
         uid=(uid)
         title=@component.name
@@ -118,7 +118,7 @@
       {{{markdown info}}}
     {{/if}}
 
-    <footer class="{{prefix}}Component-footer">
+    <footer class="Component-footer">
       {{#if dependentBy}}
         <strong>Dependencies</strong>
         <ul>
@@ -137,27 +137,14 @@
       {{/if}}
 
       {{#if config.revisions}}
-        <div class="{{prefix}}Details {{prefix}}Component-code {{prefix}}Component-code--revisions" data-controller="Details">
-          <h3 class="{{prefix}}Details-summary js-details-summary">Revisions</h3>
-          <div class="{{prefix}}Details-content js-details-content">
-            {{#each config.revisions}}
-              <div>{{this}}</div>
-            {{/each}}
-          </div>
-        </div>
+        {{>component:Details class="Component-code Component-code--revisions" title="Revisions" content=config.revisions }}
       {{/if}}
 
     </footer>
 
-    {{#with children}}
-      <div class="Grid Grid--withGutter">
-        {{#each this}}
-        <div class="Grid-cell width-1of2 l-width-1of3 xl-width-1of4">
-          {{> module:component-list-item}}
-        </div>
-        {{/each}}
-      </div>
-    {{/with}}
+    {{#if children}}
+      {{>component:ComponentList components=children}}
+    {{/if}}
   </div>
 </div>
 {{/saveas}}

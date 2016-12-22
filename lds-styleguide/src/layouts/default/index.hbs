@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="{{prefix}}Page-root">
+<html class="Page-root">
   <head>
     <title>{{title}}</title>
     <meta charset="utf-8">
@@ -9,19 +9,19 @@
     <link rel="stylesheet" href="/styleguide/assets/style.css">
     <link rel="stylesheet" href="/assets/styleguide.css">
   </head>
-  <body class="{{prefix}}Page {{prefix}}Text">
-    {{> component:icon-definitions }}
+  <body class="Page Text">
+    {{> component:Icon/definitions }}
 
-    {{> module:page-navbar }}
+    {{> module:PageNavbar }}
 
-    {{> module:page-pane }}
+    {{> module:PagePane }}
 
-    <main class="{{prefix}}Page-main">
+    <main class="Page-main">
       {{{@body}}}
     </main>
 
-    {{> module:popover-host }}
-    {{> module:backdrop-host }}
+    {{> module:PopoverHost }}
+    {{> module:BackdropHost }}
   </div>
   </body>
   <script src="/styleguide/assets/main.js"></script>

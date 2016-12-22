@@ -1,0 +1,10 @@
+<div class="DevicePark DevicePark--all" data-controller="DevicePark">
+  <button class="Button DevicePark-viewportButton js-viewportButton" data-device="mobile">Mobile</button>
+  <button class="Button DevicePark-viewportButton js-viewportButton" data-device="tablet">Tablet</button>
+  <button class="Button DevicePark-viewportButton js-viewportButton" data-device="desktop">Desktop</button>
+  <div class="DevicePark-stage">
+    {{>component:Preview url=url device="desktop" class="DevicePark-desktop"}}
+    {{>component:Preview url=url device="tablet" class="DevicePark-tablet"}}
+    {{>component:Preview url=url device="mobile" class="DevicePark-mobile"}}
+  </div>
+</div>

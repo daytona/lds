@@ -53,4 +53,14 @@
   visibility: hidden;
 }
 
-.Form-select {}
+.Form-Select {
+  display: inline-block;
+  padding: 0.375em 0.75em;
+  margin: 0;
+  border: 0;
+  background: rgba(91, 91, 91, 0.1);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 3px;
+}

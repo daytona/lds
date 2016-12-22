@@ -1,4 +1,4 @@
-<div class="{{prefix}}Page-innerWrapper">
+<div class="Page-innerWrapper">
 
   <div class="PageHeader">
     <h1 class="PageHeader-title Text-header Text-xlarge">{{category}}</h1>
@@ -7,14 +7,14 @@
 
       <ul class="PageHeader-menu PageHeader-menu--secondary">
         <li class="PageHeader-menuItem">
-          <button class="{{prefix}}IconButton IconButton--medium">
-            {{> component:icon name='grid' }}
+          <button class="IconButton IconButton--medium">
+            {{> component:Icon name='grid' }}
           </button>
         </li>
 
         <li class="PageHeader-menuItem">
-          <button class="{{prefix}}IconButton IconButton--medium">
-            {{> component:icon name='list' }}
+          <button class="IconButton IconButton--medium">
+            {{> component:Icon name='list' }}
           </button>
         </li>
       </ul>
@@ -25,13 +25,7 @@
 
   <div class="Page-section">
     {{#with (getProperty this category)}}
-    <div class="Grid Grid--withGutter">
-      {{#each this}}
-      <div class="Grid-cell width-1of2 l-width-1of3 xl-width-1of4">
-        {{> module:component-list-item}}
-      </div>
-      {{/each}}
-    </div>
+      {{>component:ComponentList components=this}}
     {{/with}}
   </div>
 

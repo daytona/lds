@@ -1,0 +1,8 @@
+<button class="IconButton {{class}}{{#each (split modifiers)}} IconButton--{{this}}{{/each}}">
+  {{#if icon}}
+    {{> component:Icon class="IconButton-icon" name=icon }}
+  {{/if}}
+  {{#if text}}
+    <span class="IconButton-text">{{{text}}}</span>
+  {{/if}}
+</button>

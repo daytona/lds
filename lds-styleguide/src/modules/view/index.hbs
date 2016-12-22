@@ -1,36 +1,36 @@
 {{#saveas "view"}}
-<section class="{{prefix}}View js-view" id="View-{{name}}" data-url="/{{name}}" data-controller="[{ &quot;View&quot;: {&quot;data&quot;:{{jsonLine data}}{{#config}}, &quot;config&quot;: {{jsonLine .}}{{/config}} }}]">
+<section class="View js-view" id="View-{{name}}" data-url="/{{name}}" data-controller="[{ &quot;View&quot;: {&quot;data&quot;:{{jsonLine data}}{{#config}}, &quot;config&quot;: {{jsonLine .}}{{/config}} }}]">
 
-  <header class="{{prefix}}PageHeader {{prefix}}Package-header">
+  <header class="PageHeader Package-header">
     <div class="Package-headerTitle">
       <h2 class="PageHeader-title Text-header Text-xlarge">{{name}}</h2>
       {{#if config.version}}
-        <span class="{{prefix}}Package-versionTag">{{config.version}}</span>
+        <span class="Package-versionTag">{{config.version}}</span>
       {{/if}}
     </div>
   </header>
 
 {{#if template}}
   <div class="Package-demo">
-    <div class="{{prefix}}Package-demoView {{prefix}}Package-demoView--render">
-      <div class="{{prefix}}Example-rendered {{prefix}}Example-rendered--desktop js-container">
-        {{> component:device-park url=(concat "/api" @view.id "?standalone=true")}}
+    <div class="Package-demoView Package-demoView--render">
+      <div class="Package-example Package-example--desktop js-container">
+        {{> component:DevicePark url=(concat "/api" @view.id "?standalone=true")}}
       </div>
     </div>
   </div>
 {{/if}}
 {{!--   <div class="View-content">
   {{#unless (isEmpty data)}}
-    <div class="{{prefix}}View-code {{prefix}}View-code--data">
-      <pre class="{{prefix}}code"><code class="js-data">{{{json data}}}</code></pre>
+    <div class="View-code View-code--data">
+      <pre class="code"><code class="js-data">{{{json data}}}</code></pre>
     </div>
   {{/unless}}
   {{#if config.schema}}
-    <form class="{{prefix}}Form {{prefix}}View-editForm js-editForm">
+    <form class="Form View-editForm js-editForm">
       {{#each config.schema}}
-        <label class="{{prefix}}Form-label {{prefix}}View-editLabel">
+        <label class="Form-label View-editLabel">
           {{@key}}:
-          <select class="{{prefix}}Form-select {{prefix}}View-editField" name="{{@key}}">
+          <select class="Form-select View-editField" name="{{@key}}">
             {{#each this}}
               <option value="{{#if value}}{{jsonLine value}}{{else}}{{this}}{{/if}}" {{#equals value (getProperty @view.data @../key)}} selected="selected"{{/equals}}{{#equals this (getProperty @view.data @../key)}} selected="selected"{{/equals}}>{{#if key}}{{key}}{{else}}{{.}}{{/if}}</option>
             {{/each}}
@@ -58,13 +58,7 @@
       {{/if}}
     </footer>
     {{#with children}}
-      <div class="Grid Grid--withGutter">
-        {{#each this}}
-        <div class="Grid-cell width-1of2 l-width-1of3 xl-width-1of4">
-          {{> module:component-list-item}}
-        </div>
-        {{/each}}
-      </div>
+      {{>component:ComponentList components=this}}
     {{/with}}
   </div>
 

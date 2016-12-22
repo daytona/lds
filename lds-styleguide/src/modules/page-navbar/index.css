@@ -1,9 +1,0 @@
-.PageNavbar {
-
-}
-
-@media (--min-medium) {
-  .PageNavbar {
-    display: none;
-  }
-}

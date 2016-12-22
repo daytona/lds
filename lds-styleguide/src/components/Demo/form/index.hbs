@@ -1,0 +1,31 @@
+<div style="display: none;">
+  <form
+    data-controller="DemoForm"
+    data-id="{{id}}"
+    class="Form DemoForm {{#if class}}{{class}}{{/if}}">
+    {{#each schema}}
+      {{#if variations}}
+        <div class="DemoForm-item">
+
+          <label class="DemoForm-label Form-label Text-small">
+            {{@key}}:
+          </label>
+
+          <select class="DemoForm-input Form-select Text-small" name="{{@key}}">
+            {{#if default}}
+              <option value="{{jsonLine default}}">Default</option>
+            {{elseif (getProperty @component.data @key)}}
+              <option value="{{jsonLine (getProperty @component.data @key)}}">Default</option>
+            {{else}}
+              <option value="false">Default</option>
+            {{/if}}
+            {{#each variations}}
+              <option value="{{#if (hasProperty this 'value')}}{{jsonLine value}}{{else}}{{this}}{{/if}}">{{#if name}}{{name}}{{else}}{{.}}{{/if}}</option>
+            {{/each}}
+          </select>
+
+        </div>
+      {{/if}}
+    {{/each}}
+  </form>
+</div>

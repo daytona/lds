@@ -23,9 +23,9 @@ if (!config.engine || !config.engine.render) {
 }
 var engine = new Engine(config.engine);
 
-if (!config.namespace) {
-  config.namespace = 'styleguide';
-}
+//if (!config.namespace) {
+  var namespace = 'styleguide';
+//}
 
 var readme;
 try {
@@ -47,7 +47,6 @@ function buildMainNavTree(data) {
       };
     });
   }
-
   return {
     items: Object.keys(data).filter((groupName) => {
       var group = data[groupName];
@@ -82,13 +81,13 @@ function *defaultData(next) {
  */
 function* updateState(next) {
   var shouldUpdate = this.query && this.query.ltrue;
-  var currentState = this[config.namespace] || {};
-  this[config.namespace] = shouldUpdate ? Object.assign({}, currentState, ldsParser.sync(config)) : lds;
+  var currentState = this[namespace] || {};
+  this[namespace] = shouldUpdate ? Object.assign({}, currentState, ldsParser.sync(config)) : lds;
   yield next;
 }
 
 const getGuideView = (obj, view) => {
-  return obj[config.namespace].structure.views[view];
+  return obj[namespace].structure.views[view];
 }
 
 router
@@ -117,7 +116,7 @@ router
 app
   .use(updateState)
   .use(mount(config.path.public, serve(path.join(config.path.dirname, config.path.dist))))
-  .use(engine.setup(config.namespace, config.prefix))
+  .use(engine.setup(namespace, config.prefix))
   .use(defaultData)
   .use(router.routes());
 

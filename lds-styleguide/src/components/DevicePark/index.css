@@ -1,0 +1,83 @@
+.DevicePark {}
+.DevicePark-stage {
+  position: relative;
+  overflow: hidden;
+}
+.DevicePark-viewportButton[aria-pressed="true"] {
+  background: darkblue;
+  color: #fff;
+}
+.DevicePark .DevicePark-stage,
+.DevicePark--all .DevicePark-stage {
+  padding-bottom: 61%
+}
+.DevicePark--mobile .DevicePark-stage {
+  padding-bottom: 196.5%
+}
+@media (min-width: 400px) {
+  .DevicePark--mobile .DevicePark-stage {
+    padding-bottom: 668px;
+  }
+}
+.DevicePark--tablet .DevicePark-stage {
+  padding-bottom: 72.5%;
+}
+@media (min-width: 1240px) {
+  .DevicePark--tablet .DevicePark-stage {
+    padding-bottom: 625px;
+  }
+}
+.DevicePark--desktop .DevicePark-stage {
+  padding-bottom: 64.94%
+}
+@media (min-width: 1540px) {
+  .DevicePark--desktop .DevicePark-stage {
+    padding-bottom: 1000px;
+  }
+}
+.DevicePark-mobile,
+.DevicePark-tablet,
+.DevicePark-desktop {
+  max-width: 100%;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: none;
+}
+.DevicePark--mobile .DevicePark-mobile,
+.DevicePark--tablet .DevicePark-tablet,
+.DevicePark--desktop .DevicePark-desktop {
+  display: block;
+}
+.DevicePark--all .DevicePark-mobile {
+  display: block;
+  top: auto;
+  bottom: 5px;
+  max-width: 22%;
+  left: auto;
+  transform: translateX(0);
+  right: 5px;
+  z-index: 2;
+}
+
+.DevicePark--all .DevicePark-tablet {
+  /*display: block;*/
+  max-width: 60%;
+  top: auto;
+  bottom: 5px;
+  left: 5px;
+  transform: translateX(0);
+  z-index: 1;
+}
+.DevicePark--all .DevicePark-desktop {
+  display: block;
+  width: auto;
+  transform: translateX(0);
+  top: auto;
+  left: 10px;
+  right: 21%;
+  bottom: 40px;
+  z-index: 0;
+}

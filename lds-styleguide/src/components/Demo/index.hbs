@@ -1,0 +1,38 @@
+<div
+  data-controller="[{ &quot;Demo&quot;: {&quot;data&quot;:{{jsonLine data}}{{#component.config}}, &quot;config&quot;: {{jsonLine .}}{{/component.config}} }}]"
+  data-id="{{id}}"
+  class="Demo">
+  <div class="Demo-content">
+
+    {{#if (not isExample)}}
+
+      {{> component:Demo/header
+            title=title
+            data=component.data
+            schema=component.config.schema }}
+
+      {{#> component:Tabarea id=(concat "render" uid) }}
+        <div class="Package-demoView Package-demoView--example">
+          {{> component:Demo/example id=../id component=component url=url }}
+        </div>
+      {{/component:Tabarea}}
+
+      {{#> component:Tabarea id=(concat "data" uid) }}
+        <div class="Package-demoView Package-demoView--data">
+          {{> component:Demo/code id=../id language="json" url=(concat "/api/" component.group "/" component.name) }}
+        </div>
+      {{/component:Tabarea}}
+      {{#> component:Tabarea id=(concat "html" uid) }}
+        <div class="Package-demoView Package-demoView--html">
+          {{> component:Demo/html id=../id url=(concat "/api/" component.group "/" component.name)}}
+        </div>
+      {{/component:Tabarea}}
+
+    {{else}}
+      <div class="Package-demoView Package-demoView--example">
+        {{> component:Demo/example id=id url=url }}
+      </div>
+    {{/if}}
+
+  </div>
+</div>

@@ -29,3 +29,7 @@
     .Package-demoView--example {
       padding: 20px;
     }
+    .Package-example {
+      position: relative;
+      transform-origin: 0 0;
+    }

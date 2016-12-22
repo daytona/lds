@@ -1,8 +1,8 @@
-<div class="{{prefix}}Tablist{{#inline}} {{prefix}}Tablist--inline{{/inline}}{{#right}} {{prefix}}Tablist--right{{/right}} {{#small}} {{prefix}}Tablist--small{{/small}}" data-controller="[{ &quot;Tablist&quot;: { {{#toggle}}&quot;toggle&quot;: true{{/toggle}} } }]">
-  <ul class="{{prefix}}Tablist-list" aria-role="tablist">
+<div class="Tablist{{#inline}} Tablist--inline{{/inline}}{{#right}} Tablist--right{{/right}} {{#small}} Tablist--small{{/small}}" data-controller="[{ &quot;Tablist&quot;: { {{#toggle}}&quot;toggle&quot;: true{{/toggle}} } }]">
+  <ul class="Tablist-list" aria-role="tablist">
     {{#if items}}
       {{#each items}}
-        {{> component:tablist/tab id=id }}
+        {{> component:Tablist/tab id=id }}
       {{/each}}
     {{else}}
       {{> @partial-block}}

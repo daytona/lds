@@ -1,43 +1,43 @@
 {{#saveas "component"}}
 <section
-  class="{{prefix}}Package js-component" id="Component-{{name}}">
+  class="Package js-component" id="Component-{{name}}">
 
   <div class="Page-section">
     {{#if info}}
       {{{markdown info}}}
     {{/if}}
 
-    {{#> component:tablist toggle="true"}}
+    {{#> component:Tablist toggle="true"}}
       {{#if template}}
-        {{> component:tablist/tab id="template" title="Template"}}
+        {{> component:Tablist/tab id="template" title="Template"}}
       {{/if}}
       {{#if script}}
-        {{> component:tablist/tab id="script" title="Script"}}
+        {{> component:Tablist/tab id="script" title="Script"}}
       {{/if}}
       {{#if styles}}
-        {{> component:tablist/tab id="styles" title="Styles"}}
+        {{> component:Tablist/tab id="styles" title="Styles"}}
       {{/if}}
-    {{/ component:tablist}}
+    {{/ component:Tablist}}
 
     {{#if template}}
-      {{#> component:tabarea id="template"}}
+      {{#> component:Tabarea id="template"}}
         <code><pre class="language-handlebars" data-controller="fetch" data-url="/api{{@component.id}}?clean=true&type=template"></pre></code>
-      {{/component:tabarea}}
+      {{/component:Tabarea}}
     {{/if}}
     {{#if script}}
 
-      {{#> component:tabarea id="script"}}
+      {{#> component:Tabarea id="script"}}
         <code><pre class="language-handlebars" data-controller="fetch" data-url="/api{{@component.id}}?clean=true&type=js"></pre></code>
-      {{/component:tabarea}}
+      {{/component:Tabarea}}
     {{/if}}
     {{#if styles}}
-      {{#> component:tabarea id="styles"}}
+      {{#> component:Tabarea id="styles"}}
         <code><pre class="language-css" data-controller="fetch" data-url="/api{{@component.id}}?clean=true&type=css"></pre></code>
-      {{/component:tabarea}}
+      {{/component:Tabarea}}
     {{/if}}
 
 
-    <footer class="{{prefix}}Component-footer">
+    <footer class="Component-footer">
       {{#if dependentBy}}
         <strong>Dependencies</strong>
         <ul>
@@ -56,26 +56,13 @@
       {{/if}}
 
       {{#if config.revisions}}
-        <div class="{{prefix}}Details {{prefix}}Component-code {{prefix}}Component-code--revisions" data-controller="Details">
-          <h3 class="{{prefix}}Details-summary js-details-summary">Revisions</h3>
-          <div class="{{prefix}}Details-content js-details-content">
-            {{#each config.revisions}}
-              <div>{{this}}</div>
-            {{/each}}
-          </div>
-        </div>
+        {{>component:Details class="Component-code Component-code--revisions" title="Revisions" content=config.revisions}}
       {{/if}}
 
     </footer>
 
     {{#with children}}
-      <div class="Grid Grid--withGutter">
-        {{#each this}}
-        <div class="Grid-cell width-1of2 l-width-1of3 xl-width-1of4">
-          {{> module:component-list-item}}
-        </div>
-        {{/each}}
-      </div>
+      {{>component:ComponentList components=this}}
     {{/with}}
   </div>
 </section>
