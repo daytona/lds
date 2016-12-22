@@ -5,9 +5,9 @@
         <a href="/styleguide/{{group}}/{{name}}" class="ComponentList-item{{#if children}} ComponentList-item--stack{{/if}} js-item" data-childcount="{{children.length}}">
           <div class="ComponentList-image">
             {{#if (equals group 'views')}}
-              {{>component:FlexEmbed url=@component.screen modifiers="outlined scroll" dimension="4by3"}}
+              {{>component:FlexEmbed url=screen modifiers="outlined scroll" dimension="4by3"}}
             {{else}}
-              {{>component:FlexEmbed url=@component.screen modifiers="outlined scroll" dimension="4by3"}}
+              {{>component:FlexEmbed url=screen modifiers="outlined contain" dimension="4by3"}}
             {{/if}}
           </div>
           <h3 class="ComponentList-title">{{name}}</h3>

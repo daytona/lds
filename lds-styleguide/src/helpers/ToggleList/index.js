@@ -18,7 +18,6 @@ function ToggleList(el) {
   }
 
   function init () {
-    console.log('init toggleList', togglerButtonGrid, togglerButtonList, toggleList);
     if (togglerButtonGrid && togglerButtonList && toggleList) {
       togglerButtonGrid.addEventListener('click', () => toggleListFormat('grid'));
       togglerButtonList.addEventListener('click', () => toggleListFormat('list'));
