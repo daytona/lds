@@ -17,7 +17,7 @@ export default function Details(el, options) {
     content.setAttribute('aria-hidden', true);
     isOpen = false;
   }
-
+  
   function click(event) {
     event.preventDefault();
     if (isOpen) {
