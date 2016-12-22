@@ -1,32 +1,32 @@
 <div class="Page-innerWrapper">
+  <div data-controller="ToggleList">
+    <div class="PageHeader">
+      <h1 class="PageHeader-title Text-header Text-xlarge">{{category}}</h1>
 
-  <div class="PageHeader">
-    <h1 class="PageHeader-title Text-header Text-xlarge">{{category}}</h1>
+      <div class="PageHeader-nav">
 
-    <div class="PageHeader-nav">
+        <ul class="PageHeader-menu PageHeader-menu--secondary">
+          <li class="PageHeader-menuItem">
+            <button class="IconButton IconButton--medium">
+              {{> component:Icon name='grid' class="js-toggler-grid" }}
+            </button>
+          </li>
 
-      <ul class="PageHeader-menu PageHeader-menu--secondary">
-        <li class="PageHeader-menuItem">
-          <button class="IconButton IconButton--medium">
-            {{> component:Icon name='grid' }}
-          </button>
-        </li>
+          <li class="PageHeader-menuItem">
+            <button class="IconButton IconButton--medium">
+              {{> component:Icon name='list' class="js-toggler-list" }}
+            </button>
+          </li>
+        </ul>
 
-        <li class="PageHeader-menuItem">
-          <button class="IconButton IconButton--medium">
-            {{> component:Icon name='list' }}
-          </button>
-        </li>
-      </ul>
+      </div>
 
     </div>
 
+    <div class="Page-section">
+      {{#with (getProperty this category)}}
+        {{>component:ComponentList components=this class="js-toggleList"}}
+      {{/with}}
+    </div>
   </div>
-
-  <div class="Page-section">
-    {{#with (getProperty this category)}}
-      {{>component:ComponentList components=this}}
-    {{/with}}
-  </div>
-
 </div>

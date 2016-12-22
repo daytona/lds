@@ -1,6 +1,8 @@
 {{#*inline "gridCell"}}
   <div class="Grid-cell{{#each width}} u-width--{{this}}{{/each}}">
-    {{> content}}
+    {{#with content}}
+      {{> helper:content}}
+    {{/with}}
   </div>
 {{/inline}}
 

@@ -1,7 +1,7 @@
 <div class="ComponentList {{class}}{{#each (split modifiers)}} ComponentList--{{this}}{{/each}}" data-controller="ComponentList">
   <div class="Grid Grid--withGutter Grid--equalHeight ComponentList-grid js-grid">
     {{#each components}}
-      <div class="Grid-cell ComponentList-grid width-1of2 m-width-1of3 l-width-1of4 l-width-1of5 js-cell">
+      <div class="Grid-cell ComponentList-cell width-1of2 m-width-1of3 l-width-1of4 l-width-1of5 js-cell">
         <a href="/styleguide/{{group}}/{{name}}" class="ComponentList-item{{#if children}} ComponentList-item--stack{{/if}} js-item" data-childcount="{{children.length}}">
           <div class="ComponentList-image">
             {{#if (equals group 'views')}}
