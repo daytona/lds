@@ -1,14 +1,45 @@
 {
   "schema": {
-    "theme": [
-      {
-        "key": "Purple",
-        "value": ["bg-purple", "white"]
-      },
-      {
-        "key": "White",
-        "value": ["bg-white", "green"]
+    "theme": {
+      "type": "Array",
+      "required": false,
+      "default": false,
+      "variations": [
+        {
+          "name": "Purple",
+          "value": ["bg-purple", "white"]
+        },
+        {
+          "name": "White",
+          "value": ["bg-white", "green"]
+        }
+      ]
+    },
+    "title": {
+      "type": "String",
+      "default": "Blockrubrik"
+    },
+    "content": {
+      "type": "Array|Object|String"
+    },
+    "wide": {
+      "type": "Boolean"
+    },
+    "somecount": {
+      "type": "Integer",
+      "required": true,
+      "default": 1
+    }
+  },
+  "variations": [
+    {
+      "name": "Extra bred",
+      "value": {
+        "title": "Wide block",
+        "theme": ["bg-purple", "white"],
+        "wide": true,
+        "somecount": 2
       }
-    ]
-  }
+    }
+  ]
 }
