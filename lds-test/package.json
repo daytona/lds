@@ -1,6 +1,6 @@
 {
   "name": "@daytona/lds-test",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "description": "Tests to make sure framwork is working and components are up to date",
   "main": "index.js",
   "scripts": {
