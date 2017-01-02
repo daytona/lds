@@ -100,6 +100,10 @@ if (process.argv && process.cwd()) {
 }
 
 function fileWatcher (file) {
+  if (!test(process.cwd(), true)) {
+    return false;
+  }
+
   if (/\.jsx?$/.test(file)) {
     build('script', config);
   } else if (/\.css$/.test(file)) {
@@ -113,6 +117,7 @@ function fileWatcher (file) {
   } else if (new RegExp('\.(json|md|' + (config.engine.ext  || 'hbs') + ')$').test(file)) {
     runningServer.parse();
   }
+  console.log('Watching for changes in files...');
 }
 
 module.exports = dependencies;
