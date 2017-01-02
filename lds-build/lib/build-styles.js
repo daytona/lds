@@ -4,7 +4,6 @@ var cssnext = require('postcss-cssnext');
 var cssnano = require('cssnano');
 var cssimport = require('postcss-import');
 var cssprefix = require('postcss-class-prefix');
-var cssurl = require('postcss-url');
 
 module.exports = function buildStyles(files, src, dest, prefix, plugins, callback) {
   var bundle = postcss.root();
@@ -18,7 +17,6 @@ module.exports = function buildStyles(files, src, dest, prefix, plugins, callbac
       map: {inline: true, sourcesContent: false}
     }))
     .use(cssprefix(prefix ? prefix + '-' : ''))
-    //.use(cssurl())
     .use(cssnext())
     .use(cssnano());
 
