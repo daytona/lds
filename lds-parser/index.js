@@ -1,5 +1,6 @@
 var path = require('path');
 var fs = require('fs');
+var jsonlint = require('jsonlint');
 var trace = require('./lib/trace');
 var pathExists = require('./lib/path-exists');
 var objectDeepMap = require('./lib/object-deep-map');
@@ -98,7 +99,7 @@ function parseComponent(name, tree, options) {
   if (tree['index.json'] || tree['default.json']) {
     try {
       var json = tree['index.json'] || tree['default.json'];
-      componentData = JSON.parse(json);
+      componentData = jsonlint.parse(json);
     } catch (err) {
       console.error('Invalid JSON data in component', encodeURI(`/${options.group}/${name}`));
       throw err;
@@ -108,7 +109,7 @@ function parseComponent(name, tree, options) {
   if (tree['config.json']) {
     try {
       var json = tree['config.json'];
-      componentConfig = JSON.parse(json);
+      componentConfig = jsonlint.parse(json);
     } catch (err) {
       console.error('Invalid JSON config in component', encodeURI(`/${options.group}/${name}`));
       throw err;
