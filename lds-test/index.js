@@ -12,6 +12,7 @@ var errors = [];
 module.exports = function test(root, onlyErrors) {
   var config;
   var structure;
+  var valid = true;
 
   function info() {
     if (!onlyErrors) {
@@ -31,13 +32,14 @@ module.exports = function test(root, onlyErrors) {
     }
   }
   function error() {
+    valid = false;
     errors.push(arguments);
     console.error('X', Array.prototype.join.call(arguments, ' '));
   }
 
-  console.log('');
-  console.log('');
-  console.log('Running tests:');
+  info('');
+  info('');
+  info('Running tests:');
   info('');
 
   // Test config file
@@ -46,7 +48,7 @@ module.exports = function test(root, onlyErrors) {
     success('Config file found');
   } catch (err) {
     error('No config file: ', err)
-    return;
+    return false;
   }
   if (config.engine) {
     if (config.engine.render('testString', {example:'data'}) !== 'testString') {
@@ -59,7 +61,7 @@ module.exports = function test(root, onlyErrors) {
   if (config.path) {
     Object.keys(config.path).forEach(function(key) {
       var value = config.path[key];
-      if (typeof value === 'string' && key === 'dirname' && key === 'public') {
+      if (typeof value === 'string' && key !== 'dirname' && key !== 'public') {
         try {
           fs.statSync(root + '/' + value).isDirectory();
           success(key, 'directory exists:', value);
@@ -72,6 +74,12 @@ module.exports = function test(root, onlyErrors) {
   try {
     structure = parser(config).structure;
     success('LDS structure successfully parsed');
+  } catch(err) {
+    error('Can\'t parse components', err);
+    //return false;
+  }
+
+  if (structure) {
     Object.keys(structure).forEach(function(key) {
       if (structure[key]) {
         Object.keys(structure[key]).forEach(function(name) {
@@ -79,9 +87,6 @@ module.exports = function test(root, onlyErrors) {
         });
       }
     });
-  } catch(err) {
-    error('Can\'t parse components', err);
-    return;
   }
 
   function testComponent (component) {
@@ -109,13 +114,15 @@ module.exports = function test(root, onlyErrors) {
 
   info('');
   info('');
-  console.log(errors.length + ' errors, ' + warnings.length + ' warnings, ' + passed.length + ' passed');
+  info(errors.length + ' errors, ' + warnings.length + ' warnings, ' + passed.length + ' passed');
 
   if (!errors.length && !warnings.length) {
-    console.log('Wow, perfect score!');
+    info('Wow, perfect score!');
   } else if (!errors.length) {
-    console.log('Nice job!');
+    info('Nice job!');
   }
+
+  return valid;
 }
 /**
  * Tests to expect

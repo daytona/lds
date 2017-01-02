@@ -1,6 +1,8 @@
+var jsonlint = require('jsonlint');
+
 module.exports = function isJSON(string) {
   try {
-    JSON.parse(string);
+    jsonlint.parse(string);
   } catch (err) {
     return false;
   }
