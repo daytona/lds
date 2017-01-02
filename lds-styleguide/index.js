@@ -69,9 +69,8 @@ function *defaultData(next) {
   var structure = this.lds.structure;
   this.defaultData = Object.assign({}, config.styleguide, structure, {
     mainNav: buildMainNavTree(structure),
-    prefix: config.prefix ? `${config.prefix}-` : '',
     info: readme,
-    styleguide: config.styleguide
+    styleguide: this.lds.config.styleguide || config.styleguide
   });
   yield next;
 }
