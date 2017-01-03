@@ -40,25 +40,42 @@
         {{#if @component.styles}}
           {{> component:Tablist/tab id="styles" title="index.css"}}
         {{/if}}
+        {{#if @component.data}}
+          {{> component:Tablist/tab id="data" title="default.json"}}
+        {{/if}}
+        {{#if @component.info}}
+          {{> component:Tablist/tab id="info" title="readme.md"}}
+        {{/if}}
       {{/ component:Tablist}}
     </div>
-
     <div class="Page-section--divider">
       {{#if template}}
         {{#> component:Tabarea id="template"}}
-          {{> component:CodeEditor language="handlebars" fetch=(concat '/api/' @component.group '/' @component.name '?clean=true&type=template')}}
+          {{> component:CodeEditor language="handlebars" code=@component.template file="index.hbs"}}
         {{/component:Tabarea}}
       {{/if}}
 
       {{#if script}}
         {{#> component:Tabarea id="script"}}
-          {{> component:CodeEditor language="javascript" fetch=(concat '/api/' @component.group '/' @component.name '?clean=true&type=js')}}
+          {{> component:CodeEditor language="javascript" code=@component.script file="index.js"}}
         {{/component:Tabarea}}
       {{/if}}
 
       {{#if styles}}
         {{#> component:Tabarea id="styles"}}
-          {{> component:CodeEditor language="css" fetch=(concat '/api/' @component.group '/' @component.name '?clean=true&type=css')}}
+          {{> component:CodeEditor language="css" code=@component.styles file="index.css"}}
+        {{/component:Tabarea}}
+      {{/if}}
+
+      {{#if data}}
+        {{#> component:Tabarea id="data"}}
+          {{> component:CodeEditor language="json" code=(json @component.data) file="default.json"}}
+        {{/component:Tabarea}}
+      {{/if}}
+
+      {{#if info}}
+        {{#> component:Tabarea id="info"}}
+          {{> component:CodeEditor language="markdown" code=@component.info file="readme.md"}}
         {{/component:Tabarea}}
       {{/if}}
 

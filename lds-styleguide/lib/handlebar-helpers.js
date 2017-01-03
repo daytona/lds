@@ -190,7 +190,15 @@ var helpers = {
   },
   toString(value) {
     return typeof value === 'undefined' ? 'undefined' : value.toString();
+  },
+  dateString(timestamp) {
+    return new Date(timestamp-0).toLocaleString('sv-SE');
+  },
+  reverse(arr) {
+    Array.prototype.reverse.call(arr);
+    return arr;
   }
+
 };
 
 module.exports = helpers;
