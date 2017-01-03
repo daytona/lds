@@ -123,6 +123,19 @@ function parseComponent(name, tree, options) {
                tree['screen.gif'] && path.join(options.path, 'screen.gif') ||
                path.join(options.config.path.public, 'screens' + id + '.png'))
 
+  var revisions = {};
+  if (tree['.versions']) {
+    Object.keys(tree['.versions']).forEach((filename) => {
+      var filenamematch = filename.match(/^(.*)\.(.*)$/);
+      var name = filenamematch[1];
+      var timestamp = filenamematch[2];
+      if (!revisions[name]) {
+        revisions[name] = {};
+      }
+      revisions[name][timestamp] = tree['.versions'][filename];
+    });
+  }
+
   var LDSObject = {
     id,
     path: encodeURI(options.path),
@@ -143,6 +156,7 @@ function parseComponent(name, tree, options) {
     isLDSObject: true,
     dependentBy: [],  // To be added later
     dependencyTo: [],  // To be added later
+    revisions: revisions
   };
 
   if (LDSObject.template || LDSObject.script || LDSObject.styles || LDSObject.data || LDSObject.info || LDSObject.config || LDSObject.example || LDSObject.children) {
