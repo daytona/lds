@@ -11,3 +11,4 @@ dist
 
 #Other
 .DS_Store
+.versions

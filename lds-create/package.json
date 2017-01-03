@@ -1,6 +1,6 @@
 {
   "name": "@daytona/lds-create",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "Create parts of an LDS",
   "main": "index.js",
   "scripts": {
