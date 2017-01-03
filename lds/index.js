@@ -103,21 +103,24 @@ function fileWatcher (file) {
   if (!test(process.cwd(), true)) {
     return false;
   }
+  function done() {
+    runningServer.parse();
+    console.log('Watching for changes in files...');
+  }
 
   if (/\.jsx?$/.test(file)) {
-    build('script', config);
+    build('script', config, done);
   } else if (/\.css$/.test(file)) {
-    build('styles', config);
+    build('styles', config, done);
   } else if (new RegExp(config.path.images +'/.*\.(png|jpg|gif|svg)$').test(file)) {
-    build('images', config);
+    build('images', config, done);
   } else if (new RegExp(config.path.icons +'/.*\.svg$').test(file)) {
-    build('icons', config);
+    build('icons', config, done);
   } else if (new RegExp(config.path.fonts +'/.*\.(woff|woff2|ttf|otf|eot)$').test(file)) {
-    build('fonts', config);
+    build('fonts', config, done);
   } else if (new RegExp('\.(json|md|' + (config.engine.ext  || 'hbs') + ')$').test(file)) {
-    runningServer.parse();
+    done();
   }
-  console.log('Watching for changes in files...');
 }
 
 module.exports = dependencies;
