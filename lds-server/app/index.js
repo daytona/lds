@@ -38,10 +38,20 @@ function Server(config) {
   var lds = parseLds.sync(config);
   var token = randtoken(16);
 
+  function reParse (callback) {
+    console.log('Re-parsing structure');
+    lds = parseLds.sync(config);
+    if (typeof(callback) === 'function') {
+      callback();
+    }
+    return;
+  }
+
   app.use(session(app));
 
   app.use(function* (next) {
     this[namespace] = lds;
+    this.parse = reParse;
     yield next;
   });
 
@@ -80,11 +90,7 @@ function Server(config) {
   console.log(`Styleguide: http://${host}:${port}/styleguide`);
 
   return {
-    parse: function(){
-      console.log('Re-parsing structure');
-      lds = parseLds.sync(config);
-      return;
-    },
+    parse: reParse,
     app
   };
 };
