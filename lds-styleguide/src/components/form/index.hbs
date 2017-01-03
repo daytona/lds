@@ -1,0 +1,46 @@
+{{#*inline "FormField"}}
+  <div class="Form-item {{class}}">
+    {{#if label}}
+      <label class="Form-label" for="{{id}}">{{{label}}}{{#if required}}<sub title="Obligatoriskt fält">*</sup>{{/if}}</label>
+    {{/if}}
+    {{#if (equals type 'select')}}
+      <div class="Form-selectWrapper" data-controller="Select">
+        <select id="{{id}}" class="Form-select" name="{{name}}"{{#if required}} required{{/if}}>
+          {{#each options}}
+            <option value="{{value}}"{{#if (equals value ../value)}} selected{{/if}}>{{text}}</option>
+          {{/each}}
+          {{#if partial-block}}
+            {{>@partial-block}}
+          {{/if}}
+        </select>
+      </div>
+    {{ else if (equals type 'checkbox')}}
+      <input id="{{id}}" type="{{type}}" name="{{name}}" value="{{value}}" class="Form-checkbox"{{#if required}} required{{/if}}>
+    {{ else if (equals type 'textarea')}}
+      <div class="Form-textareaWrapper" data-controller="Textarea">
+        <textarea id="{{id}}" type="{{type}}" name="{{name}}" class="Form-textarea js-textarea" placeholder="{{placeholder}}"{{#if required}} required{{/if}}>{{value}}</textarea>
+        <pre aria-hidden="true" class="js-pre">{{value}}</pre>
+      </div>
+    {{ else }}
+      <input id="{{id}}" type="{{type}}" name="{{name}}" value="{{value}}" class="Form-input" placeholder="{{placeholder}}"{{#if required}} required{{/if}}>
+    {{/if}}
+  </div>
+{{/inline}}
+
+{{#if fields}}
+  <form class="Form {{class}}"{{#if id}} id="{{id}}"{{/if}} action="{{action}}" method="{{method}}"{{#if controller}} data-controller="{{controller}}"{{/if}}>
+    {{#each hiddenFields}}
+      <input type="hidden" name="{{name}}" value="{{value}}" />
+    {{/each}}
+
+    {{#each fields}}
+      {{> FormField}}
+    {{/each}}
+
+    {{#if submit}}
+    <button type="submit js-submit">{{submit}}</button>
+    {{/if}}
+  </form>
+{{else if type}}
+  {{> FormField}}
+{{/if}}

@@ -67,11 +67,11 @@ var helpers = {
       return !arg;
     }).length === 0;
   },
-  or() {
+  or () {
     var args = Array.prototype.slice.call(arguments, 0, -1);
-    return args.filter((arg)=> {
+    return args.filter((arg) => {
       return arg;
-    }).length > 0;
+    })[0];
   },
   hasProperty(object, key) {
     return typeof(object[key]) !== 'undefined';

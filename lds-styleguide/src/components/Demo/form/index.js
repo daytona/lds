@@ -7,7 +7,7 @@ import {updateComponentParam as updateComponentParamAction} from '../actions';
 
 export default function initDemoForm(el, options = {}) {
   const id = el.dataset.id;
-  const inputs = el.querySelectorAll('select');
+  const inputs = el.querySelectorAll('select, input, textarea');
 
   const handleInputChange = ({target}) => {
     const key = target.name;
