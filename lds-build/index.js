@@ -27,7 +27,26 @@ function findComponents(branch, regexp, path) {
 var log = console.log.bind(console);
 
 // Build scripts for bundling scripts and styles, generating icon-fonts, minifying imagages and copying font files.
-module.exports = function build(type, config) {
+module.exports = function build(type, config, callback) {
+  let taskcount = 0;
+
+  function taskStart() {
+    if (arguments) {
+      log.call(this, ...arguments);
+    }
+    taskcount++;
+  }
+
+  function taskDone() {
+    if (arguments) {
+      log.call(this, ...arguments);
+    }
+    taskcount--;
+    if (taskcount < 1 && typeof(callback) === 'function') {
+      callback();
+    }
+  }
+
   var cfgPath = config.path;
   var components = {
     base : cfgPath.base ? trace(path.join(cfgPath.dirname, cfgPath.base)) : false,
@@ -52,6 +71,8 @@ module.exports = function build(type, config) {
 
     icons: (config) => {
       if (!cfgPath.icons) return;
+
+      taskStart('generating icon font');
       require('./lib/build-icons')({
         iconSrc: path.join(cfgPath.dirname, cfgPath.icons),
         fontName: 'icons',
@@ -60,50 +81,50 @@ module.exports = function build(type, config) {
         cssDest: path.join(cfgPath.dirname, cfgPath.base + '/icon/index.css'),
         templateDest: path.join(cfgPath.dirname, cfgPath.base + '/icon/index.hbs')
       }, function(){
-        log('Iconfont generated');
+        taskDone('Iconfont generated');
       });
     },
 
     fonts: (config) => {
       if (!cfgPath.fonts) return;
-      log('Copying webfonts');
+      taskStart('Copying webfonts');
       require('./lib/build-fonts')(path.join(cfgPath.dirname, cfgPath.fonts), path.join(cfgPath.dirname, cfgPath.dist, config.dest.fonts), function(){
-        log('All fonts written to disk');
+        taskDone('All fonts written to disk');
       });
     },
 
     images: (config) => {
       if (!cfgPath.images) return;
-      log('Building images');
+      taskStart('Building images');
       require('./lib/build-images')(path.join(cfgPath.dirname, cfgPath.images), path.join(cfgPath.dirname, cfgPath.dist, config.dest.images), function(files) {
-        log(files.length, 'images written to disk');
+        taskDone(files.length, 'images written to disk');
       });
     },
 
     script: (config) => {
       var scripts = findComponents(components, /index.js$/, 'src/');
-      log('Bundling scripts');
+      taskStart('Bundling scripts');
       require('./lib/build-scripts')(scripts, cfgPath.dirname, path.join(cfgPath.dirname, cfgPath.dist, config.dest.script), function(){
-        log('JS bundle written to disk: ', path.join(cfgPath.dirname, cfgPath.dist, config.dest.script));
+        taskDone('JS bundle written to disk: ', path.join(cfgPath.dirname, cfgPath.dist, config.dest.script));
       });
     },
 
     styles: (config) => {
       var styles = findComponents(components, /index.css$/, 'src/');
       var buildStyles = require('./lib/build-styles');
-      log('Bundling styles');
+      taskStart('Bundling styles');
 
       buildStyles(styles, cfgPath.dirname, path.join(cfgPath.dirname, cfgPath.dist, config.dest.style), config.prefix, config.postcss, function() {
-        log('CSS bundle written to disk: ',path.join(cfgPath.dirname, cfgPath.dist, config.dest.style));
+        taskDone('CSS bundle written to disk:', path.join(cfgPath.dirname, cfgPath.dist, config.dest.style));
       });
-      log('looking for styleguide styles');
       try {
         // Query the entry
         stats = fs.lstatSync(path.join(cfgPath.dirname, 'styleguide.css'));
 
         if(stats.isFile()) {
+          taskStart('Building styleguide theme')
           buildStyles([path.join(cfgPath.dirname, 'styleguide.css')], cfgPath.dirname, path.join(cfgPath.dirname, cfgPath.dist, 'styleguide.css'), config.prefix, config.postcss, function() {
-            log('Styleguide theme css written to disk');
+            taskDone('Styleguide theme css written to disk');
           });
         }
       } catch(err) {
