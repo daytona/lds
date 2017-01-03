@@ -6,6 +6,7 @@ var templates = require('./templates');
 var marked = require('marked');
 
 module.exports = function* component (next) {
+  yield next;
   var component = findComponent(this.lds.structure, '/'+ this.params.path);
 
   if (!component) {
@@ -61,9 +62,7 @@ module.exports = function* component (next) {
       content: this.render(component.template, Object.assign({}, component.data, query)),
       updateIframeScript: updateIframeScript(query.iframeid)
     });
-  } else if (!Object.keys(query).length) {
-    this.body = this.render(component.template, Object.assign({}, component.data, query));
   } else {
-    yield next;
+    this.body = this.render(component.template, Object.assign({}, component.data, query));
   }
 }
