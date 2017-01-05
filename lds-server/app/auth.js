@@ -8,6 +8,7 @@ module.exports = function auth(login, token) {
 
     if (params && params.lds_username == login.name && params.lds_password === login.pass) {
       this.session.token = token;
+      this.redirect(this.request.url);
     }
 
     if (this.session.token === token) {
