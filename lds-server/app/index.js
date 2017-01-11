@@ -12,7 +12,6 @@ var router = require('./router');
 var styleguide = require('@daytona/lds-styleguide');
 var api = require('@daytona/lds-api');
 var editor = require('@daytona/lds-editor');
-var cms = require('@daytona/lds-cms');
 var parseLds = require('@daytona/lds-parser');
 var Engine = require('@daytona/lds-engine');
 
@@ -72,7 +71,6 @@ function Server(config) {
     .use(mount('/styleguide', styleguide))
     .use(mount('/api', api.app))
     .use(mount('/playground', editor))
-    .use(mount('/cms', cms))
     .use(mount('/info', function* infoView(next) {
       this.showinfo = true;
       yield next;
