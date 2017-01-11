@@ -1,4 +1,5 @@
 var findComponent = require('./find-component');
+var socketScript = require('./socketScript');
 var pureQuery = require('./pure-query');
 
 module.exports = function* view(next) {

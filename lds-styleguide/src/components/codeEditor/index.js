@@ -102,6 +102,12 @@ export default function CodeEditor (el) {
     form.submit();
   }
 
+  function submit(event) {
+    if(!confirm('Du kommer att spara över filen. Är du säker på att du vill göra det?')) {
+      event.preventDefault();
+    }
+  }
+
   function keystrokes (event) {
     if (event.ctrlKey || event.metaKey) {
       switch (event.keyCode) {
@@ -151,6 +157,7 @@ export default function CodeEditor (el) {
       revisionPicker.addEventListener('change', pickRevision);
     }
 
+    form.addEventListener('submit', submit);
     textarea.addEventListener('focus', focus);
     textarea.addEventListener('blur', blur);
     textarea.addEventListener('change', update);

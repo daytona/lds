@@ -8,6 +8,8 @@ var bodyParser = require('koa-bodyparser');
 var randtoken = require('random-token').create('LDS'); // salt
 var auth = require('./auth');
 var router = require('./router');
+var koaSocket = require('koa-websocket');
+var route = require('koa-route');
 
 var styleguide = require('@daytona/lds-styleguide');
 var api = require('@daytona/lds-api');
@@ -32,26 +34,56 @@ function Server(config) {
   //}
 
   var engine = new Engine(config.engine);
-  var app = koa();
+  var app = koaSocket(koa());
+
+
   app.keys = ['secret lds project'];
 
   var lds = parseLds.sync(config);
   var token = randtoken(16);
+  var socket;
 
   function reParse (callback) {
     console.log('Re-parsing structure');
     lds = parseLds.sync(config);
+
     if (typeof(callback) === 'function') {
       callback();
     }
     return;
   }
 
+  app.ws.use(route.all('/', function* (next) {
+    socket = {
+      on: this.websocket.on,
+      send: this.websocket.send,
+      broadcast: function(message) {
+        console.log('Broadcasting to all connected clients', message);
+        app.ws.server.clients.forEach(function(client) {
+          client.send(message);
+        });
+      }
+    };
+
+    this.websocket.on('message', function(message) {
+      // print message from the client
+      console.log(message);
+    });
+
+    // send a message to our client
+    this.websocket.send('Hello Client!');
+    this.ldssocket = socket;
+    // yielding `next` will pass the context (this) on to the next ws middleware
+    yield next;
+  }));
+
   app.use(session(app));
 
   app.use(function* (next) {
+    lds.host = this.request.host;
     this[namespace] = lds;
     this.parse = reParse;
+    websocket = this.websocket;
     yield next;
   });
 
@@ -91,6 +123,15 @@ function Server(config) {
 
   return {
     parse: reParse,
+    reload(reason) {
+      if (socket) {
+        if (reason === 'css') {
+          socket.broadcast('updatecss');
+        } else {
+          socket.broadcast('reload');
+        }
+      }
+    },
     app
   };
 };

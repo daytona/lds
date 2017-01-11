@@ -1,19 +1,26 @@
-<div
-  data-controller='DemoExample'
-  data-id="{{id}}"
-  data-url="{{url}}"
-  class="DemoView DemoView--example">
-  {{#if (not isExample)}}
-    <iframe
-      src="{{{url}}}?standalone=true&iframeid={{id}}&{{querifyObject data}}"
-      class="DemoExample-iframe js-iframe"
-      id="iframe-{{id}}">
-    </iframe>
-  {{else}}
-    <iframe
-      src="{{{url}}}?type=example&iframeid={{id}}&{{querifyObject data}}"
-      class="DemoExample-iframe js-iframe"
-      id="iframe-{{id}}">
-    </iframe>
-  {{/if}}
-</div>
+{{#if (equals @component.category 'view')}}
+  <div class="DemoView DemoView--view DemoView--example">
+    {{> component:DevicePark url=(concat url '?standalone=true') prettyUrl=(concat @root.host @component.url)}}
+  </div>
+{{else}}
+  <div
+    data-controller='DemoExample'
+    data-id="{{id}}"
+    data-url="{{url}}"
+    class="DemoView DemoView--example">
+  
+    {{#if (not isExample)}}
+      <iframe
+        src="{{{url}}}?standalone=true&iframeid={{id}}&{{querifyObject data}}"
+        class="DemoExample-iframe js-iframe"
+        id="iframe-{{id}}">
+      </iframe>
+    {{else}}
+      <iframe
+        src="{{{url}}}?type=example&iframeid={{id}}&{{querifyObject data}}"
+        class="DemoExample-iframe js-iframe"
+        id="iframe-{{id}}">
+      </iframe>
+    {{/if}}
+  </div>
+{{/if}}

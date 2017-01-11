@@ -34,10 +34,23 @@
         }
       });
       document.dispatchEvent(event);
-      // var iframe = document.querySelector('#' + iframeId);
-      // if (iframe) {
-      //   iframe.style.height = height + 'px';
-      // }
+
+      (function connectToLDS() {
+        var socket = new WebSocket(`ws://${window.location.host}/styleguide`);
+        var stylesheeturl = '/assets/style.css';
+        var stylesheet = document.querySelector('link[rel="stylesheet"][href="'+stylesheeturl+'"]');
+        var version = 0;
+        socket.onmessage = function (event) {
+          if (event.data === 'reload') {
+            console.log('reload');
+            window.location.reload();
+          } else if (event.data === 'updatecss') {
+            console.log('replace css');
+            version++;
+            stylesheet.setAttribute('href', stylesheeturl + '?v=' + version);
+          }
+        };
+      }());
     }
   </script>
 </html>

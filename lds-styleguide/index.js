@@ -70,6 +70,7 @@ function *defaultData(next) {
   this.defaultData = Object.assign({}, config.styleguide, structure, {
     mainNav: buildMainNavTree(structure),
     info: readme,
+    host: this.lds.host,
     styleguide: this.lds.config.styleguide || config.styleguide
   });
   yield next;
@@ -104,11 +105,11 @@ router
     var component = findComponent(this.lds.structure[params.category], `/${params.category}/${params.path}`);
 
     if (component) {
-      if (params.category === 'views') {
-        this.renderView(getGuideView(this, 'view'), component);
-      } else {
+      // if (params.category === 'views') {
+      //   this.renderView(getGuideView(this, 'view'), component);
+      // } else {
         this.renderView(getGuideView(this, 'single'), component);
-      }
+      //}
     }
   });
 

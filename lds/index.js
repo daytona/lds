@@ -103,15 +103,18 @@ function fileWatcher (file) {
   if (!test(process.cwd(), true)) {
     return false;
   }
-  function done() {
+  function done(reason) {
     runningServer.parse();
+    runningServer.reload(reason);
     console.log('Watching for changes in files...');
   }
 
   if (/\.jsx?$/.test(file)) {
     build('script', config, done);
   } else if (/\.css$/.test(file)) {
-    build('styles', config, done);
+    build('styles', config, () => {
+      done('css');
+    });
   } else if (new RegExp(config.path.images +'/.*\.(png|jpg|gif|svg)$').test(file)) {
     build('images', config, done);
   } else if (new RegExp(config.path.icons +'/.*\.svg$').test(file)) {

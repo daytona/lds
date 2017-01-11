@@ -2,6 +2,7 @@ var path = require('path');
 var fs = require('fs');
 var koa = require('koa');
 var Router = require('koa-router');
+
 var marked = require('marked');
 var pureQuery = require('./lib/pure-query');
 var screenDump = require('./lib/screenshots.js');
@@ -17,8 +18,8 @@ var getScreenshot = require('./lib/getScreenshot');
 var build = require('@daytona/lds-build');
 
 var app = koa();
-var router = new Router();
 
+var router = new Router();
 
 router
   .get('/screendump', function *(next){

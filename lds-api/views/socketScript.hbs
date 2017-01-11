@@ -1,0 +1,20 @@
+<script>
+  var socket = new WebSocket("{{socketUrl}}");
+  socket.onopen = function (event) {
+    console.log('socket open');
+    // send a message to the server
+    socket.send('Hello server!');
+  };
+
+  socket.onmessage = function (event) {
+    if (event.data === 'reload') {
+      window.location.reload();
+    }
+    // print message from server
+    console.log(event.data);
+  };
+  document.addEventListener('click', ()=>{
+    socket.send('makeme');
+  })
+  window.socket = socket;
+</script>

@@ -3,7 +3,6 @@
     "theme": {
       "type": "Array",
       "required": false,
-      "default": false,
       "variations": [
         {
           "name": "Purple",
@@ -16,17 +15,16 @@
       ]
     },
     "title": {
-      "type": "String",
-      "default": "Blockrubrik"
+      "type": "String"
     },
     "content": {
-      "type": "Array|Object|String"
+      "type": "LongString"
     },
     "wide": {
       "type": "Boolean"
     },
     "somecount": {
-      "type": "Integer",
+      "type": "Number",
       "required": true,
       "default": 1
     }

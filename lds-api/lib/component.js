@@ -2,6 +2,7 @@ var findComponent = require('./find-component');
 var pureQuery = require('./pure-query');
 var handlebars = require('handlebars');
 var updateIframeScript = require('./updateIframeHeightScript');
+var socketScript = require('./socketScript');
 var templates = require('./templates');
 var marked = require('marked');
 
@@ -53,14 +54,16 @@ module.exports = function* component (next) {
   } else if (query.type === 'example') {
     this.body = handlebars.compile(templates['example.hbs'])({
       example: this.render(component.example, Object.assign({}, component, query)),
-      updateHeightScript: query.iframeid && updateIframeScript(query.iframeid)
+      updateHeightScript: query.iframeid && updateIframeScript(query.iframeid),
+      socketScript: socketScript('ws://' + this.request.host)
     });
   } else if (query.standalone) {
     this.body = handlebars.compile(templates['standalone.hbs'])({
       isComponent: component.category === 'component',
       config: component.config,
       content: this.render(component.template, Object.assign({}, component.data, query)),
-      updateIframeScript: updateIframeScript(query.iframeid)
+      updateIframeScript: updateIframeScript(query.iframeid),
+      socketScript: socketScript('ws://' + this.request.host)
     });
   } else {
     this.body = this.render(component.template, Object.assign({}, component.data, query));

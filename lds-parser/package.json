@@ -12,8 +12,8 @@
     "fs": "0.0.2",
     "jsonlint": "^1.6.2",
     "path": "^0.12.7",
-    "postcss": "^5.0.19",
-    "prism-languages": "^0.3.0",
-    "prismjs": "^1.4.1"
+    "postcss": "^5.2.8",
+    "prism-languages": "^0.3.3",
+    "prismjs": "^1.6.0"
   }
 }
