@@ -82,7 +82,7 @@ function screenshot() {
 function parseComponents(structure, baseUrl) {
   Object.keys(structure).forEach((componentName) => {
     var component = structure[componentName];
-    var url = `${baseUrl}/api${component.id}?standalone=true&screenshot=true`;
+    var url = `${baseUrl}/api${component.id}?_screenshot=true`;
     var dest = `dist/screens${component.id}.png`
     var publicpath = `/assets/screens${component.id}.png`;
     var config;
@@ -92,19 +92,19 @@ function parseComponents(structure, baseUrl) {
     }
 
     if (component.template) {
-      url = url + '&standalone=true'
+      url = url + '&_standalone=true'
       config = component.category === 'view' ? screenConfig.desktop : screenConfig.component;
     } else if (component.example) {
-      url = url + '&type=example'
+      url = url + '&_type=example'
       config = screenConfig.thumb;
     } else if (component.script) {
-      url = url + '&type=js'
+      url = url + '&_type=js'
       config = screenConfig.thumb;
     } else if (component.styles) {
-      url = url + '&type=css'
+      url = url + '&_type=css'
       config = screenConfig.thumb;
     } else if (component.info && !component.children) {
-      url = url + '&type=info'
+      url = url + '&_type=info'
       config = screenConfig.document;
     } else {
       return false;

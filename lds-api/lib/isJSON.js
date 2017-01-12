@@ -1,8 +1,9 @@
 module.exports = function isJSON(string) {
+  var json;
   try {
-    JSON.parse(string);
+    json = JSON.parse(string);
   } catch (err) {
     return false;
   }
-  return true;
+  return json;
 };

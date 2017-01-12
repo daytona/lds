@@ -9,23 +9,32 @@ var screenDump = require('./lib/screenshots.js');
 var findComponent = require('./lib/find-component');
 var objectDeepMap = require('./lib/object-deep-map');
 var trace = require('./lib/trace');
+var guid = require('./lib/guid');
 var handlebars = require('handlebars');
+var isJSON = require('./lib/isJSON');
 
 var exporter = require('./lib/exporter');
 var view = require('./lib/view');
 var component = require('./lib/component');
 var getScreenshot = require('./lib/getScreenshot');
+
+var sessions = require('./lib/session');
 var build = require('@daytona/lds-build');
 
 var app = koa();
-
 var router = new Router();
+
+// app.use(function* (next) {
+//
+//   console.log(this.ws);
+//   yield next;
+// });
 
 router
   .get('/screendump', function *(next){
     this.body = 'Saving screens of views';
     var query = pureQuery(this.query);
-    screenDump(this.lds.structure, query.type, 'http://'+this.request.host);
+    screenDump(this.lds.structure, query._type, 'http://'+this.request.host);
 
     yield next;
   })
@@ -77,6 +86,44 @@ router
 app.use(router.routes());
 
 const methods = {
+  message(message, connection, lds) {
+    var data = isJSON(message);
+    if (data && data.component) {
+      var session = data.session || guid('session_');
+      var component = findComponent(lds.structure, data.component);
+      if (!component) {
+        return;
+      }
+
+      switch (data.action) {
+        case 'update':
+          if (data.data) {
+            sessions.set(session, {
+              data: Object.assign({}, component.data, data.data)
+            });
+          }
+
+          connection.send(JSON.stringify({
+            type: 'updated',
+            id: data.id,
+            component: data.component,
+            status: 200,
+            message: 'Component updated',
+            session: data.session || guid('session_')
+          }));
+          break;
+
+        case 'write':
+          if (data.file) {
+            methods.write (data.component, data.file, data.content, function(){
+              connection.send(JSON.stringify({
+                type: 'reload'
+              }));
+            });
+          }
+      }
+    }
+  },
   init() {
     // Set up a new LDS structure installing dependencies, creating folders, and lds.config
   },

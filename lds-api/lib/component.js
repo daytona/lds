@@ -5,6 +5,7 @@ var updateIframeScript = require('./updateIframeHeightScript');
 var socketScript = require('./socketScript');
 var templates = require('./templates');
 var marked = require('marked');
+var sessions = require('./session');
 
 module.exports = function* component (next) {
   yield next;
@@ -15,10 +16,15 @@ module.exports = function* component (next) {
   }
   var query = pureQuery(this.query);
 
-  if (query.type === 'json' || query.type === 'js' || query.type === 'css' || query.type === 'template' || query.type === 'html') {
+  // If components is updated in a separate session override component with that data
+  if (query._session && sessions.get(query._session)) {
+    component.data = Object.assign(component.data, sessions.get(query._session).data);
+  }
+
+  if (query._type === 'json' || query._type === 'js' || query._type === 'css' || query._type === 'template' || query._type === 'html') {
     var content;
-    var language = query.type;
-    switch (query.type) {
+    var language = query._type;
+    switch (query._type) {
       case 'json':
         content = JSON.stringify(component.data, null, 2);
         break;
@@ -37,7 +43,7 @@ module.exports = function* component (next) {
         language = 'html';
         break;
     }
-    if (query.clean) {
+    if (query._clean) {
       this.type = 'text/plain; charset=utf-8';
       this.body = content;
       return;
@@ -47,22 +53,22 @@ module.exports = function* component (next) {
       language,
       content
     });
-  } else if (query.type === 'info') {
+  } else if (query._type === 'info') {
     this.body = handlebars.compile(templates['info.hbs'])({
       info: marked(component.info)
     });
-  } else if (query.type === 'example') {
+  } else if (query._type === 'example') {
     this.body = handlebars.compile(templates['example.hbs'])({
       example: this.render(component.example, Object.assign({}, component, query)),
-      updateHeightScript: query.iframeid && updateIframeScript(query.iframeid),
+      updateHeightScript: query._iframeid && updateIframeScript(query._iframeid),
       socketScript: socketScript('ws://' + this.request.host)
     });
-  } else if (query.standalone) {
+  } else if (query._standalone) {
     this.body = handlebars.compile(templates['standalone.hbs'])({
       isComponent: component.category === 'component',
       config: component.config,
       content: this.render(component.template, Object.assign({}, component.data, query)),
-      updateIframeScript: updateIframeScript(query.iframeid),
+      updateIframeScript: updateIframeScript(query._iframeid),
       socketScript: socketScript('ws://' + this.request.host)
     });
   } else {
