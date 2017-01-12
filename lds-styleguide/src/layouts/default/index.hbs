@@ -36,7 +36,7 @@
       document.dispatchEvent(event);
 
       (function connectToLDS() {
-        var socket = new WebSocket(`ws://${window.location.host}/styleguide`);
+        var socket = new WebSocket(`ws://${window.location.host}`);
         var stylesheeturl = '/assets/style.css';
         var stylesheet = document.querySelector('link[rel="stylesheet"][href="'+stylesheeturl+'"]');
         var version = 0;
@@ -50,6 +50,7 @@
             stylesheet.setAttribute('href', stylesheeturl + '?v=' + version);
           }
         };
+        window.socket = socket;
       }());
     }
   </script>

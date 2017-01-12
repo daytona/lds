@@ -1,8 +1,9 @@
 export default function isJSON(string) {
+  var json = false;
   try {
-    JSON.parse(string);
+    json = JSON.parse(string);
   } catch (err) {
     return false;
   }
-  return true;
+  return json;
 };

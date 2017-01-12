@@ -1,4 +1,4 @@
-<div class="CodeEditor" data-controller="CodeEditor"{{#if language}} data-language="{{language}}"{{/if}}>
+<div class="CodeEditor" data-controller="CodeEditor"{{#if language}} data-language="{{language}}"{{/if}} data-file="{{{file}}}">
   <form class="CodeEditor-form js-form" action="/api{{@component.id}}" method="post">
     <input type="hidden" name="method" value="put">
     <input type="hidden" name="filename" value="{{{file}}}">

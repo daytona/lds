@@ -2,16 +2,18 @@ import Behave from '../../helpers/behavejs/behave.js';
 import controller from '../../helpers/controller';
 import Prism from 'prismjs';
 import languages from 'prism-languages';
+import socket from '../../helpers/socket';
 
 export default function CodeEditor (el) {
   const undoStack = [];
   const redoStack = [];
+  const filename = el.dataset.file;
   const textarea = el.querySelector('.js-textarea');
   const highlightEditor = el.querySelector('.js-editor');
   const caret = el.querySelector('.js-caret');
 
   const form = el.querySelector('.js-form');
-  const submit = el.querySelector('.js-submit');
+  const submitButton = el.querySelector('.js-submit');
   const revisionPicker = el.querySelector('.js-revisions');
 
   const language = el.dataset.language || 'text';
@@ -37,7 +39,7 @@ export default function CodeEditor (el) {
     if (textarea.value !== codeString) {
       if (codeString && !isUndoing) {
         undoStack.push(codeString);
-        submit.removeAttribute('disabled');
+        submitButton.removeAttribute('disabled');
       }
       write();
       isUndoing = false;
@@ -45,9 +47,9 @@ export default function CodeEditor (el) {
       setCaret(textarea.selectionEnd);
     }
     if (codeString === initialString) {
-      submit.setAttribute('disabled', '');
+      submitButton.setAttribute('disabled', '');
     } else if (codeString) {
-      submit.removeAttribute('disabled');
+      submitButton.removeAttribute('disabled');
     }
   }
   function focus() {
@@ -103,8 +105,15 @@ export default function CodeEditor (el) {
   }
 
   function submit(event) {
-    if(!confirm('Du kommer att spara över filen. Är du säker på att du vill göra det?')) {
+    if (!confirm('Du kommer att spara över filen. Är du säker på att du vill göra det?')) {
       event.preventDefault();
+    // } else {
+    //   event.preventDefault();
+    //   socket.send({
+    //     type: 'write',
+    //     file: filename,
+    //     content: textarea.value
+    //   });
     }
   }
 

@@ -1,23 +1,24 @@
 {{#if (equals @component.category 'view')}}
   <div class="DemoView DemoView--view DemoView--example">
-    {{> component:DevicePark url=(concat url '?standalone=true') prettyUrl=(concat @root.host @component.url)}}
+    {{> component:DevicePark url=(concat url '?_standalone=true') prettyUrl=(concat @root.host @component.url)}}
   </div>
 {{else}}
   <div
     data-controller='DemoExample'
     data-id="{{id}}"
     data-url="{{url}}"
+    data-component="{{{component.id}}}"
     class="DemoView DemoView--example">
-  
+
     {{#if (not isExample)}}
       <iframe
-        src="{{{url}}}?standalone=true&iframeid={{id}}&{{querifyObject data}}"
+        src="{{{url}}}?_standalone=true&_iframeid={{id}}&{{querifyObject data}}"
         class="DemoExample-iframe js-iframe"
         id="iframe-{{id}}">
       </iframe>
     {{else}}
       <iframe
-        src="{{{url}}}?type=example&iframeid={{id}}&{{querifyObject data}}"
+        src="{{{url}}}?_type=example&_iframeid={{id}}&{{querifyObject data}}"
         class="DemoExample-iframe js-iframe"
         id="iframe-{{id}}">
       </iframe>

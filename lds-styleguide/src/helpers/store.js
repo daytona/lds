@@ -19,7 +19,7 @@ const reducers = {
   }
 };
 
-const store = createStore(combineReducers(reducers));
+const store = createStore(combineReducers(reducers), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 export function addReducer(name, reducer) {
   reducers[name] = reducer;
