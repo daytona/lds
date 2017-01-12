@@ -41,7 +41,14 @@ function Server(config) {
 
   var lds = parseLds.sync(config);
   var token = randtoken(16);
-  var socket;
+  var socket = {
+    broadcast: function(message) {
+      console.log('Broadcasting to all connected clients', message);
+      app.ws.server.clients.forEach(function(client) {
+        client.send(message);
+      });
+    }
+  };
 
   function reParse (callback) {
     console.log('Re-parsing structure');
@@ -54,25 +61,12 @@ function Server(config) {
   }
 
   app.ws.use(route.all('/', function* (next) {
-    socket = {
-      on: this.websocket.on,
-      send: this.websocket.send,
-      broadcast: function(message) {
-        console.log('Broadcasting to all connected clients', message);
-        app.ws.server.clients.forEach(function(client) {
-          client.send(message);
-        });
-      }
-    };
-
-    this.websocket.on('message', function(message) {
-      // print message from the client
-      console.log(message);
+    this.websocket.on('message', (message) => {
+      api.methods.message(message, this.websocket, lds);
     });
 
     // send a message to our client
     this.websocket.send('Hello Client!');
-    this.ldssocket = socket;
     // yielding `next` will pass the context (this) on to the next ws middleware
     yield next;
   }));
@@ -83,7 +77,8 @@ function Server(config) {
     lds.host = this.request.host;
     this[namespace] = lds;
     this.parse = reParse;
-    websocket = this.websocket;
+    this.ws = app.ws;
+    this.broadcast = socket.broadcast;
     yield next;
   });
 
@@ -124,7 +119,7 @@ function Server(config) {
   return {
     parse: reParse,
     reload(reason) {
-      if (socket) {
+      if (socket && socket.broadcast) {
         if (reason === 'css') {
           socket.broadcast('updatecss');
         } else {
