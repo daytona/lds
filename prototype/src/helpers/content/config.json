@@ -1,0 +1,18 @@
+{
+  "ignore": true,
+  "schema": {
+    "$type": "Array",
+    "": {
+      "$type": "LongString"
+    },
+    "component": {
+      "$type": "Component"
+    },
+    "tag": {
+      "$type": "String"
+    },
+    "class": {
+      "$type": "String"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{{#if (isString this)}}
+  <p>{{{this}}}</p>
+{{else if component}}
+  {{>(partial component)}}
+{{else if (and tag content)}}
+  <{{tag}}{{#if class}} class="{{{class}}}"{{/if}}>{{{content}}}</{{tag}}>
+{{else}}
+  <div>
+    {{#each this}}
+      {{#if component}}
+        {{>(partial component)}}
+      {{else if (and tag content)}}
+        <{{tag}}{{#if class}} class="{{{class}}}"{{/if}}>{{{content}}}</{{tag}}>
+      {{else if (isString this)}}
+        <p>{{{this}}}</p>
+      {{else}} {{! If array in array inline content in same paragraph !}}
+        <div class="text-paragraph">
+        {{#each this}}
+          {{#if component}}
+            {{>(partial component)}}
+          {{else if (and tag content)}}
+            <{{tag}}{{#if class}} class="{{{class}}}"{{/if}}>{{{content}}}</{{tag}}>
+          {{else if (isString this)}}
+            <p class="text-inline">{{{this}}}</p>
+          {{/if}}
+        {{/each}}
+        </div>
+      {{/if}}
+    {{/each}}
+  </div>
+{{/if}}

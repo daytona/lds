@@ -1,9 +1,9 @@
 {
   "schema": {
     "theme": {
-      "type": "Array",
-      "required": false,
-      "variations": [
+      "$type": "Array",
+      "$required": false,
+      "$variations": [
         {
           "name": "Purple",
           "value": ["bg-purple", "white"]
@@ -14,26 +14,25 @@
         }
       ]
     },
-    "title": {
-      "type": "String"
-    },
-    "content": {
-      "type": "LongString"
-    },
+    "title": "@schema:component:Title",
+    "content": "@schema:helper:content",
     "wide": {
-      "type": "Boolean"
+      "$type": "Boolean"
     },
     "somecount": {
-      "type": "Number",
-      "required": true,
-      "default": 1
+      "$type": "Number",
+      "$required": true,
+      "$default": 1
     }
   },
   "variations": [
     {
       "name": "Extra bred",
       "value": {
-        "title": "Wide block",
+        "title": {
+          "text": "Extra bred",
+          "level": 1
+        },
         "theme": ["bg-purple", "white"],
         "wide": true,
         "somecount": 2

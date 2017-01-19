@@ -1,7 +1,7 @@
 {
   "title": {
-    "level": "1",
-    "text": "Exempelblocket"
+    "level": 2,
+    "text": "Exempelblock"
   },
   "content": [
     "Blocks are used to create vertical spacing between content and are stylable with different themes to modify background and text color."

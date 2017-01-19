@@ -1,5 +1,7 @@
 {
   "schema": {
-    "name" : ["Långt namn", "Fredrik", "Hej"]
+    "company" : {
+      "$type": "String"
+    }
   }
 }

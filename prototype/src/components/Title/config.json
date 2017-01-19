@@ -1,0 +1,10 @@
+{
+  "schema": {
+    "text": {
+      "$type": "String"
+    },
+    "level": {
+      "$type": "Number"
+    }
+  }
+}
