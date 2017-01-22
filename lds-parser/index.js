@@ -46,8 +46,23 @@ function parseComponents(config) {
       if (value.data) {
         value.data = resolveData(value.data, structure);
       }
+
+      if (value.config && value.config.schema) {
+        value.config.schema = resolveConfigSchema(value.config.schema, structure);
+      }
+
       if (value.category === 'view') {
         value.url = value.id.replace(/^\/views/, '');
+      }
+    }
+    return value;
+  });
+
+  // And a third time to resolve more dependencies
+  objectDeepMap(structure, (value, key) => {
+    if (value && value.isLDSObject) {
+      if (value && value.css && value.css.usedVariables && value.css.usedVariables.length) {
+        value = resolveCSSDependencies(value, structure);
       }
     }
     return value;
@@ -75,9 +90,9 @@ function parseComponent(name, tree, options) {
   Object.keys(tree).forEach((fileName) => {
     // isFolder
     if (typeof tree[fileName] === 'object') {
-      var child = parseComponent(fileName, tree[fileName], Object.assign({}, options, {
-        partialName: `${options.category}:${name}/${fileName}`,
-        group: `${options.group}/${name}`,
+
+      var child = parseComponent(name + '/' + fileName, tree[fileName], Object.assign({}, options, {
+        //group: `${options.group}/${name}`,
         path: `${options.path}/${fileName}`
       }));
       if (child) {
@@ -135,11 +150,18 @@ function parseComponent(name, tree, options) {
       revisions[name][timestamp] = tree['.versions'][filename];
     });
   }
+  var codeFiles = {};
+  Object.keys(tree).forEach(file => {
+    if (file.match(/\.(json|js|css|styl|jsx|scss|hbs|handlebars|mustache|htm|html|md)$/)) {
+      codeFiles[file] = tree[file];
+    }
+  });
 
   var LDSObject = {
     id,
     path: encodeURI(options.path),
     name,
+    files: codeFiles,
     partialName: options.partialName || `${options.category}:${name}`,
     info: tree['readme.md'] || tree['index.md'],
     template: tree['index.' + options.config.engine.ext],
@@ -222,10 +244,60 @@ function resolvePartial(partialString, structure) {
   });
 }
 
+// Update component config with schemas from related components (if defined in eg. {@schema: "@schema:component:Title"})
+function resolveConfigSchema(schema, structure) {
+  objectDeepMap(schema, (value) => {
+    if (value.$type && Array.isArray(value.$type)) {
+      var options = {};
+      value.$type.forEach(type => {
+        options[type.replace(/^@schema:/, '')] = resolveConfigSchema(type, structure);
+      });
+      value.$type = options;
+    } else if (typeof value === 'string' && value.match(/@schema:(.*)/)) {
+      var strmatch = value.match(/@schema:(.*)/);
+      var component = resolvePartial(strmatch[1], structure);
+      if (!component || !component.config || !component.config.schema) {
+        return {};
+      }
+      return resolveConfigSchema(component.config.schema, structure);
+    }
+    return value;
+  });
+  return schema;
+}
+function resolveCSSDependencies(component, structure) {
+  var variableDependencies = component.dependentBy || [];
+  if (component.css.usedVariables) {
+    component.css.usedVariables.forEach(variable => {
+      if (!component.css.variables[variable]) {
+        var dependencyComponent = findComponent(structure, (value) => {
+          return value && value.css && value.css.variables && value.css.variables[variable];
+        });
+        if (dependencyComponent && !variableDependencies.filter(dep => {
+          // Already in dependencyList?
+          return dep.id === dependencyComponent.id;
+        }).length) {
+          variableDependencies.push({name: dependencyComponent.name, partialName: dependencyComponent.partialName, id: dependencyComponent.id});
+        }
+      }
+    });
+  }
+  component.dependentBy = variableDependencies;
+  return component;
+}
+
 // Use postCSS to parse CSS to look for :root element and add all css variables to component object
 function parseCSS(component, structure) {
   var variables = {};
   var modifiers = [];
+  var usedVariables = component.styles.match(/var\(--([^\)]*)\)/g) || [];
+  if (usedVariables.length) {
+    usedVariables = usedVariables.map(string => {
+      return string.replace(/var\(--([^\)]*)\)/, (str, name) => {
+        return name;
+      });
+    });
+  }
 
   postcss.parse(component.styles)
     .nodes.forEach((node) => {
@@ -253,6 +325,7 @@ function parseCSS(component, structure) {
     });
 
   component.css = {
+    usedVariables,
     variables,
     modifiers
   }

@@ -1,9 +1,28 @@
 .ComponentList {}
 
-.ComponentList-item {
+.ComponentList .ComponentList-cell {
   text-align: center;
   text-decoration: none;
+  flex: 1 1 50%;
+  width: auto;
 }
+@media (--min-medium) {
+  .ComponentList .ComponentList-cell {
+    flex-basis: 33.33%;
+  }
+}
+@media (--min-large) {
+  .ComponentList .ComponentList-cell {
+    flex-basis: 25%;
+  }
+}
+
+@media (--min-xlarge) {
+  .ComponentList .ComponentList-cell {
+    flex-basis: 20%;
+  }
+}
+
 .ComponentList-image {
   position: relative;
   background: #eee;
@@ -53,7 +72,15 @@
 
 .ComponentList--listed .ComponentList-cell {
   width: 100% !important;
+  flex: 0 0 100% !important;
 }
+
+@media (--min-large) {
+  .ComponentList--listed .ComponentList-cell {
+    flex-basis: 50% !important;
+  }
+}
+
 .ComponentList--listed .ComponentList-item {
   text-align: left;
   display: flex;
@@ -66,6 +93,7 @@
   max-width: 20%;
   margin-right: 20px;
 }
+
 .ComponentList--listed .ComponentList-title {
   flex: 1;
 }

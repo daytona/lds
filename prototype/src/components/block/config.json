@@ -1,42 +1,43 @@
 {
-  "schema": {
-    "theme": {
-      "$type": "Array",
-      "$required": false,
-      "$variations": [
-        {
-          "name": "Purple",
-          "value": ["bg-purple", "white"]
-        },
-        {
-          "name": "White",
-          "value": ["bg-white", "green"]
-        }
-      ]
-    },
-    "title": "@schema:component:Title",
-    "content": "@schema:helper:content",
-    "wide": {
-      "$type": "Boolean"
-    },
-    "somecount": {
-      "$type": "Number",
-      "$required": true,
-      "$default": 1
-    }
-  },
-  "variations": [
-    {
-      "name": "Extra bred",
-      "value": {
-        "title": {
-          "text": "Extra bred",
-          "level": 1
-        },
-        "theme": ["bg-purple", "white"],
-        "wide": true,
-        "somecount": 2
+    "schema": {
+      "theme": {
+        "$type": "Array",
+        "$required": false,
+        "$variations": [
+          {
+            "name": "Purple",
+            "value": ["white"]
+          },
+          {
+            "name": "White",
+            "value": ["bg-white", "green"]
+          }
+        ]
+      },
+      "title": "@schema:component:Title",
+      "content": "@schema:helper:content",
+      "wide": {
+        "$type": "Boolean"
+      },
+      "somecount": {
+        "$type": "Number",
+        "$required": true,
+        "$default": 1
       }
-    }
-  ]
-}
+    },
+    "variations": [
+      {
+        "name": "Extra bred",
+        "value": {
+          "title": {
+            "text": "Extra bred",
+            "level": 1
+          },
+          "theme": ["bg-purple", "white"],
+          "wide": true,
+          "somecount": 2
+        }
+      }
+    ]
+  }
+  

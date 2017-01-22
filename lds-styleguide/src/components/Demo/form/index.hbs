@@ -2,32 +2,13 @@
   <form
     data-controller="DemoForm"
     data-id="{{id}}"
+    data-component="{{componentId}}"
     class="Form DemoForm {{#if class}}{{class}}{{/if}}">
     {{#each schema}}
-      {{#if variations}}
-        {{#>component:Form type="select" label=@key name=@key value=(or default (jsonLine (getProperty ../data @key))) partial-block=true}}
-          {{#if default}}
-            <option value="{{jsonLine default}}">Default</option>
-          {{elseif (getProperty data @key)}}
-            <option value="{{jsonLine (getProperty data @key)}}">Default</option>
-          {{else}}
-            <option value="false">Default</option>
-          {{/if}}
-          {{#each variations}}
-            <option value="{{#if (hasProperty this 'value')}}{{jsonLine value}}{{else}}{{this}}{{/if}}"{{#if (equals (jsonLine value) ../value)}} selected="selected"{{/if}}>{{#if name}}{{name}}{{else}}{{.}}{{/if}}</option>
-          {{/each}}
-        {{/component:Form}}
-      {{ else if (equals type 'Boolean')}}
-        {{>component:Form type="checkbox" label=@key name=@key value=(or default (getProperty ../data @key))}}
-      {{ else if (equals type 'String')}}
-        {{>component:Form type="text" label=@key name=@key value=(or default (getProperty ../data @key))}}
-      {{ else if (equals type 'Number')}}
-        {{>component:Form type="text" label=@key name=@key value=(or default (getProperty ../data @key))}}
-      {{ else if (equals type 'LongString')}}
-        {{>component:Form type="textarea" label=@key name=@key value=(or default (getProperty ../data @key))}}
-      {{ else if (equals type 'Array')}}
-        {{>component:Form type="textarea" label=@key name=@key value=(or default (json getProperty ../data @key))}}
-      {{/if}}
+      {{> component:Demo/form/param name=@key data=(getProperty ../data @key) param=this}}
     {{/each}}
+    <button class="Button Demo-saveButton js-saveButton">
+      Spara ändringar
+    </button>
   </form>
 </div>

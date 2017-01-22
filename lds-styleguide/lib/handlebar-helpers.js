@@ -73,8 +73,15 @@ var helpers = {
       return arg;
     })[0];
   },
+  objectLength(obj) {
+    return typeof obj === 'object' && Object.keys(obj).length;
+  },
   hasProperty(object, key) {
     return typeof(object[key]) !== 'undefined';
+  },
+  match(string, pattern) {
+    var reg = new RegExp(pattern, 'g');
+    return string.match(reg);
   },
   getProperty(object, key) {
     return object && object[key];
@@ -139,6 +146,14 @@ var helpers = {
       return str;
     }
     return str.split(separator);
+  },
+  join (arr, separator) {
+    separator = typeof separator === 'string' ? separator : '';
+    // Skip if already an array
+    if (!arr || !Array.isArray(arr)) {
+      return arr;
+    }
+    return arr.join(separator);
   },
   concat() {
     // remove trailing options argument

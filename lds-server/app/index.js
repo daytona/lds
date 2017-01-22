@@ -12,7 +12,7 @@ var koaSocket = require('koa-websocket');
 var route = require('koa-route');
 
 var styleguide = require('@daytona/lds-styleguide');
-var api = require('@daytona/lds-api');
+var API = require('@daytona/lds-api');
 var editor = require('@daytona/lds-editor');
 var parseLds = require('@daytona/lds-parser');
 var Engine = require('@daytona/lds-engine');
@@ -40,29 +40,43 @@ function Server(config) {
   app.keys = ['secret lds project'];
 
   var lds = parseLds.sync(config);
+  var api;
   var token = randtoken(16);
-  var socket = {
-    broadcast: function(message) {
-      console.log('Broadcasting to all connected clients', message);
-      app.ws.server.clients.forEach(function(client) {
-        client.send(message);
-      });
-    }
-  };
 
-  function reParse (callback) {
+  function reparse (callback) {
     console.log('Re-parsing structure');
     lds = parseLds.sync(config);
-
+    api = API(lds, methods);
     if (typeof(callback) === 'function') {
       callback();
     }
     return;
   }
+  function broadcast(message) {
+    console.log('Broadcasting to all connected clients', message);
+    app.ws.server.clients.forEach(function(client) {
+      client.send(message);
+    });
+  }
+  function reload(reason) {
+    if (reason === 'css') {
+      broadcast('updatecss');
+    } else {
+      broadcast('reload');
+    }
+  }
+
+  var methods = {
+    reparse,
+    broadcast,
+    reload
+  };
+
+  api = API(lds, methods);
 
   app.ws.use(route.all('/', function* (next) {
     this.websocket.on('message', (message) => {
-      api.methods.message(message, this.websocket, lds);
+      api.methods.message(message, this.websocket, lds, methods);
     });
 
     // send a message to our client
@@ -76,9 +90,10 @@ function Server(config) {
   app.use(function* (next) {
     lds.host = this.request.host;
     this[namespace] = lds;
-    this.parse = reParse;
+    this.parse = reparse;
     this.ws = app.ws;
-    this.broadcast = socket.broadcast;
+    this.broadcast = broadcast;
+    this.editmode = true;
     yield next;
   });
 
@@ -116,19 +131,7 @@ function Server(config) {
   });
   console.log(`Styleguide: http://${host}:${port}/styleguide`);
 
-  return {
-    parse: reParse,
-    reload(reason) {
-      if (socket && socket.broadcast) {
-        if (reason === 'css') {
-          socket.broadcast('updatecss');
-        } else {
-          socket.broadcast('reload');
-        }
-      }
-    },
-    app
-  };
+  return methods;
 };
 
 module.exports = Server;

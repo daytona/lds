@@ -104,7 +104,7 @@ function fileWatcher (file) {
     return false;
   }
   function done(reason) {
-    runningServer.parse();
+    runningServer.reparse();
     runningServer.reload(reason);
     console.log('Watching for changes in files...');
   }

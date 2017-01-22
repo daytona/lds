@@ -1,5 +1,4 @@
 import isJSON from '../isJSON';
-import action from '../action';
 /**
  * Controller manager, for finding and initializing javascript controllers
  */
@@ -10,7 +9,7 @@ const controllers = {};
 // Look for instances of [data-controller=""] where the value can either be a string or
 // JSON with options
 // eg. data-controller="MyComponent", data-controller="[{\"MyComponent\": {\"argument1\": true}}]"
-function parseDom(dom) {
+function parseDom (dom) {
   const foundElements = dom.querySelectorAll('[data-controller]');
 
   if (foundElements.length) {
@@ -20,8 +19,9 @@ function parseDom(dom) {
       if (isJSON(attribute)) {
         const json = JSON.parse(attribute);
         json.forEach((controller) => {
-          const name = Object.keys(controller);
+          const name = typeof controller === 'object' ? Object.keys(controller) : controller;
           if (!controllers[name]) { return; }
+
           const instance = controllers[name](node, controller[name]);
 
           // Since some controllers might return an API for other controllers to use by importing
@@ -45,7 +45,7 @@ function parseDom(dom) {
 }
 
 // Add a selector to look for and a constructor to call with the result
-function addController(name, constructor) {
+function addController (name, constructor) {
 
   // Add selector to list of selectors to look for
   if (!controllers.hasOwnProperty(name)) {
@@ -54,7 +54,7 @@ function addController(name, constructor) {
 }
 
 // Remove selector from element to look for
-function removeController(name) {
+function removeController (name) {
   if (!controllers.hasOwnProperty(name)) {
     delete controllers[name];
   }
@@ -63,11 +63,14 @@ function removeController(name) {
 export default {
   add: addController,
   remove: removeController,
-  parse: parseDom,
+  parse: parseDom
 };
 
 // Trigger an initial newDom on content ready
 document.addEventListener('DOMContentLoaded', (event) => {
   parseDom(event.target);
 });
-action.on('newDom', parseDom);
+
+document.addEventListener('newDom', (event) => {
+  parseDom(event.target);
+});

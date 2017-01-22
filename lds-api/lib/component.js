@@ -18,9 +18,9 @@ module.exports = function* component (next) {
 
   // If components is updated in a separate session override component with that data
   if (query._session && sessions.get(query._session)) {
-    component.data = Object.assign(component.data, sessions.get(query._session).data);
+    var sessionData = sessions.get(query._session).data;
+    component.data = Object.assign(component.data, sessionData);
   }
-
   if (query._type === 'json' || query._type === 'js' || query._type === 'css' || query._type === 'template' || query._type === 'html') {
     var content;
     var language = query._type;
@@ -61,7 +61,7 @@ module.exports = function* component (next) {
     this.body = handlebars.compile(templates['example.hbs'])({
       example: this.render(component.example, Object.assign({}, component, query)),
       updateHeightScript: query._iframeid && updateIframeScript(query._iframeid),
-      socketScript: socketScript('ws://' + this.request.host)
+      socketScript: socketScript((this.request.protocol.match(/https/) ? 'wss' : 'ws') +'://' + this.request.host)
     });
   } else if (query._standalone) {
     this.body = handlebars.compile(templates['standalone.hbs'])({
@@ -69,8 +69,10 @@ module.exports = function* component (next) {
       config: component.config,
       content: this.render(component.template, Object.assign({}, component.data, query)),
       updateIframeScript: updateIframeScript(query._iframeid),
-      socketScript: socketScript('ws://' + this.request.host)
+      socketScript: socketScript((this.request.protocol.match(/https/) ? 'wss' : 'ws') +'://' + this.request.host)
     });
+  } else if (component.category === 'view') {
+    this.renderView(component, Object.assign({layout:'default'}, query));
   } else {
     this.body = this.render(component.template, Object.assign({}, component.data, query));
   }

@@ -10,12 +10,14 @@ export default function initDemoExample(el, options = {}) {
   const {id, component: componentId, url: baseUrl, data} = el.dataset;
   let sessionid = id;
   let iframeversion = 0;
-  const iframe = el.querySelector('.js-iframe');
+  const iframes = el.querySelectorAll('.js-iframe');
   const createDemoUrl = (baseUrl, params={}) => `${baseUrl}?_standalone=true&_iframeid=${id}&${object2query(params)}`;
 
   function iframeResize(event) {
-    if (event.detail.id === id) {
-      iframe.style.height = event.detail.height + 'px';
+    if (event.detail && event.detail.id === id) {
+      Array.prototype.forEach.call(iframes, iframe => {
+        iframe.style.height = event.detail.height + 'px';
+      });
     }
   }
 
@@ -23,7 +25,9 @@ export default function initDemoExample(el, options = {}) {
     if (msg.component  && msg.component === componentId && msg.id === id) {
       sessionid = msg.session;
       iframeversion++;
-      iframe.setAttribute('src', `${baseUrl}?_session=${sessionid}&v=${iframeversion}&_standalone=true&_iframeid=${id}`);
+      Array.prototype.forEach.call(iframes, iframe => {
+        iframe.setAttribute('src', `${baseUrl}?_session=${sessionid}&v=${iframeversion}&_standalone=true&_iframeid=${id}`);
+      });
     }
   }
 
@@ -48,7 +52,9 @@ export default function initDemoExample(el, options = {}) {
           });
         } else {
           const url = createDemoUrl(baseUrl, params);
-          iframe.setAttribute('src', url);
+          Array.prototype.forEach.call(iframes, iframe => {
+            iframe.setAttribute('src', url);
+          });
         }
       }
     });

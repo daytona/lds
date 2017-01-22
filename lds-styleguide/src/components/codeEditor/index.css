@@ -10,7 +10,7 @@
 .CodeEditor {
   position: relative;
   font-family: Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;
-  font-size: 16px;
+  font-size: 13px;
   line-height: 1.5;
   margin: 5px;
   background: #272822;
@@ -80,8 +80,9 @@
 }
 
 .CodeEditor .CodeEditor-caret::after {
-  content: "";
+  content: attr(data-restword);
   border-left: 1px solid #fff;
+  color: transparent;
   animation-name: blink;
   animation-duration: 0.85s;
   animation-timing-function: steps(2, end);

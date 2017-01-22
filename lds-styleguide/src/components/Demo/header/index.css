@@ -23,3 +23,7 @@
       .DemoHeader-menu {
         list-style: none;
       }
+
+      .DemoHeader-menuItem {
+        display: inline-block;
+      }

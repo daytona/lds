@@ -14,7 +14,7 @@ export default function initDemoCode(el, options = {}) {
   });
 
   connectToStore(selectState, ({params}={}) => {
-    dataFetcher.fetch(url + '?_type=json&_clean=true&' + (params ? object2query(params) : ''));
+    dataFetcher.fetch(url + '?_type=json&_clean=true');
   });
 };
 

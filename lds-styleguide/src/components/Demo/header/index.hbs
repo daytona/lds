@@ -1,6 +1,6 @@
 <div class="DemoHeader Page-subheader" data-controller="DemoHeader">
   {{#if @component.config.schema}}
-    {{> component:Demo/form data=data schema=schema class="js-editForm" }}
+    {{> component:Demo/form data=data componentId=@component.id schema=schema class="js-editForm" }}
   {{/if}}
 
   {{#if title}}

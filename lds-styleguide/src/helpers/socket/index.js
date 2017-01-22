@@ -10,7 +10,7 @@ function socket() {
   let cssversion = 0;
 
   function connect() {
-    socket = new WebSocket(`${window.location.protocol.match(/https/) ? 'wws' : 'ws'}://${window.location.host}`);
+    socket = new WebSocket(`${window.location.protocol.match(/https/) ? 'wss' : 'ws'}://${window.location.host}`);
   }
   function close() {
     if (socket && isConnected) {

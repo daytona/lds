@@ -2,17 +2,24 @@
   "ignore": true,
   "schema": {
     "$type": "Array",
-    "": {
-      "$type": "LongString"
-    },
-    "component": {
-      "$type": "Component"
-    },
-    "tag": {
-      "$type": "String"
-    },
-    "class": {
-      "$type": "String"
-    }
+    "$alternatives": [
+      {
+        "$type": "LongString"
+      },
+      {
+        "component": {
+          "$type": "String"
+        }
+      },
+      {
+        "tag": {
+          "$type": "String"
+        },
+        "content": "@schema:helper:content",
+        "class": {
+          "$type": "String"
+        }
+      }
+    ]
   }
 }

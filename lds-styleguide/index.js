@@ -116,7 +116,7 @@ router
 app
   .use(updateState)
   .use(mount(config.path.public, serve(path.join(config.path.dirname, config.path.dist))))
-  .use(engine.setup(namespace, config.prefix))
+  .use(engine.setup(namespace))
   .use(defaultData)
   .use(router.routes());
 

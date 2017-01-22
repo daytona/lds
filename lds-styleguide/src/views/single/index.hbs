@@ -10,14 +10,12 @@
         <span class="Package-versionTag">{{config.version}}</span>
       {{/if}}
     </h2>
-
     <div class="PageHeader-nav">
       {{#if code}}
         <ul class="PageHeader-menu PageHeader-menu--secondary">
           {{#> component:Tablist toggle="true"}}
             {{#> component:Tablist/tab id="source"}}
               <button class="js-showEditFormbutton IconButton IconButton--medium">
-                {{!-- {{> component:Icon name='settings' }} --}}
                 <\>
               </button>
             {{/ component:Tablist/tab}}
@@ -31,54 +29,21 @@
   {{#> component:Tabarea id="source"}}
     <div class="Page-subheader">
       {{#> component:Tablist small="true"}}
-        {{#if @component.template}}
-          {{> component:Tablist/tab id="template" title="index.hbs"}}
-        {{/if}}
-        {{#if @component.script}}
-          {{> component:Tablist/tab id="script" title="index.js"}}
-        {{/if}}
-        {{#if @component.styles}}
-          {{> component:Tablist/tab id="styles" title="index.css"}}
-        {{/if}}
-        {{#if @component.data}}
-          {{> component:Tablist/tab id="data" title="default.json"}}
-        {{/if}}
-        {{#if @component.info}}
-          {{> component:Tablist/tab id="info" title="readme.md"}}
-        {{/if}}
+        {{#each @component.files}}
+          {{#if @component.template}}
+            {{> component:Tablist/tab id=(join (split @key '.')) title=@key}}
+          {{/if}}
+        {{/each}}
       {{/ component:Tablist}}
     </div>
     <div class="Page-section--divider">
-      {{#if template}}
-        {{#> component:Tabarea id="template"}}
-          {{> component:CodeEditor language="handlebars" code=@component.template file="index.hbs"}}
-        {{/component:Tabarea}}
-      {{/if}}
-
-      {{#if script}}
-        {{#> component:Tabarea id="script"}}
-          {{> component:CodeEditor language="javascript" code=@component.script file="index.js"}}
-        {{/component:Tabarea}}
-      {{/if}}
-
-      {{#if styles}}
-        {{#> component:Tabarea id="styles"}}
-          {{> component:CodeEditor language="css" code=@component.styles file="index.css"}}
-        {{/component:Tabarea}}
-      {{/if}}
-
-      {{#if data}}
-        {{#> component:Tabarea id="data"}}
-          {{> component:CodeEditor language="json" code=(json @component.data) file="default.json"}}
-        {{/component:Tabarea}}
-      {{/if}}
-
-      {{#if info}}
-        {{#> component:Tabarea id="info"}}
-          {{> component:CodeEditor language="markdown" code=@component.info file="readme.md"}}
-        {{/component:Tabarea}}
-      {{/if}}
-
+      {{#each @component.files}}
+        {{#if @component.template}}
+          {{#> component:Tabarea id=(join (split @key '.'))}}
+            {{> component:CodeEditor code=../this file=@key}}
+          {{/component:Tabarea}}
+        {{/if}}
+      {{/each}}
     </div>
   {{/component:Tabarea}}
 
@@ -136,22 +101,28 @@
     {{/if}}
 
     <footer class="Component-footer">
+      <div class="Grid Grid--withGutter">
       {{#if dependentBy}}
-        <strong>Dependencies</strong>
-        <ul>
-          {{#each dependentBy}}
-            <li><a href="/styleguide{{this.id}}">{{this.partialName}}</a></li>
-          {{/each}}
-        </ul>
+        <div class="Grid-cell s-width-1of2">
+          <strong>Beroenden</strong>
+          <ul class="Component-dependencyList">
+            {{#each dependentBy}}
+              <li class="Component-dependencyListItem"><a class="Component-dependency" href="/styleguide{{this.id}}">{{this.partialName}}</a></li>
+            {{/each}}
+          </ul>
+        </div>
       {{/if}}
       {{#if dependencyTo}}
-        <strong>Dependent by me</strong>
-        <ul>
-          {{#each dependencyTo}}
-            <li><a href="/styleguide{{this.id}}">{{this.partialName}}</a></li>
-          {{/each}}
-        </ul>
+        <div class="Grid-cell s-width-1of2">
+          <strong>Beroende av mig</strong>
+          <ul class="Component-dependencyList">
+            {{#each dependencyTo}}
+              <li class="Component-dependencyListItem"><a class="Component-dependency" href="/styleguide{{this.id}}">{{this.partialName}}</a></li>
+            {{/each}}
+          </ul>
+        </div>
       {{/if}}
+      </div>
 
       {{#if config.revisions}}
         {{>component:Details class="Component-code Component-code--revisions" title="Revisions" content=config.revisions }}

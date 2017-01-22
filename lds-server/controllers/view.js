@@ -22,8 +22,17 @@ function* viewPage (next) {
     Object.keys(this.query).forEach((key) => {
       data[key] = isJSON(this.query[key]) ? JSON.parse(this.query[key]) : this.query[key];
     });
-
-    this.renderView(view, data);
+    var clientStyles = '';
+    var clientScriptStrings = '<script src="/api/client"></script>';
+    if (this.editmode) {
+      clientStyles += '<link rel="stylesheet" href="/api/editstyles" />';
+      clientScriptStrings += '<script src="/api/editscript"></script>';
+    }
+    var html = this.renderView(view, data, true);
+    html = html.replace(/<\/body>/g, clientScriptStrings + '</body>')
+    html = html.replace(/<\/head>/g, clientStyles + '</head>')
+    this.type = 'text/html; charset=utf-8';
+    this.body = html;
   }
   yield next;
 }

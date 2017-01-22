@@ -7,6 +7,7 @@ import socket from '../../helpers/socket';
 export default function CodeEditor (el) {
   const undoStack = [];
   const redoStack = [];
+  const componentId = el.dataset.component;
   const filename = el.dataset.file;
   const textarea = el.querySelector('.js-textarea');
   const highlightEditor = el.querySelector('.js-editor');
@@ -16,7 +17,7 @@ export default function CodeEditor (el) {
   const submitButton = el.querySelector('.js-submit');
   const revisionPicker = el.querySelector('.js-revisions');
 
-  const language = el.dataset.language || 'text';
+  const language = el.dataset.language.trim() || 'markdown';
   let codeString;
 
   fixIndentationIssue();
@@ -69,6 +70,9 @@ export default function CodeEditor (el) {
   function setCaret(caretPosition) {
     if (textarea.selectionEnd && textarea.selectionEnd === textarea.selectionStart) {
       caret.innerHTML = codeString.substr(0, textarea.selectionEnd).replace(/</g, '&lt;');
+      var reststring = codeString.substr(textarea.selectionEnd).replace(/</g, '&lt;');
+      var restWord = reststring.substr(0, reststring.indexOf(' '));
+      caret.setAttribute('data-restword', restWord);
       el.classList.remove('no-caret');
     } else {
       el.classList.add('no-caret');
@@ -101,20 +105,19 @@ export default function CodeEditor (el) {
   }
 
   function save() {
-    form.submit();
+    if (confirm('Du kommer att spara över filen. Är du säker på att du vill göra det?')) {
+      socket.send({
+        action: 'write',
+        component: componentId,
+        file: filename,
+        content: textarea.value
+      });
+    }
   }
 
   function submit(event) {
-    if (!confirm('Du kommer att spara över filen. Är du säker på att du vill göra det?')) {
-      event.preventDefault();
-    // } else {
-    //   event.preventDefault();
-    //   socket.send({
-    //     type: 'write',
-    //     file: filename,
-    //     content: textarea.value
-    //   });
-    }
+    event.preventDefault();
+    save();
   }
 
   function keystrokes (event) {

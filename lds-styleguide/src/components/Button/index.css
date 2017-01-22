@@ -1,0 +1,20 @@
+.Button {
+  background: none;
+  border: 2px solid;
+  color: var(--color-green-base);
+  font: inherit;
+  display: inline-block;
+  padding: 0 1em;
+  line-height: 2em;
+  text-align: center;
+  box-sizing: border-box;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s linear;
+  vertical-align: middle;
+}
+.Button:hover {
+  background: var(--color-green-base);
+  border: 2px solid var(--color-green-base);
+  color: #fff;
+}

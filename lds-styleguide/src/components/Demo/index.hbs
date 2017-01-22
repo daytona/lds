@@ -3,7 +3,6 @@
   data-id="{{id}}"
   class="Demo">
   <div class="Demo-content">
-
     {{#if (not isExample)}}
 
       {{> component:Demo/header
@@ -19,7 +18,7 @@
 
       {{#> component:Tabarea id=(concat "data" uid) }}
         <div class="Package-demoView Package-demoView--data">
-          {{> component:Demo/code id=../id language="json" url=(concat "/api/" component.group "/" component.name) }}
+          {{> component:Demo/code id=../id language="json" data=component.data url=(concat "/api/" component.group "/" component.name) }}
         </div>
       {{/component:Tabarea}}
       {{#> component:Tabarea id=(concat "html" uid) }}
