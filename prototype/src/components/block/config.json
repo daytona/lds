@@ -3,14 +3,15 @@
       "theme": {
         "$type": "Array",
         "$required": false,
+        "$default": false,
         "$variations": [
           {
             "name": "Purple",
-            "value": ["white"]
+            "value": ["bg-purple", "color-white"]
           },
           {
             "name": "White",
-            "value": ["bg-white", "green"]
+            "value": ["bg-white", "color-green"]
           }
         ]
       },
@@ -40,4 +41,3 @@
       }
     ]
   }
-  
