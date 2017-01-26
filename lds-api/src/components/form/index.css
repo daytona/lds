@@ -1,0 +1,29 @@
+.DemoForm {
+
+}
+
+  .DemoForm-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 0 0.5rem 0;
+  }
+
+    .DemoForm-label {
+
+    }
+
+    .DemoForm-input {
+      width: 80%;
+    }
+    .Demo-formGroup {
+      border: 1px solid var(--color-gray);
+      padding: 0.5em;
+    }
+    .Demo-formGroupTitle {
+      text-transform: capitalize;
+    }
+
+.DemoForm:not(.isChanged) .Demo-saveButton {
+  display: none;
+}

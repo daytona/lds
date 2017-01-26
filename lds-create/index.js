@@ -30,7 +30,7 @@ function init(root, callback) {
       // Copy "./generators/package.json" to root
       cmdString += 'npm init --y && ';
     }
-    cmdString += 'npm i --save handlebars eslint babel-core babel-eslint babel-preset-es2015';
+    cmdString += 'npm i --save @daytona/living-design-system handlebars eslint babel-core babel-eslint babel-preset-es2015';
     cmd.exec(cmdString).then(function(){
       console.log('Building initial assets');
       return cmd.exec('lds build');

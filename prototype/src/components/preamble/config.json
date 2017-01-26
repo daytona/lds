@@ -1,12 +1,7 @@
 {
   "schema": {
-    "dropcap": [{
-      "key": "With dropcap",
-      "value": true
-    },
-    {
-      "key": "Without dropcap",
-      "value": false
-    }]
+    "dropcap": {
+      "$type": "Boolean"
+    }
   }
 }

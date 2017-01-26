@@ -2,6 +2,13 @@
   "schema": {
     "company" : {
       "$type": "String"
+    },
+    "dropcap" : {
+      "$default": true,
+      "$type": "Boolean"
+    },
+    "content": {
+      "$type": "LongString"
     }
   }
 }

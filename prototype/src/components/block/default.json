@@ -1,15 +1,10 @@
 {
   "title": {
-    "text": "Extra bred",
-    "level": 1
+    "level": "1",
+    "text": "Exempelblocket"
   },
   "content": [
     "Blocks are used to create vertical spacing between content and are stylable with different themes to modify background and text color."
   ],
-  "theme": [
-    "bg-purple",
-    "white"
-  ],
-  "wide": true,
-  "somecount": 2
+  "theme": false
 }

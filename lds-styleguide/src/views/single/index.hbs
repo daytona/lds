@@ -65,6 +65,7 @@
               uid=(uid)
               title=(capitalize (concat @component.name " " name))
               url=(concat "/api/" @component.group "/" @component.name)
+              queryString=(concat "variation=" @key)
               component=@component
               data=(mergeObjects @component.data value) }}
 

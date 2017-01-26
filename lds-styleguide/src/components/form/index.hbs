@@ -15,7 +15,7 @@
         </select>
       </div>
     {{ else if (equals type 'checkbox')}}
-      <input id="{{id}}" type="{{type}}" name="{{name}}" value="{{value}}" class="Form-checkbox"{{#if required}} required{{/if}}>
+      <input id="{{id}}" type="{{type}}" name="{{name}}" value="{{value}}" class="Form-checkbox"{{#if required}} required{{/if}}{{#if checked}} checked="true"{{/if}}>
     {{ else if (equals type 'textarea')}}
       <div class="Form-textareaWrapper" data-controller="Textarea">
         <textarea id="{{id}}" type="{{type}}" name="{{name}}" class="Form-textarea js-textarea" placeholder="{{placeholder}}"{{#if required}} required{{/if}}>{{value}}</textarea>

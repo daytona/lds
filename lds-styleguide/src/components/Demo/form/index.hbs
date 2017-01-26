@@ -7,8 +7,5 @@
     {{#each schema}}
       {{> component:Demo/form/param name=@key data=(getProperty ../data @key) param=this}}
     {{/each}}
-    <button class="Button Demo-saveButton js-saveButton">
-      Spara ändringar
-    </button>
   </form>
 </div>

@@ -1,7 +1,10 @@
+.LdsEdit-layerButton {
+  display: none;
+  position: absolute;
+}
 .LdsEdit-layer {
   position: absolute;
   display: none;
-  pointer-events: none;
   background: #fff;
   width: 500px;
   max-width: 100%;

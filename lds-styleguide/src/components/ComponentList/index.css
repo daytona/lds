@@ -3,8 +3,8 @@
 .ComponentList .ComponentList-cell {
   text-align: center;
   text-decoration: none;
-  flex: 1 1 50%;
-  width: auto;
+  /*flex: 0 0 50%;
+  width: auto;*/
 }
 @media (--min-medium) {
   .ComponentList .ComponentList-cell {
@@ -22,7 +22,9 @@
     flex-basis: 20%;
   }
 }
-
+.ComponentList-item {
+  max-width: 100%;
+}
 .ComponentList-image {
   position: relative;
   background: #eee;
@@ -68,6 +70,8 @@
   text-decoration: none;
   text-transform: uppercase;
   letter-spacing: 0.08em;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .ComponentList--listed .ComponentList-cell {

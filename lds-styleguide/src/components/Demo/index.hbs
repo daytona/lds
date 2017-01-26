@@ -12,24 +12,24 @@
 
       {{#> component:Tabarea id=(concat "render" uid) }}
         <div class="Package-demoView Package-demoView--example">
-          {{> component:Demo/example id=../id component=component url=url }}
+          {{> component:Demo/example id=../id component=component url=url queryString=queryString}}
         </div>
       {{/component:Tabarea}}
 
       {{#> component:Tabarea id=(concat "data" uid) }}
         <div class="Package-demoView Package-demoView--data">
-          {{> component:Demo/code id=../id language="json" data=component.data url=(concat "/api/" component.group "/" component.name) }}
+          {{> component:Demo/code id=../id language="json" data=component.data url=(concat "/api/" component.group "/" component.name) queryString=queryString }}
         </div>
       {{/component:Tabarea}}
       {{#> component:Tabarea id=(concat "html" uid) }}
         <div class="Package-demoView Package-demoView--html">
-          {{> component:Demo/html id=../id url=(concat "/api/" component.group "/" component.name)}}
+          {{> component:Demo/html id=../id url=(concat "/api/" component.group "/" component.name) queryString=queryString }}
         </div>
       {{/component:Tabarea}}
 
     {{else}}
       <div class="Package-demoView Package-demoView--example">
-        {{> component:Demo/example id=id url=url component=component}}
+        {{> component:Demo/example id=id url=url component=component queryString=queryString }}
       </div>
     {{/if}}
 

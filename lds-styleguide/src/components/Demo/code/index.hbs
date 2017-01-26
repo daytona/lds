@@ -2,6 +2,7 @@
   data-controller='[{"DemoCode": { "language": "{{language}}" }}]'
   data-id="{{id}}"
   data-url="{{url}}"
+  {{#if queryString}}data-querystring="{{queryString}}"{{/if}}
   class="DemoCode">
 
   <code><pre class="js-data code language-{{language}}">{{{json data}}}</pre></code>

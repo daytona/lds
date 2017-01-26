@@ -1,10 +1,12 @@
-var sessions = {};
+module.exports = (function() {
+  var sessionsData = {};
 
-module.exports = {
-  get: function(param){
-    return sessions[param];
-  },
-  set: function(param, value){
-    return sessions[param] = value;
+  return {
+    get: function(param){
+      return sessionsData[param];
+    },
+    set: function(param, value){
+      return sessionsData[param] = value;
+    }
   }
-}
+}());

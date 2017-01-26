@@ -23,7 +23,3 @@
     .Demo-formGroupTitle {
       text-transform: capitalize;
     }
-
-.DemoForm:not(.isChanged) .Demo-saveButton {
-  display: none;
-}

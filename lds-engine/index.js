@@ -1,21 +1,17 @@
 var objectDeepMap = require('./lib/object-deep-map');
 
+function obj2json (obj) {
+  return JSON.stringify(obj).replace(new RegExp('\"', 'g'), "&quot\;");
+}
+function json2obj (json) {
+  return typeof json === 'String' ? JSON.parse(json.replace(/\&quot\;/g, '\"')) : json;
+}
+
 module.exports = function Engine(options) {
   options.registerHelper('jsonLine', function(obj){
-    return JSON.stringify(obj).replace(/\"/g, '\\"');
+    return typeof obj === 'object' ? JSON.stringify(obj).replace(new RegExp('\"', 'g'), '\\"') : obj;
   });
-  var once = false;
-  options.registerHelper('dataPath', function(root, obj, options){
-    var deepPath = '';
-    objectDeepMap(root, (value, key, path) => {
-      if (obj == value) {
-        console.log(path);
-        deepPath = value.objectPath ? value.objectPath + '.' + key : key;
-      }
-      return value;
-    });
-    return deepPath;
-  });
+
 
   if (options.helpers) {
     // Loop through helpers and register on templating engine
@@ -27,6 +23,22 @@ module.exports = function Engine(options) {
   return {
     setup : function(namespace) {
       return function *(next) {
+        if (this.editmode) {
+          var usedPartials = [];
+          options.registerHelper('getLDSPartials', () => {
+            return usedPartials;
+          });
+
+          options.registerHelper('saveLDSPartial', (partialName, datapath, data, schema) => {
+            usedPartials.push({
+              partialName,
+              datapath: data.$objectPath,
+              data,
+              schema: json2obj(schema)
+            });
+          });
+        }
+
         var structure = this[namespace].structure;
         var editmode = this.editmode;
         // Iterate LDS-structure to register all partials as partials like component:mycomponent
@@ -35,7 +47,7 @@ module.exports = function Engine(options) {
             // Register default template
             if (value.template) {
               if (editmode && value.config && value.config.schema) {
-                value.template = `<!-- component="${value.partialName}" datapath="{{$objectPath}}" data="{{jsonLine this}}" schema="${JSON.stringify(value.config.schema).replace(/\"/g,"&quot\;")}"-->${value.template}<!-- /${value.partialName} -->`;
+                value.template = `<!-- component="${value.partialName}" datapath="{{$objectPath}}" data="{{jsonLine this}}" schema="{}"-->{{saveLDSPartial '${value.partialName}' this '${obj2json(value.config.schema)}' }}${value.template}<!-- /${value.partialName} -->`;
               }
               options.registerPartial(value.partialName, value.template);
 
@@ -74,7 +86,7 @@ module.exports = function Engine(options) {
             var viewTemplate = view.template;
 
             if (this.editmode) {
-              viewTemplate = viewTemplate+'<script>window.PageData = "{{jsonLine this}}".replace(/(&quot\;)/g, \'\"\');</script>';
+              viewTemplate = viewTemplate + `<script>window.PageData = JSON.parse("{{jsonLine (getLDSPartials)}}".replace(/\&quot;/g, '"'));</script>`;
             }
             var template = layout ? layout.template.replace(/{{{@body}}}/, viewTemplate) : viewTemplate;
 

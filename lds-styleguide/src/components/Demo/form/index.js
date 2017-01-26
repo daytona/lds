@@ -2,6 +2,7 @@ import controller from '../../../helpers/controller';
 import formParse from 'form-parse';
 import object2query from '../../../helpers/object2query';
 import socket from '../../../helpers/socket';
+import isJSON from '../../../helpers/isJSON';
 import {store, connectToStore} from '../../../helpers/store';
 
 import {updateComponentParam as updateComponentParamAction} from '../actions';
@@ -10,7 +11,6 @@ export default function initDemoForm(el, options = {}) {
   const id = el.dataset.id;
   const componentId = el.dataset.component;
   const inputs = el.querySelectorAll('select, input, textarea');
-  const saveButton = el.querySelector('.js-saveButton');
   const selectState = state => ({
     params: state.demo[id] && state.demo[id].params
   });
@@ -25,8 +25,10 @@ export default function initDemoForm(el, options = {}) {
   function handleInputChange (event) {
     const {target} = event;
     const key = target.name;
-    let value = target.value;
-
+    let value = target.value.replace(new RegExp('\"', 'g'), '"');
+    if (target.getAttribute('type') === 'checkbox' || target.getAttribute('type') === 'radio') {
+      value = target.checked;
+    }
     switch (value) {
       case 'false':
         value = false;
@@ -34,6 +36,9 @@ export default function initDemoForm(el, options = {}) {
       case 'undefined':
         value = undefined;
         break;
+    }
+    if (isJSON(value)) {
+      value = JSON.parse(value);
     }
 
     store.dispatch(updateComponentParamAction(id, key, value));
@@ -60,7 +65,6 @@ export default function initDemoForm(el, options = {}) {
   }
 
   function init () {
-    saveButton.addEventListener('click', saveChanges);
     Array.prototype.forEach.call(inputs, input => input.addEventListener('change', handleInputChange));
   }
   return { init }

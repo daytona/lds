@@ -1,0 +1,26 @@
+<div class="Demo-formInput">
+  {{#if $variations}}
+    {{#>component:Form type="select" label=@key name=name value=(or default value) partial-block=true}}
+      {{#if default}}
+        <option value="{{jsonLine default}}">Default</option>
+      {{else if value}}
+        <option value="{{jsonLine value}}">Default</option>
+      {{else}}
+        <option value="false">Default</option>
+      {{/if}}
+      {{#each $variations}}
+        <option value="{{#if (hasProperty this 'value')}}{{jsonLine value}}{{else}}{{this}}{{/if}}"{{#if (equals (jsonLine value) ../value)}} selected="selected"{{/if}}>{{#if name}}{{name}}{{else}}{{.}}{{/if}}</option>
+      {{/each}}
+    {{/component:Form}}
+  {{ else if (equals $type 'Boolean')}}
+    {{>component:Form type="checkbox" label=@key name=name value=(or default value)}}
+  {{ else if (equals $type 'String')}}
+    {{>component:Form type="text" label=@key name=name value=(or default value)}}
+  {{ else if (equals $type 'Number')}}
+    {{>component:Form type="number" label=@key name=name value=(or default value)}}
+  {{ else if (equals $type 'LongString')}}
+    {{>component:Form type="textarea" label=@key name=name value=(or default value)}}
+  {{ else if (equals $type 'Array')}}
+    {{>component:Form type="textarea" label=@key name=name value=(or default value)}}
+  {{/if}}
+</div>

@@ -30,7 +30,7 @@ var helpers = {
     return JSON.stringify(object, null, 2);
   },
   jsonLine(object) {
-    return JSON.stringify(object, null, 0);
+    return typeof object === 'object' ? JSON.stringify(object, null, 0) : object;
   },
   functionName(string) {
     return toCamelCase(string);
@@ -76,8 +76,11 @@ var helpers = {
   objectLength(obj) {
     return typeof obj === 'object' && Object.keys(obj).length;
   },
+  exists(param) {
+    return typeof param !== 'undefined';
+  },
   hasProperty(object, key) {
-    return typeof(object[key]) !== 'undefined';
+    return object.hasOwnProperty(key);
   },
   match(string, pattern) {
     var reg = new RegExp(pattern, 'g');

@@ -104,7 +104,9 @@
 .Preview-browser {
   height: 100%;
   position: relative;
+  background: #fff;
 }
+
 .Preview--desktop .Preview-browser {
   padding-top: 50px;
   background: #eee;

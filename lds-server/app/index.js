@@ -93,7 +93,7 @@ function Server(config) {
     this.parse = reparse;
     this.ws = app.ws;
     this.broadcast = broadcast;
-    this.editmode = true;
+    this.editmode = false;
     yield next;
   });
 

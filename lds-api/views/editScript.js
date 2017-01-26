@@ -17,7 +17,8 @@
   var commentNodes = traverseDom(document.body); // Start with body, and thus skip layout data
 
   var partials = commentNodes.filter(comment => {
-    return comment.data.match(/component="/);
+    var componentRegEx = new RegExp('component="');
+    return comment.data.match(componentRegEx);
   }).map(comment => {
     var component = comment.data.match(/component="([^"]*)"/);
     var data = comment.data.match(/data="([^"]*)"/);
@@ -34,13 +35,12 @@
       }
       currEl = currEl.nextSibling;
     }
-
     return {
       comment: comment,
       component: component && component[1],
-      data: data && JSON.parse(data[1].replace(/(&quot\;)/g,"\"")),
-      dataPath: dataPath && JSON.parse(dataPath[1].replace(/(&quot\;)/g,"\"")),
-      schema: schema && JSON.parse(schema[1].replace(/(&quot\;)/g,"\"")),
+      data: data && JSON.parse(data[1].replace(/(\\&quot\;)/g, '"')),
+      dataPath: dataPath,
+      schema: schema && JSON.parse(schema[1].replace(/(\&quot\;)/g, '"')),
       children: children
     }
   });
@@ -54,33 +54,96 @@
 
   document.body.appendChild(editContainer);
 
-  function mouseover(layer, event) {
-    layer.style.display = 'block';
-    layer.style.top = event.clientY + window.scrollY + 'px';
-  }
-  function mouseout(layer, event) {
-    layer.style.display = 'none';
-  }
-
   function createEditLayer(partial) {
-    var editLayer = document.createElement('div');
-    editLayer.innerHTML = `
-    <h2 class="LdsEdit-layerTitle">${partial.component}</h2>
-    `;
-    var pre = document.createElement('pre');
-    editLayer.className = 'LdsEdit-layer';
+    var editLayer;
 
-    var dataObject = {};
-    Object.keys(partial.schema).forEach(key => {
-      dataObject[key] = partial.data[key];
-    });
-    pre.innerHTML = JSON.stringify(dataObject, false, 2);
-    editLayer.appendChild(pre);
 
-    partial.children.forEach(element => {
-      element.addEventListener('mouseover', mouseover.bind(this, editLayer));
-      element.addEventListener('mouseout', mouseout.bind(this, editLayer));
-    })
-    return editLayer;
+    function mouseover(layer, event) {
+      // Show toggleButton on first element on hover
+      layer.style.display = 'block';
+      layer.style.top = event.clientY + window.scrollY + 'px';
+    }
+
+    function mouseout(layer, event) {
+      // Hide button on mouseout if not over subelement or editLayer
+      layer.style.display = 'none';
+    }
+
+    function onChange(event) {
+      /* call window.socket.send({
+        action: 'update',
+        component: 'componentID',
+        data: formparams
+      }) and listen for 'updated' and update location.href with session parameter */
+      event.preventDefault();
+      console.log('change event');
+    }
+
+    function createField(label, field, value) {
+      var inputWrapper = document.createElement('div');
+      inputWrapper.className = 'LdsEdit-formInput';
+      var html = `<div class="LdsEdit-formInput">
+        <label for="">${label}</label>`;
+
+      if (field.$type === 'String') {
+        html += `<input type="text" name="${field.label}" value="${value || ''}" />`;
+      } else if (field.$type === 'LongString') {
+        html += `<textarea name="${field.label}">${value || ''}</textarea>`;
+      } else if (field.$type === 'Boolean') {
+        html += `<input type="checkbox" name="${field.label}" ${value ? 'checked="true"' : ''} />`;
+      }
+      html += '</div>';
+      inputWrapper.innerHTML = html;
+      return inputWrapper.outerHTML;
+    }
+
+    function createParam(key, obj, data) {
+      if (obj.$type) {
+        return createField(key, obj, data);
+      } else if (typeof obj === 'object' && Object.keys(obj).length) {
+        return Object.keys(obj).map(key => {
+          return `<div class="LdsEdit-formGroup">
+          ${createParam(key, obj[key], data && data[key])}
+          </div>`
+        });
+      }
+    }
+    function createForm(partial) {
+      // Create fields based on schema with data values
+      var editForm = document.createElement('form');
+      editForm.className = 'LdsEdit-form';
+      editForm.innerHTML = `
+      <input type="hidden" name="data-path" class="js-datapath" value="${partial.data.$objectPath}">
+        ${Object.keys(partial.schema).map(key => {
+          return createParam(key, partial.schema[key], partial.data[key]);
+        }).join('\n')}
+      `;
+      return editForm;
+    }
+
+    function createLayer() {
+      var editLayer = document.createElement('div');
+      editLayer.innerHTML = `
+      <h2 class="LdsEdit-layerTitle">${partial.component}</h2>
+      `;
+      var pre = document.createElement('pre');
+      editLayer.className = 'LdsEdit-layer';
+      var form = createForm(partial);
+
+      editLayer.appendChild(form);
+      form.addEventListener('change', onChange);
+      return editLayer;
+    }
+
+    function init() {
+      editLayer = createLayer();
+      partial.children.forEach(element => {
+        element.addEventListener('mouseover', mouseover.bind(this, editLayer));
+        element.addEventListener('mouseout', mouseout.bind(this, editLayer));
+      });
+      return editLayer;
+    }
+
+    return init();
   }
 }());

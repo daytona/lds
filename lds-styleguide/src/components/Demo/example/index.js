@@ -7,11 +7,11 @@ const createUrlFromId = id => id.split(':').join('/');
 // const setIframeHeight = (iframe, height) => iframe.style.height = `${event.detail.height}px`;
 
 export default function initDemoExample(el, options = {}) {
-  const {id, component: componentId, url: baseUrl, data} = el.dataset;
+  const {id, component: componentId, url: baseUrl, querystring, data} = el.dataset;
   let sessionid = id;
   let iframeversion = 0;
   const iframes = el.querySelectorAll('.js-iframe');
-  const createDemoUrl = (baseUrl, params={}) => `${baseUrl}?_standalone=true&_iframeid=${id}&${object2query(params)}`;
+  const createDemoUrl = (baseUrl, params={}) => `${baseUrl}?${querystring ? querystring + '&' : ''}_standalone=true&_iframeid=${id}`;
 
   function iframeResize(event) {
     if (event.detail && event.detail.id === id) {
@@ -26,7 +26,7 @@ export default function initDemoExample(el, options = {}) {
       sessionid = msg.session;
       iframeversion++;
       Array.prototype.forEach.call(iframes, iframe => {
-        iframe.setAttribute('src', `${baseUrl}?_session=${sessionid}&v=${iframeversion}&_standalone=true&_iframeid=${id}`);
+        iframe.setAttribute('src', `${iframe.dataset.url}&_session=${sessionid}&v=${iframeversion}`);
       });
     }
   }

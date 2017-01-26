@@ -15,18 +15,21 @@ module.exports = function* component (next) {
     return false;
   }
   var query = pureQuery(this.query);
+  var variationData = query.variation && component.config && component.config.variations && component.config.variations[query.variation] && component.config.variations[query.variation].value ? component.config.variations[query.variation].value : {};
 
+  var componentData = Object.assign({}, component.data, variationData);
   // If components is updated in a separate session override component with that data
   if (query._session && sessions.get(query._session)) {
-    var sessionData = sessions.get(query._session).data;
-    component.data = Object.assign(component.data, sessionData);
+     var sessionData = sessions.get(query._session).data;
+     Object.assign(componentData, sessionData);
   }
+
   if (query._type === 'json' || query._type === 'js' || query._type === 'css' || query._type === 'template' || query._type === 'html') {
     var content;
     var language = query._type;
     switch (query._type) {
       case 'json':
-        content = JSON.stringify(component.data, null, 2);
+        content = JSON.stringify(componentData, null, 2);
         break;
       case 'js':
         content = component.code.script;
@@ -39,7 +42,7 @@ module.exports = function* component (next) {
         language = 'handlebars';
         break;
       case 'html':
-        content = this.render(component.template, Object.assign({}, component.data, query));
+        content = this.render(component.template, Object.assign({}, componentData, query));
         language = 'html';
         break;
     }
@@ -67,13 +70,13 @@ module.exports = function* component (next) {
     this.body = handlebars.compile(templates['standalone.hbs'])({
       isComponent: component.category === 'component',
       config: component.config,
-      content: this.render(component.template, Object.assign({}, component.data, query)),
+      content: this.render(component.template, Object.assign({}, componentData, query)),
       updateIframeScript: updateIframeScript(query._iframeid),
       socketScript: socketScript((this.request.protocol.match(/https/) ? 'wss' : 'ws') +'://' + this.request.host)
     });
   } else if (component.category === 'view') {
-    this.renderView(component, Object.assign({layout:'default'}, query));
+    this.renderView(component, Object.assign({layout:'default'}, (sessionData || {}), query));
   } else {
-    this.body = this.render(component.template, Object.assign({}, component.data, query));
+    this.body = this.render(component.template, Object.assign({}, componentData, query));
   }
 }

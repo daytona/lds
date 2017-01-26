@@ -24,10 +24,10 @@ function* viewPage (next) {
     });
     var clientStyles = '';
     var clientScriptStrings = '<script src="/api/client"></script>';
-    if (this.editmode) {
-      clientStyles += '<link rel="stylesheet" href="/api/editstyles" />';
-      clientScriptStrings += '<script src="/api/editscript"></script>';
-    }
+    // if (this.editmode) {
+    //   clientStyles += '<link rel="stylesheet" href="/api/editstyles" />';
+    //   clientScriptStrings += '<script src="/api/editscript"></script>';
+    // }
     var html = this.renderView(view, data, true);
     html = html.replace(/<\/body>/g, clientScriptStrings + '</body>')
     html = html.replace(/<\/head>/g, clientStyles + '</head>')

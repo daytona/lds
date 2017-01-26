@@ -22,15 +22,36 @@ var getScreenshot = require('./lib/getScreenshot');
 
 var sessions = require('./lib/session');
 var build = require('@daytona/lds-build');
+var Engine = require('@daytona/lds-engine');
+var ldsParser = require('@daytona/lds-parser');
+var mount = require('koa-mount');
+var serve = require('koa-static');
 
 var templates = require('./lib/templates');
+var config = require('./lds.config');
+
+var app = koa();
+var router = new Router();
+
+
+if (!config.engine || !config.engine.render) {
+  throw new Error('No templating engine specified');
+}
+var engine = new Engine(config.engine);
+
+var namespace = 'api';
+
 
 module.exports = function API (lds, server) {
+  var apiLds = ldsParser.sync(config);
   var app = koa();
   var router = new Router();
   var git = SimpleGit(lds.config.path.dirname);
-
   router
+    .get('/', function *(next) {
+      yield next;
+      this.renderView(this.api.structure.views.start, {});
+    })
     .get('/client', function *(next) {
       yield next;
       this.type = 'text/javascript';
@@ -94,7 +115,14 @@ module.exports = function API (lds, server) {
       // Delete component from file structure, require authentication
     });
 
-  app.use(router.routes());
+  app
+    // .use(function*(next) {
+    //   this[namespace] = apiLds;
+    //   yield next;
+    // })
+    // .use(mount(config.path.public, serve(path.join(config.path.dirname, config.path.dist))))
+    // .use(engine.setup(namespace))
+    .use(router.routes());
 
   const methods = {
     message(message, connection) {
@@ -110,14 +138,16 @@ module.exports = function API (lds, server) {
         switch (data.action) {
           case 'update':
             if (data.data) {
-              var rawdata = component.data;
+              var sessiondata = Object.assign({}, component.data);
 
               Object.keys(data.data).forEach(param => {
-                objectValue.set(rawdata, param, data.data[param]);
+                if (!param.match(/^\$/)) {
+                  objectValue.set(sessiondata, param, data.data[param]);
+                }
               });
 
               sessions.set(session, {
-                data: objectValue
+                data: sessiondata
               });
             }
 
@@ -137,7 +167,9 @@ module.exports = function API (lds, server) {
             var rawdata = component.data;
 
             Object.keys(data.data).forEach(param => {
-              objectValue.set(rawdata, param, data.data[param]);
+              if (!param.match(/^\$/)) {
+                objectValue.set(rawdata, param, data.data[param]);
+              }
             });
 
             var fileName = component.files['index.json'] ? 'index.json' : 'default.json';

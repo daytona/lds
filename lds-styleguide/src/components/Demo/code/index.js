@@ -5,7 +5,7 @@ import {store, connectToStore} from '../../../helpers/store';
 
 
 export default function initDemoCode(el, options = {}) {
-  const {id, url} = el.dataset;
+  const {id, url, querystring} = el.dataset;
   const dataEl = el.querySelector('.js-data');
   const dataFetcher = new fetcher(dataEl, {language: 'json'});
 
@@ -14,7 +14,7 @@ export default function initDemoCode(el, options = {}) {
   });
 
   connectToStore(selectState, ({params}={}) => {
-    dataFetcher.fetch(url + '?_type=json&_clean=true');
+    dataFetcher.fetch(url + '?' + (querystring ? querystring + '&' : '') + '_type=json&_clean=true&_session=' + id);
   });
 };
 
