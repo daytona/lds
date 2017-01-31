@@ -1,4 +1,5 @@
 var objectDeepMap = require('./lib/object-deep-map');
+var guid = require('./lib/guid');
 
 function obj2json (obj) {
   return JSON.stringify(obj).replace(new RegExp('\"', 'g'), "&quot\;");
@@ -12,6 +13,38 @@ module.exports = function Engine(options) {
     return typeof obj === 'object' ? JSON.stringify(obj).replace(new RegExp('\"', 'g'), '\\"') : obj;
   });
 
+  options.registerHelper('__resetLDSPartials', function(options) {
+    console.log('call resetPartials');
+    options.data.usedPartials = [];
+  });
+
+  options.registerHelper('__getLDSPartials', function(options) {
+    console.log('call getPartials');
+    return options.data.usedPartials;
+  });
+
+  options.registerHelper('__LDSPartialStart', function(partialName, data, schema, options) {
+    if (options.data.root.editmode) {
+      if (!options.data.usedPartials) {
+        options.data.usedPartials = [];
+      }
+      options.data.usedPartials.push({
+        partialName,
+        datapath: data.__objectPath,
+        data,
+        schema: json2obj(schema)
+      });
+      // The exakt format of this comment is required by lds-editor
+      return `<!-- component="${partialName}" id="partial-${guid()}" data="${obj2json(data)}" -->`;
+    }
+  });
+  options.registerHelper('__LDSPartialEnd', function(partialName, options) {
+    if (options.data.root.editmode) {
+      // The exakt format of this comment is required by lds-editor
+      return `<!-- /${partialName} -->`;
+    }
+  });
+
 
   if (options.helpers) {
     // Loop through helpers and register on templating engine
@@ -21,36 +54,25 @@ module.exports = function Engine(options) {
   }
 
   return {
-    setup : function(namespace) {
+    engine: options,
+    setup : function(namespace, editmode) {
       return function *(next) {
-        if (this.editmode) {
-          var usedPartials = [];
-          options.registerHelper('getLDSPartials', () => {
-            return usedPartials;
-          });
-
-          options.registerHelper('saveLDSPartial', (partialName, datapath, data, schema) => {
-            usedPartials.push({
-              partialName,
-              datapath: data.$objectPath,
-              data,
-              schema: json2obj(schema)
-            });
-          });
-        }
 
         var structure = this[namespace].structure;
-        var editmode = this.editmode;
+
         // Iterate LDS-structure to register all partials as partials like component:mycomponent
         objectDeepMap(structure, (value) => {
           if (value && value.isLDSObject) {
             // Register default template
             if (value.template) {
-              if (editmode && value.config && value.config.schema) {
-                value.template = `<!-- component="${value.partialName}" datapath="{{$objectPath}}" data="{{jsonLine this}}" schema="{}"-->{{saveLDSPartial '${value.partialName}' this '${obj2json(value.config.schema)}' }}${value.template}<!-- /${value.partialName} -->`;
+              var template = value.template;
+              // Iterate LDS-structure to register all partials as partials like component:mycomponent
+              if (value.config && value.config.schema) {
+                template = `{{{__LDSPartialStart '${value.partialName}' this '${obj2json(value.config.schema)}' }}}${template}{{{__LDSPartialEnd '${value.partialName}'}}}`;
               }
-              options.registerPartial(value.partialName, value.template);
 
+              options.registerPartial(value.partialName, template);
+              return value;
             }
             // Loop through all template files and register as child path e.g. {{> component:mycomponent/child }}
             if (value.templates && value.templates.length) {
@@ -62,46 +84,50 @@ module.exports = function Engine(options) {
 
           return value;
         });
-
+        var usedPartials = [];
         var api = Object.assign(options, {
-          renderView(view, data, asReturn) {
+          renderView(view, data, asReturn, editmode) {
+            data = data || {};
             if (!view) {
               view = structure.views['404'] || {template: '404 Page Not found', data: {}};
             }
+
             var defaultData = this.defaultData || {};
             var viewData = Object.assign({layout: 'default'}, view.data, data);
-            if (this.editmode) {
+            if (editmode || data.editmode) {
               objectDeepMap(viewData, (value, key, path) => {
                 // Is value an object
                 if (value === Object(value)) {
-                  value.$objectPath = path.length ? path + '.' + key : key;
+                  value.__objectPath = path.length ? path + '.' + key : key;
                 }
                 return value;
               });
             }
 
-            var layout = viewData.layout ? structure.layouts[viewData.layout] : false;
+            var layout = viewData.layout && structure.layouts[viewData.layout] ? structure.layouts[viewData.layout] : false;
             var layoutData = layout && layout.data || {};
             var pageData = Object.assign(defaultData, layoutData, viewData);
             var viewTemplate = view.template;
 
-            if (this.editmode) {
-              viewTemplate = viewTemplate + `<script>window.PageData = JSON.parse("{{jsonLine (getLDSPartials)}}".replace(/\&quot;/g, '"'));</script>`;
+            if (editmode || data.editmode) {
+              viewTemplate = '{{__resetLDSPartials}}' + viewTemplate + `<script>window.PageData = JSON.parse("{{jsonLine (__getLDSPartials)}}".replace(/\&quot;/g, '"'));</script>`;
             }
             var template = layout ? layout.template.replace(/{{{@body}}}/, viewTemplate) : viewTemplate;
 
-            var html = this.render(template, pageData);
+            var html = options.render(template, pageData);
 
             if (asReturn) {
               return html;
             }
+
             this.type = 'text/html; charset=utf-8';
             this.body = html;
+            console.log('render', html);
           }
         });
 
-        this.render = options.render;
-        this.renderView = api.renderView;
+        this[namespace].render = options.render;
+        this[namespace].renderView = api.renderView;
 
         yield next;
       };

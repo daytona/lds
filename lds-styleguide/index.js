@@ -93,11 +93,11 @@ const getGuideView = (obj, view) => {
 router
   .get('/', function *(next){
     yield next;
-    this.renderView(getGuideView(this, 'index'), pureQuery(this.query));
+    this[namespace].renderView(getGuideView(this, 'index'), pureQuery(this.query));
   })
   .get('/:category', function *(next){
     yield next;
-    this.renderView(getGuideView(this, 'category'), Object.assign({}, this.params, pureQuery(this.query)));
+    this[namespace].renderView(getGuideView(this, 'category'), Object.assign({}, this.params, pureQuery(this.query)));
   })
   .get('/:category/:path*', function *(next){
     yield next;
@@ -106,11 +106,13 @@ router
 
     if (component) {
       // if (params.category === 'views') {
-      //   this.renderView(getGuideView(this, 'view'), component);
+      //   this[namespace].renderView(getGuideView(this, 'view'), component);
       // } else {
-        this.renderView(getGuideView(this, 'single'), component);
+        this[namespace].renderView(getGuideView(this, 'single'), component);
       //}
     }
+  }).get('/:any*', function *(next){
+    return false;
   });
 
 app

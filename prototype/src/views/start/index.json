@@ -1,5 +1,8 @@
 {
-  "company": "Daytona",
+  "title": {
+    "level": 1,
+    "text": "Daytona ger dig ett digitalt försprång"
+  },
   "content": "Vi skapar framtidens bästa kundupplevelser. Utifrån kundinsikter och strategi designar vi tjänster som ökar våra uppdragsgivares lönsamhet och stärker deras varumärke. Just nu hjälper vi bland andra Coop, Försäkringskassan och Systembolaget i deras digitala transformation.",
   "dropcap": true
 }

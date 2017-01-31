@@ -17,6 +17,12 @@ function toCamelCase(string) {
 }
 
 var helpers = {
+  cond(cond, truthy, falsy) {
+    if (cond) {
+      return truthy;
+    }
+    return falsy;
+  },
   lowercase(string) {
     return string.toLowerCase();
   },
@@ -30,7 +36,7 @@ var helpers = {
     return JSON.stringify(object, null, 2);
   },
   jsonLine(object) {
-    return JSON.stringify(object, null, 0);
+    return typeof object === 'object' ? JSON.stringify(object, null, 0) : object;
   },
   functionName(string) {
     return toCamelCase(string);
@@ -67,14 +73,24 @@ var helpers = {
       return !arg;
     }).length === 0;
   },
-  or() {
+  or () {
     var args = Array.prototype.slice.call(arguments, 0, -1);
-    return args.filter((arg)=> {
+    return args.filter((arg) => {
       return arg;
-    }).length > 0;
+    })[0];
+  },
+  objectLength(obj) {
+    return typeof obj === 'object' && Object.keys(obj).length;
+  },
+  exists(param) {
+    return typeof param !== 'undefined';
   },
   hasProperty(object, key) {
-    return typeof(object[key]) !== 'undefined';
+    return object.hasOwnProperty(key);
+  },
+  match(string, pattern) {
+    var reg = new RegExp(pattern, 'g');
+    return string.match(reg);
   },
   getProperty(object, key) {
     return object && object[key];
@@ -111,6 +127,10 @@ var helpers = {
       return row.replace(/^ {4}/, '');
     }).join("\n");
   },
+  set(param, value, options) {
+    this[param] = value;
+    return options.fn(this);
+  },
   saveas(name, options) {
     // if (options.data) {
     //   data = Handlebars.createFrame(options.data);
@@ -139,6 +159,14 @@ var helpers = {
       return str;
     }
     return str.split(separator);
+  },
+  join (arr, separator) {
+    separator = typeof separator === 'string' ? separator : '';
+    // Skip if already an array
+    if (!arr || !Array.isArray(arr)) {
+      return arr;
+    }
+    return arr.join(separator);
   },
   concat() {
     // remove trailing options argument
@@ -190,7 +218,15 @@ var helpers = {
   },
   toString(value) {
     return typeof value === 'undefined' ? 'undefined' : value.toString();
+  },
+  dateString(timestamp) {
+    return new Date(timestamp-0).toLocaleString('sv-SE');
+  },
+  reverse(arr) {
+    Array.prototype.reverse.call(arr);
+    return arr;
   }
+
 };
 
 module.exports = helpers;

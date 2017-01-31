@@ -10,12 +10,12 @@ module.exports = function* view(next) {
     this.type = 'text/plain; charset=utf-8';
     this.body = view;
   } else if (query._standalone) {
-    var viewtemplate = this.renderView(view, query, true);
+    var viewtemplate = this.lds.renderView(view, query, true);
     this.body = viewtemplate.replace(/\<\/body\>/,
       "<script>document.addEventListener('click', (event)=>{event.preventDefault();});</script>\n<\/body>"
     );
   } else if (!Object.keys(query).length){
-    this.renderView(view, Object.assign({layout:'default'}, query));
+    this.lds.renderView(view, Object.assign({layout:'default'}, query));
   } else {
     yield next;
   }

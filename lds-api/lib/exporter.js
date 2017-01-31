@@ -30,7 +30,7 @@ module.exports = function* exporter (next) {
     var dir = path.join(htmlRoot, viewpath);
 
     // Render view content
-    var html = this.renderView(view, {}, true);
+    var html = this.lds.renderView(view, {}, true);
 
     // Replace all assets links with relative urls
     html = html.replace(/\/assets/g, relativePath ? '../' + relativePath : '..');

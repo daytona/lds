@@ -1,7 +1,7 @@
 function* pageNotFound (next) {
   yield next;
   if (!this.body) {
-    this.renderView();
+    this.lds.renderView();
   }
 }
 

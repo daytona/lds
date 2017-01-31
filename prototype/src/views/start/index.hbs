@@ -1,6 +1,8 @@
 <section class="Block">
   <div class="l-text-container l-gutter">
-    <h1 class="text-header1">{{company}} ger dig ett digitalt försprång</h1>
+    {{#with title}}
+      {{> component:Title}}
+    {{/with}}
     {{> component:preamble dropcap=dropcap content=content}}
   </div>
 </section>

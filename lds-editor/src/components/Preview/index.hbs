@@ -1,0 +1,15 @@
+<div class="Preview"
+  data-controller='Preview'
+  data-id="{{id}}"
+  data-url="{{url}}"
+  data-sessionid="{{sessionid}}"
+  {{#if queryString}}data-querystring="{{queryString}}"{{/if}}
+  data-component="{{{view.id}}}">
+    <iframe
+      data-url="{{{url}}}?{{#if queryString}}?{{queryString}}{{/if}}"
+      src="{{{url}}}{{#if queryString}}?{{queryString}}{{/if}}"
+      class="Preview-iframe js-iframe"
+      id="iframe-{{id}}">
+    </iframe>
+
+</div>

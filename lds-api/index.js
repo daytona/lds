@@ -22,36 +22,21 @@ var getScreenshot = require('./lib/getScreenshot');
 
 var sessions = require('./lib/session');
 var build = require('@daytona/lds-build');
-var Engine = require('@daytona/lds-engine');
-var ldsParser = require('@daytona/lds-parser');
+
 var mount = require('koa-mount');
 var serve = require('koa-static');
 
 var templates = require('./lib/templates');
-var config = require('./lds.config');
 
 var app = koa();
 var router = new Router();
 
 
-if (!config.engine || !config.engine.render) {
-  throw new Error('No templating engine specified');
-}
-var engine = new Engine(config.engine);
-
-var namespace = 'api';
-
-
 module.exports = function API (lds, server) {
-  var apiLds = ldsParser.sync(config);
   var app = koa();
   var router = new Router();
   var git = SimpleGit(lds.config.path.dirname);
   router
-    .get('/', function *(next) {
-      yield next;
-      this.renderView(this.api.structure.views.start, {});
-    })
     .get('/client', function *(next) {
       yield next;
       this.type = 'text/javascript';
@@ -115,14 +100,7 @@ module.exports = function API (lds, server) {
       // Delete component from file structure, require authentication
     });
 
-  app
-    // .use(function*(next) {
-    //   this[namespace] = apiLds;
-    //   yield next;
-    // })
-    // .use(mount(config.path.public, serve(path.join(config.path.dirname, config.path.dist))))
-    // .use(engine.setup(namespace))
-    .use(router.routes());
+  app.use(router.routes());
 
   const methods = {
     message(message, connection) {
@@ -141,7 +119,7 @@ module.exports = function API (lds, server) {
               var sessiondata = Object.assign({}, component.data);
 
               Object.keys(data.data).forEach(param => {
-                if (!param.match(/^\$/)) {
+                if (!param.match(/^[\$_]/)) {
                   objectValue.set(sessiondata, param, data.data[param]);
                 }
               });
@@ -180,7 +158,7 @@ module.exports = function API (lds, server) {
                 server.reparse(resolve);
               });
             }).then(() => {
-              methods.commit('Styleguide updated component data in ' + component.name, component.path);
+              methods.commit('API updated component data in ' + component.name, component.path);
               connection.send(JSON.stringify({
                 type: 'reload'
               }));

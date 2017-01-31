@@ -36,6 +36,11 @@ module.exports = {
   partial(name) {
     return name;
   },
+  concat() {
+    // remove trailing options argument
+    var args = Array.prototype.slice.call(arguments, 0, -1);
+    return args.join('');
+  },
   capitalize(string) {
     return (string[0].toUpperCase() + string.substr(1));
   },

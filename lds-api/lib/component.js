@@ -21,6 +21,7 @@ module.exports = function* component (next) {
   // If components is updated in a separate session override component with that data
   if (query._session && sessions.get(query._session)) {
      var sessionData = sessions.get(query._session).data;
+     console.log('session', sessionData, query._session);
      Object.assign(componentData, sessionData);
   }
 
@@ -42,7 +43,7 @@ module.exports = function* component (next) {
         language = 'handlebars';
         break;
       case 'html':
-        content = this.render(component.template, Object.assign({}, componentData, query));
+        content = this.lds.render(component.template, Object.assign({}, componentData, query));
         language = 'html';
         break;
     }
@@ -62,7 +63,7 @@ module.exports = function* component (next) {
     });
   } else if (query._type === 'example') {
     this.body = handlebars.compile(templates['example.hbs'])({
-      example: this.render(component.example, Object.assign({}, component, query)),
+      example: this.lds.render(component.example, Object.assign({}, component, query)),
       updateHeightScript: query._iframeid && updateIframeScript(query._iframeid),
       socketScript: socketScript((this.request.protocol.match(/https/) ? 'wss' : 'ws') +'://' + this.request.host)
     });
@@ -70,13 +71,13 @@ module.exports = function* component (next) {
     this.body = handlebars.compile(templates['standalone.hbs'])({
       isComponent: component.category === 'component',
       config: component.config,
-      content: this.render(component.template, Object.assign({}, componentData, query)),
+      content: this.lds.render(component.template, Object.assign({}, componentData, query)),
       updateIframeScript: updateIframeScript(query._iframeid),
       socketScript: socketScript((this.request.protocol.match(/https/) ? 'wss' : 'ws') +'://' + this.request.host)
     });
   } else if (component.category === 'view') {
-    this.renderView(component, Object.assign({layout:'default'}, (sessionData || {}), query));
+    this.lds.renderView(component, Object.assign({layout:'default'}, (sessionData || {}), query));
   } else {
-    this.body = this.render(component.template, Object.assign({}, componentData, query));
+    this.body = this.lds.render(component.template, Object.assign({}, componentData, query));
   }
 }

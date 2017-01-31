@@ -9,7 +9,7 @@ module.exports = {
         return handlebars.compile(string)(data);
       }
     },
-    registerHelper(name, fn) {
+    registerHelper (name, fn) {
       return handlebars.registerHelper(name, fn);
     },
     registerPartial(name, fn) {

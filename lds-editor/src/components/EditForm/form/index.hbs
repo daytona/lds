@@ -1,0 +1,11 @@
+<div style="display: none;">
+  <form
+    data-controller="DemoForm"
+    data-id="{{id}}"
+    data-component="{{componentId}}"
+    class="Form DemoForm {{#if class}}{{class}}{{/if}}">
+    {{#each schema}}
+      {{> component:Demo/form/param name=@key data=(getProperty ../data @key) param=this}}
+    {{/each}}
+  </form>
+</div>

@@ -4,6 +4,8 @@ var findComponent = require('../lib/find-component');
 
 // Render a single component with request.parameters or default json.
 function* viewPage (next) {
+  yield next;
+  console.log('viewPage', this.request.url);
   var url = this.request.url.replace(/\?.*$/, '').replace(/\/$/, '');
 
   var view = findComponent(this.lds.structure.views, '/views' + url);
@@ -28,13 +30,12 @@ function* viewPage (next) {
     //   clientStyles += '<link rel="stylesheet" href="/api/editstyles" />';
     //   clientScriptStrings += '<script src="/api/editscript"></script>';
     // }
-    var html = this.renderView(view, data, true);
+    var html = this.lds.renderView(view, data, true);
     html = html.replace(/<\/body>/g, clientScriptStrings + '</body>')
     html = html.replace(/<\/head>/g, clientStyles + '</head>')
     this.type = 'text/html; charset=utf-8';
     this.body = html;
   }
-  yield next;
 }
 
 module.exports = viewPage;

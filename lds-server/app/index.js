@@ -93,7 +93,6 @@ function Server(config) {
     this.parse = reparse;
     this.ws = app.ws;
     this.broadcast = broadcast;
-    this.editmode = false;
     yield next;
   });
 
@@ -103,7 +102,6 @@ function Server(config) {
     .use(pageNotFound) // Handle 404 after parsing every other middleware, if no match trigger 404
     .use(mount(config.path.public, serve(path.join(config.path.dirname, config.path.dist))))
     .use(engine.setup(namespace));
-    //.use(extendLds(config))
 
   if (config.login && process.env.NODE_ENV === 'production') {
     app.use(auth(config.login, token));
@@ -112,7 +110,7 @@ function Server(config) {
   app
     .use(mount('/styleguide', styleguide))
     .use(mount('/api', api.app))
-    .use(mount('/playground', editor))
+    .use(mount('/edit', editor))
     .use(mount('/info', function* infoView(next) {
       this.showinfo = true;
       yield next;

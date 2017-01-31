@@ -7,7 +7,7 @@ var mount = require('koa-mount');
 var serve = require('koa-static');
 var Router = require('koa-router');
 var objectDeepMap = require('./lib/object-deep-map');
-
+var view = require('./controllers/view');
 var Engine = require('@daytona/lds-engine');
 var ldsParser = require('@daytona/lds-parser');
 
@@ -28,7 +28,7 @@ const getGuideView = (obj, view) => {
 }
 
 /**
- * Middleware: Updates styleguide state if query string "live" is present
+ * Middleware: Updates editor state if query string "live" is present
  */
 function* updateState(next) {
   var shouldUpdate = this.query && this.query.ltrue;
@@ -40,13 +40,9 @@ function* updateState(next) {
 router
   .get('/', function *(next){
     yield next;
-    this.renderView(this[namespace].structure.views['start']);
+    this[namespace].renderView(this[namespace].structure.views['start']);
   })
-  .get('/:category/:name', function *(next){
-    yield next;
-    var component = this.lds.structure[this.params.category][this.params.name];
-    this.renderView(this[namespace].structure.views['single'], { component });
-  });
+  .get('/:path', view);
 
 app
   .use(updateState)

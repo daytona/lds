@@ -1,0 +1,16 @@
+{{#if param}}
+  <div class="EditForm-param">
+    {{#if param.$type}}
+      {{#with param}}
+        {{>component:EditForm/input name=../name value=../data}}
+      {{/with}}
+    {{else if (objectLength param)}}
+      <div class="EditForm-group">
+        <strong class="EditForm-groupTitle">{{@key}}</strong>
+        {{#each param}}
+          {{> component:EditForm/param name=(concat ../name '.' @key) data=(getProperty ../data @key) param=this}}
+        {{/each}}
+      </div>
+    {{/if}}
+  </div>
+{{/if}}
