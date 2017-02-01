@@ -93,6 +93,7 @@ const getGuideView = (obj, view) => {
 router
   .get('/', function *(next){
     yield next;
+    console.log('styleguide root');
     this[namespace].renderView(getGuideView(this, 'index'), pureQuery(this.query));
   })
   .get('/:category', function *(next){
@@ -111,8 +112,6 @@ router
         this[namespace].renderView(getGuideView(this, 'single'), component);
       //}
     }
-  }).get('/:any*', function *(next){
-    return false;
   });
 
 app

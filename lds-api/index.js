@@ -127,6 +127,7 @@ module.exports = function API (lds, server) {
               sessions.set(session, {
                 data: sessiondata
               });
+              console.log('sessiondata', sessions.get(session));
             }
 
             connection.send(JSON.stringify({

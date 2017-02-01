@@ -14,12 +14,10 @@ module.exports = function Engine(options) {
   });
 
   options.registerHelper('__resetLDSPartials', function(options) {
-    console.log('call resetPartials');
     options.data.usedPartials = [];
   });
 
   options.registerHelper('__getLDSPartials', function(options) {
-    console.log('call getPartials');
     return options.data.usedPartials;
   });
 
@@ -77,7 +75,6 @@ module.exports = function Engine(options) {
             // Loop through all template files and register as child path e.g. {{> component:mycomponent/child }}
             if (value.templates && value.templates.length) {
               value.templates.forEach((template) => {
-                console.log('registerPartial', `${value.partialName}/${template.name}`);
                 options.registerPartial(`${value.partialName}/${template.name}`, template.content);
               });
             }
@@ -110,8 +107,8 @@ module.exports = function Engine(options) {
             var pageData = Object.assign(defaultData, layoutData, viewData);
             var viewTemplate = view.template;
 
-            if (editmode || data.editmode) {
-              viewTemplate = '{{__resetLDSPartials}}' + viewTemplate + `<script>window.PageData = JSON.parse("{{jsonLine (__getLDSPartials)}}".replace(/\&quot;/g, '"'));</script>`;
+            if (editmode || data.editmode && view.config && view.config.schema) {
+              viewTemplate = `{{{__LDSPartialStart '${view.partialName}' this '${obj2json(view.config.schema)}' }}}${viewTemplate}{{{__LDSPartialEnd '${view.partialName}'}}}`;
             }
             var template = layout ? layout.template.replace(/{{{@body}}}/, viewTemplate) : viewTemplate;
 
@@ -126,8 +123,8 @@ module.exports = function Engine(options) {
           }
         });
 
-        this[namespace].render = options.render;
-        this[namespace].renderView = api.renderView;
+        this[namespace].render = options.render.bind(this);
+        this[namespace].renderView = api.renderView.bind(this);
 
         yield next;
       };

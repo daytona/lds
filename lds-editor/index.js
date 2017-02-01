@@ -38,10 +38,10 @@ function* updateState(next) {
 }
 
 router
-  .get('/', function *(next){
-    yield next;
-    this[namespace].renderView(getView('start'));
-  })
+  // .get('/', function *(next){
+  //   yield next;
+  //   this[namespace].renderView(getView('start'));
+  // })
   .get('/:path*', view);
 
 app
