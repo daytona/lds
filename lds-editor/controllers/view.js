@@ -9,8 +9,12 @@ module.exports = function* view(next) {
   // Which of course can be resized for mobile etc.
 
   yield next;
-  var viewComponent = findComponent(this.lds.structure, '/views/'+ this.params.path);
+  var viewComponent = findComponent(this.lds.structure.views, '/views/'+ this.params.path);
 
+  if (!viewComponent || (!viewComponent.template && viewComponent.children)) {
+    viewComponent = findComponent(this.lds.structure.views, '/views' + this.params.path + '/index') ||
+                    findComponent(this.lds.structure.views, '/views' + this.params.path + '/start');
+  }
   if (!viewComponent) {
     return false;
   }

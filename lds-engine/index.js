@@ -77,6 +77,7 @@ module.exports = function Engine(options) {
             // Loop through all template files and register as child path e.g. {{> component:mycomponent/child }}
             if (value.templates && value.templates.length) {
               value.templates.forEach((template) => {
+                console.log('registerPartial', `${value.partialName}/${template.name}`);
                 options.registerPartial(`${value.partialName}/${template.name}`, template.content);
               });
             }
@@ -122,7 +123,6 @@ module.exports = function Engine(options) {
 
             this.type = 'text/html; charset=utf-8';
             this.body = html;
-            console.log('render', html);
           }
         });
 

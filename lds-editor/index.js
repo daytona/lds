@@ -23,7 +23,7 @@ var router = new Router();
 var lds = ldsParser.sync(config);
 var engine = Engine(config.engine);
 
-const getGuideView = (obj, view) => {
+const getView = (obj, view) => {
   return obj[namespace].structure.views[view];
 }
 
@@ -40,9 +40,9 @@ function* updateState(next) {
 router
   .get('/', function *(next){
     yield next;
-    this[namespace].renderView(this[namespace].structure.views['start']);
+    this[namespace].renderView(getView('start'));
   })
-  .get('/:path', view);
+  .get('/:path*', view);
 
 app
   .use(updateState)

@@ -1,7 +1,7 @@
 <div class="View">
   This is a view {{view.name}}
   {{#set 'sessionid' 15}}
-    {{>component:Preview sessionid=sessionid url=(concat "/api/views" view.url) querystring="editview=true" view=view id=(concat "edit" view.id)}}
+    {{>component:Preview sessionid=sessionid url=view.url querystring="editview=true" view=view id=(concat "edit" view.id)}}
     {{#each partials}}
       {{>component:EditForm sessionid=../sessionid  view=../view}}
     {{/each}}
