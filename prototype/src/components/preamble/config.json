@@ -2,6 +2,9 @@
   "schema": {
     "dropcap": {
       "$type": "Boolean"
+    },
+    "content": {
+      "$type": "LongString"
     }
   }
 }

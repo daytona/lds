@@ -14,26 +14,38 @@ export default function EditForm(el, options = {}) {
 
   function handleInputChange (event) {
     const {target} = event;
-    const key = target.name;
-    let value = target.value.replace(new RegExp('\"', 'g'), '"');
-    if (target.getAttribute('type') === 'checkbox' || target.getAttribute('type') === 'radio') {
-      value = target.checked;
+    let newState = Object.assign({}, dataParams);
+
+    Array.prototype.forEach.call(inputs, input => {
+      newState[input.name] = getFieldValue(input);
+    });
+
+    updateParams(newState);
+  };
+
+  function getFieldValue(input) {
+    let value = input.value.replace(new RegExp('\"', 'g'), '"');
+    if (input.getAttribute('type') === 'checkbox' || input.getAttribute('type') === 'radio') {
+      value = input.checked;
     }
     switch (value) {
       case 'false':
         value = false;
         break;
+      case 'true':
+        value = true;
+        break;
       case 'undefined':
         value = undefined;
         break;
     }
+
     if (isJSON(value)) {
       value = JSON.parse(value);
     }
-    let newState = Object.assign({}, dataParams);
-    newState[key] = value;
-    updateParams(newState);
-  };
+
+    return value;
+  }
   function updateParams(params) {
     if (dataParams !== params) {
       isChanged = true;

@@ -2,7 +2,7 @@ var objectDeepMap = require('./lib/object-deep-map');
 var guid = require('./lib/guid');
 
 function obj2json (obj) {
-  return JSON.stringify(obj).replace(new RegExp('\"', 'g'), "&quot\;");
+  return typeof obj === 'object' ? JSON.stringify(obj).replace(new RegExp('\"', 'g'), "&quot\;") : obj;
 }
 function json2obj (json) {
   return typeof json === 'String' ? JSON.parse(json.replace(/\&quot\;/g, '\"')) : json;
@@ -36,12 +36,21 @@ module.exports = function Engine(options) {
       return `<!-- component="${partialName}" id="partial-${guid()}" data="${obj2json(data)}" -->`;
     }
   });
+
   options.registerHelper('__LDSPartialEnd', function(partialName, options) {
     if (options.data.root.editmode) {
       // The exakt format of this comment is required by lds-editor
       return `<!-- /${partialName} -->`;
     }
   });
+
+  options.registerHelper('__LDSEditScript', function(options) {
+    if (options.data.root.editmode) {
+      // The exakt format of this comment is required by lds-editor
+      return `<script src="/api/editscript"></script>`;
+    }
+  });
+
 
 
   if (options.helpers) {
@@ -108,7 +117,7 @@ module.exports = function Engine(options) {
             var viewTemplate = view.template;
 
             if (editmode || data.editmode && view.config && view.config.schema) {
-              viewTemplate = `{{{__LDSPartialStart '${view.partialName}' this '${obj2json(view.config.schema)}' }}}${viewTemplate}{{{__LDSPartialEnd '${view.partialName}'}}}`;
+              viewTemplate = `{{{__LDSPartialStart '${view.partialName}' this '${obj2json(view.config.schema)}' }}}${viewTemplate}{{{__LDSPartialEnd '${view.partialName}'}}}{{{__LDSEditScript}}}`;
             }
             var template = layout ? layout.template.replace(/{{{@body}}}/, viewTemplate) : viewTemplate;
 

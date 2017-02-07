@@ -21,7 +21,6 @@ module.exports = function* component (next) {
   // If components is updated in a separate session override component with that data
   if (query._session && sessions.get(query._session)) {
      var sessionData = sessions.get(query._session).data;
-     console.log('session', sessionData, query._session);
      Object.assign(componentData, sessionData);
   }
 
@@ -76,7 +75,8 @@ module.exports = function* component (next) {
       socketScript: socketScript((this.request.protocol.match(/https/) ? 'wss' : 'ws') +'://' + this.request.host)
     });
   } else if (component.category === 'view') {
-    this.lds.renderView(component, Object.assign({layout:'default'}, (sessionData || {}), query));
+    console.log(componentData);
+    this.lds.renderView(component, Object.assign({layout:'default'}, componentData, query));
   } else {
     this.body = this.lds.render(component.template, Object.assign({}, componentData, query));
   }

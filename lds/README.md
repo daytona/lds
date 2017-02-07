@@ -57,10 +57,10 @@ $ lds start
 This builds your assets, creating a watch task for file changes in your project and starts up a KOA.js server with routes for all your views and for a separate styleguide presenting your components and views, as well as a API, with commands to manage you design system.
 
 ## Documentation
-* [Installation](documentation/installation.md)
-* [Getting started](documentation/getting-started.md)
-* [Commandline](documentation/cli.md)
-* [Customization](documentation/customization.md)
-* [Views & layouts](documentation/views-layouts.md)
-* [Styleguide](documentation/styleguide.md)
-* [API](documentation/api.md)
+* [Installation](https://github.com/daytona/lds/blob/master/lds/documentation/installation.md)
+* [Getting started](https://github.com/daytona/lds/blob/master/lds/documentation/getting-started.md)
+* [Commandline](https://github.com/daytona/lds/blob/master/lds/documentation/cli.md)
+* [Customization](https://github.com/daytona/lds/blob/master/lds/documentation/customization.md)
+* [Views & layouts](https://github.com/daytona/lds/blob/master/lds/documentation/views-layouts.md)
+* [Styleguide](https://github.com/daytona/lds/blob/master/lds/documentation/styleguide.md)
+* [API](https://github.com/daytona/lds/blob/master/lds/documentation/api.md)

@@ -128,6 +128,7 @@ function Server(config) {
     return value;
   });
   console.log(`Styleguide: http://${host}:${port}/styleguide`);
+  console.log(`Content editor: http://${host}:${port}/editor`);
 
   return methods;
 };

@@ -3,11 +3,11 @@
   data-id="{{id}}"
   data-url="{{url}}"
   data-sessionid="{{sessionid}}"
-  {{#if queryString}}data-querystring="{{queryString}}"{{/if}}
+  {{#if querystring}}data-querystring="{{querystring}}"{{/if}}
   data-component="{{{view.id}}}">
     <iframe
-      data-url="{{{url}}}?{{#if queryString}}?{{queryString}}{{/if}}"
-      src="{{{url}}}{{#if queryString}}?{{queryString}}{{/if}}"
+      data-url="{{{url}}}{{#if queryString}}?{{queryString}}{{/if}}"
+      src="{{{url}}}{{#if querystring}}?{{querystring}}{{/if}}"
       class="Preview-iframe js-iframe"
       id="iframe-{{id}}">
     </iframe>

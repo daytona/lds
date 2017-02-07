@@ -7,7 +7,7 @@ export default function Preview(el, options = {}) {
   let sessionid = el.dataset.sessionid;
   let iframeversion = 0;
   const iframes = el.querySelectorAll('.js-iframe');
-  const createDemoUrl = (baseUrl, params={}) => `${baseUrl}?${querystring ? querystring + '&' : ''}_iframeid=${encodeURI(id)}${sessionid}`;
+  const createDemoUrl = (baseUrl, params={}) => `${baseUrl}${querystring ? '?' + querystring + '&' : ''}_iframeid=${encodeURI(id)}${sessionid}`;
 
   function iframeResize(event) {
     if (event.detail && event.detail.id === id) {
@@ -22,7 +22,7 @@ export default function Preview(el, options = {}) {
       sessionid = msg.session;
       iframeversion++;
       Array.prototype.forEach.call(iframes, iframe => {
-        iframe.setAttribute('src', `${iframe.dataset.url}${querystring ? '&' : '?'}_session=${sessionid}&v=${iframeversion}`);
+        iframe.setAttribute('src', `${iframe.dataset.url}?${querystring ? querystring + '&' : '?'}_session=${sessionid}&v=${iframeversion}`);
       });
     }
   }

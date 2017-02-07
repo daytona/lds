@@ -5,7 +5,6 @@ var findComponent = require('../lib/find-component');
 // Render a single component with request.parameters or default json.
 function* viewPage (next) {
   yield next;
-  console.log('viewPage', this.request.url);
   var url = this.request.url.replace(/\?.*$/, '').replace(/\/$/, '');
 
   var view = findComponent(this.lds.structure.views, '/views' + url);
