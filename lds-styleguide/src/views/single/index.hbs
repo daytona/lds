@@ -30,19 +30,15 @@
     <div class="Page-subheader">
       {{#> component:Tablist small="true"}}
         {{#each @component.files}}
-          {{#if @component.template}}
-            {{> component:Tablist/tab id=(join (split @key '.')) title=@key}}
-          {{/if}}
+          {{> component:Tablist/tab id=(join (split @key '.')) title=@key}}
         {{/each}}
       {{/ component:Tablist}}
     </div>
     <div class="Page-section--divider">
       {{#each @component.files}}
-        {{#if @component.template}}
-          {{#> component:Tabarea id=(join (split @key '.'))}}
-            {{> component:CodeEditor code=../this file=@key}}
-          {{/component:Tabarea}}
-        {{/if}}
+        {{#> component:Tabarea id=(join (split @key '.'))}}
+          {{> component:CodeEditor code=../this file=@key}}
+        {{/component:Tabarea}}
       {{/each}}
     </div>
   {{/component:Tabarea}}

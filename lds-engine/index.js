@@ -62,36 +62,35 @@ module.exports = function Engine(options) {
 
   return {
     engine: options,
-    setup : function(namespace, editmode) {
-      return function *(next) {
-
-        var structure = this[namespace].structure;
-
-        // Iterate LDS-structure to register all partials as partials like component:mycomponent
-        objectDeepMap(structure, (value) => {
-          if (value && value.isLDSObject) {
-            // Register default template
-            if (value.template) {
-              var template = value.template;
-              // Iterate LDS-structure to register all partials as partials like component:mycomponent
-              if (value.config && value.config.schema) {
-                template = `{{{__LDSPartialStart '${value.partialName}' this '${obj2json(value.config.schema)}' }}}${template}{{{__LDSPartialEnd '${value.partialName}'}}}`;
-              }
-
-              options.registerPartial(value.partialName, template);
-              return value;
+    setup : function(namespace, structure, editmode) {
+      // Iterate LDS-structure to register all partials as partials like component:mycomponent
+      objectDeepMap(structure, (value) => {
+        if (value && value.isLDSObject) {
+          // Register default template
+          if (value.template) {
+            var template = value.template;
+            // Iterate LDS-structure to register all partials as partials like component:mycomponent
+            if (value.config && value.config.schema) {
+              template = `{{{__LDSPartialStart '${value.partialName}' this '${obj2json(value.config.schema)}' }}}${template}{{{__LDSPartialEnd '${value.partialName}'}}}`;
             }
-            // Loop through all template files and register as child path e.g. {{> component:mycomponent/child }}
-            if (value.templates && value.templates.length) {
-              value.templates.forEach((template) => {
-                options.registerPartial(`${value.partialName}/${template.name}`, template.content);
-              });
-            }
+
+            options.registerPartial(value.partialName, template);
           }
 
-          return value;
-        });
-        var usedPartials = [];
+          // Loop through all template files and register as child path e.g. {{> component:mycomponent/child }}
+          if (value.templates && value.templates.length) {
+            value.templates.forEach((template) => {
+              options.registerPartial(`${value.partialName}/${template.name}`, template.content);
+            });
+          }
+        }
+
+        return value;
+      });
+
+      return function *(next) {
+        var structure = this[namespace].structure;
+
         var api = Object.assign(options, {
           renderView(view, data, asReturn, editmode) {
             data = data || {};

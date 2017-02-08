@@ -20,7 +20,7 @@ var namespace = 'editor';
 var app = koa();
 var router = new Router();
 
-var lds = ldsParser.sync(config);
+var editorLds = ldsParser.sync(config);
 var engine = Engine(config.engine);
 
 const getView = (obj, view) => {
@@ -33,7 +33,7 @@ const getView = (obj, view) => {
 function* updateState(next) {
   var shouldUpdate = this.query && this.query.ltrue;
   var currentState = this[namespace] || {};
-  this[namespace] = shouldUpdate ? Object.assign({}, currentState, ldsParser.sync(config)) : lds;
+  this[namespace] = shouldUpdate ? Object.assign({}, currentState, ldsParser.sync(config)) : editorLds;
   yield next;
 }
 
@@ -47,7 +47,7 @@ router
 app
   .use(updateState)
   .use(mount(config.path.public, serve(path.join(config.path.dirname, config.path.dist))))
-  .use(engine.setup(namespace, config.prefix))
+  .use(engine.setup(namespace, editorLds.structure))
   .use(router.routes());
 
 module.exports = app;

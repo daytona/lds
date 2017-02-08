@@ -16,7 +16,7 @@ var config = require('./lds.config');
 var app = koa();
 var router = new Router();
 
-var lds = ldsParser.sync(config);
+var styleguideLds = ldsParser.sync(config);
 
 if (!config.engine || !config.engine.render) {
   throw new Error('No templating engine specified');
@@ -29,7 +29,7 @@ var engine = new Engine(config.engine);
 
 var readme;
 try {
-  readme = fs.readFileSync(path.join(lds.config.path.dirname, 'readme.md'), 'utf-8');
+  readme = fs.readFileSync(path.join(styleguideLds.config.path.dirname, 'readme.md'), 'utf-8');
 } catch (err) {
   // No readme found
   readme = false;
@@ -82,7 +82,7 @@ function *defaultData(next) {
 function* updateState(next) {
   var shouldUpdate = this.query && this.query.ltrue;
   var currentState = this[namespace] || {};
-  this[namespace] = shouldUpdate ? Object.assign({}, currentState, ldsParser.sync(config)) : lds;
+  this[namespace] = shouldUpdate ? Object.assign({}, currentState, ldsParser.sync(config)) : styleguideLds;
   yield next;
 }
 
@@ -117,7 +117,7 @@ router
 app
   .use(updateState)
   .use(mount(config.path.public, serve(path.join(config.path.dirname, config.path.dist))))
-  .use(engine.setup(namespace))
+  .use(engine.setup(namespace, styleguideLds.structure))
   .use(defaultData)
   .use(router.routes());
 
