@@ -1,6 +1,6 @@
 {
   "name": "@daytona/lds-cli",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "A CLI to manage components and builds of a LDS framwork",
   "main": "index.js",
   "scripts": {

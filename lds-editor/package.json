@@ -1,6 +1,6 @@
 {
   "name": "@daytona/lds-editor",
-  "version": "0.0.3",
+  "version": "0.4.0",
   "description": "Editor playground to modify and update components",
   "main": "index.js",
   "scripts": {

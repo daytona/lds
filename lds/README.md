@@ -28,9 +28,8 @@ LDS consists of several vital parts to make your job easier.
  - [LDS API](https://www.npmjs.com/package/@daytona/lds-api): defines a set of endpoints to present, render or update your components.
  - [LDS Styleguide](https://www.npmjs.com/package/@daytona/lds-styleguide): Creates a complete styleguide of your components, to get a better overview.
  - [LDS Create](https://www.npmjs.com/package/@daytona/lds-create): Generator for creating new components, modules, helpers, views or projects.
- - [LDS Test](https://www.npmjs.com/package/@daytona/lds-test): (TODO)Tests the status of your components and makes sure you don't commit any bugs.
- - [LDS Editor](https://www.npmjs.com/package/@daytona/lds-editor): (TODO)Opens a sandbox environment for a component, where you can modify and even save your changes.
- - [LDS Git](https://www.npmjs.com/package/@daytona/lds-git): (TODO) A Git implementation allowing for changes made in styleguide and editor to be committed to the project.
+ - [LDS Test](https://www.npmjs.com/package/@daytona/lds-test): Tests the status of your components and makes sure you don't commit any bugs.
+ - [LDS Editor](https://www.npmjs.com/package/@daytona/lds-editor): Opens the views in edit-mode, with the possibility to  to update page data according to defined schemas.
 
 You can customize the file structure or templating engine, using the lds.config.js in your root project directory. Read more about customization in out [documentation](docs/customization.md)
 
