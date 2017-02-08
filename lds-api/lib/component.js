@@ -75,7 +75,6 @@ module.exports = function* component (next) {
       socketScript: socketScript((this.request.protocol.match(/https/) ? 'wss' : 'ws') +'://' + this.request.host)
     });
   } else if (component.category === 'view') {
-    console.log(componentData);
     this.lds.renderView(component, Object.assign({layout:'default'}, componentData, query));
   } else {
     this.body = this.lds.render(component.template, Object.assign({}, componentData, query));

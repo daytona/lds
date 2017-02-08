@@ -115,7 +115,7 @@ module.exports = function Engine(options) {
             var pageData = Object.assign(defaultData, layoutData, viewData);
             var viewTemplate = view.template;
 
-            if (editmode || data.editmode && view.config && view.config.schema) {
+            if ((editmode || data.editmode) && view.config && view.config.schema) {
               viewTemplate = `{{{__LDSPartialStart '${view.partialName}' this '${obj2json(view.config.schema)}' }}}${viewTemplate}{{{__LDSPartialEnd '${view.partialName}'}}}{{{__LDSEditScript}}}`;
             }
             var template = layout ? layout.template.replace(/{{{@body}}}/, viewTemplate) : viewTemplate;
