@@ -34,18 +34,18 @@ var log = console.log.bind(console);
 
 // Build scripts for bundling scripts and styles, generating icon-fonts, minifying imagages and copying font files.
 module.exports = function build(type, config, callback) {
-  let taskcount = 0;
+  var taskcount = 0;
 
   function taskStart() {
     if (arguments) {
-      log.call(this, ...arguments);
+      log.call(this, Array.prototype.slice.call(arguments, 0 -1));
     }
     taskcount++;
   }
 
   function taskDone() {
     if (arguments) {
-      log.call(this, ...arguments);
+      log.call(this, Array.prototype.slice.call(arguments, 0 -1));
     }
     taskcount--;
     if (taskcount < 1 && typeof(callback) === 'function') {
