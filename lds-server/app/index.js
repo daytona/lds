@@ -40,6 +40,7 @@ function Server(config) {
   app.keys = ['secret lds project'];
 
   var lds = parseLds.sync(config);
+  var runtimeEngine = engine.setup(namespace, lds.structure);
   var api;
   var token = randtoken(16);
 
@@ -47,6 +48,7 @@ function Server(config) {
     console.log('Re-parsing structure');
     lds = parseLds.sync(config);
     api = API(lds, methods);
+    runtimeEngine = engine.setup(namespace, lds.structure);
     if (typeof(callback) === 'function') {
       callback();
     }
@@ -79,8 +81,6 @@ function Server(config) {
       api.methods.message(message, this.websocket, lds, methods);
     });
 
-    // send a message to our client
-    this.websocket.send('Hello Client!');
     // yielding `next` will pass the context (this) on to the next ws middleware
     yield next;
   }));
@@ -101,7 +101,7 @@ function Server(config) {
     // Serve static files from /dist folder
     .use(pageNotFound) // Handle 404 after parsing every other middleware, if no match trigger 404
     .use(mount(config.path.public, serve(path.join(config.path.dirname, config.path.dist))))
-    .use(engine.setup(namespace, lds.structure));
+    .use(runtimeEngine);
 
   if (config.login && process.env.NODE_ENV === 'production') {
     app.use(auth(config.login, token));

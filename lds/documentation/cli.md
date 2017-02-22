@@ -36,7 +36,7 @@ $ lds watch
 // Start up the server and wait for any change in assetfiles and run appropriate build automatically (might not take into considaration the creation of new components).
 
 $ lds test
-// TODO: Make sure your LDS-structure is correct and working.
+Make sure your LDS-structure is correct and working.
 
 $ lds create component MyName
 // creates a new component with the name of MyName. Also available for (base, module, view, helper and layout)

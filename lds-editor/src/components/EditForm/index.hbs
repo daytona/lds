@@ -4,6 +4,7 @@
   data-datapath="{{dataPath}}"
   data-component="{{view.id}}"
   data-sessionid="{{sessionid}}">
+  <strong class="EditForm-title">{{view.partialString}}</strong>
   {{#each schema}}
     {{> component:EditForm/param name=(concat (cond ../dataPath (concat ../dataPath '.') '') @key) data=(getProperty ../data @key) param=this}}
   {{/each}}

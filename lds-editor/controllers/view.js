@@ -1,6 +1,7 @@
 var findComponent = require('../lib/find-component');
 var pureQuery = require('../lib/pure-query');
 var objectDeepMap = require('../lib/object-deep-map');
+var objectValue = require('../lib/objectValue');
 
 module.exports = function* view(next) {
   // parse view data and get all partials using a config.schema and render the forms for each component.
@@ -66,13 +67,13 @@ module.exports = function* view(next) {
       var dataString = partialComment.match(dataRegExp)[1];
       var data = JSON.parse(dataString.replace(/&quot;/g, '"'));
       var component = findComponent(this.lds.structure, partialString, 'partialName');
-
+      var dataPath = data.__objectPath || '';
       if (component) {
         partials.push({
           id,
           partialName: partialString,
-          dataPath: data.__objectPath || '',
-          data,
+          dataPath,
+          data: objectValue.get(viewData, dataPath),
           schema: component.config.schema,
           component
         });

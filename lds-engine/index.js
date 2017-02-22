@@ -1,5 +1,6 @@
 var objectDeepMap = require('./lib/object-deep-map');
 var guid = require('./lib/guid');
+var objectValue = require('./lib/objectValue');
 
 function obj2json (obj) {
   return typeof obj === 'object' ? JSON.stringify(obj).replace(new RegExp('\"', 'g'), "&quot\;") : obj;
@@ -11,6 +12,10 @@ function json2obj (json) {
 module.exports = function Engine(options) {
   options.registerHelper('jsonLine', function(obj){
     return typeof obj === 'object' ? JSON.stringify(obj).replace(new RegExp('\"', 'g'), '\\"') : obj;
+  });
+
+  options.registerHelper('__getPureData', function(data, path) {
+    return objectValue.get(data, path);
   });
 
   options.registerHelper('__resetLDSPartials', function(options) {
@@ -32,7 +37,7 @@ module.exports = function Engine(options) {
         data,
         schema: json2obj(schema)
       });
-      // The exakt format of this comment is required by lds-editor
+      // The exact format of this comment is required by lds-editor
       return `<!-- component="${partialName}" id="partial-${guid()}" data="${obj2json(data)}" -->`;
     }
   });
@@ -99,7 +104,7 @@ module.exports = function Engine(options) {
             }
 
             var defaultData = this.defaultData || {};
-            var viewData = Object.assign({layout: 'default'}, view.data, data);
+            var viewData = Object.assign({}, {layout: 'default'}, view.data, data);
             if (editmode || data.editmode) {
               objectDeepMap(viewData, (value, key, path) => {
                 // Is value an object
@@ -112,7 +117,7 @@ module.exports = function Engine(options) {
 
             var layout = viewData.layout && structure.layouts[viewData.layout] ? structure.layouts[viewData.layout] : false;
             var layoutData = layout && layout.data || {};
-            var pageData = Object.assign(defaultData, layoutData, viewData);
+            var pageData = Object.assign({}, defaultData, layoutData, viewData);
             var viewTemplate = view.template;
 
             if ((editmode || data.editmode) && view.config && view.config.schema) {

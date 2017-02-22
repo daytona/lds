@@ -152,6 +152,11 @@ var helpers = {
       };
     });
   },
+
+  isArray(arr) {
+    return Array.isArray(arr);
+  },
+
   split (str, separator) {
     separator = typeof separator === 'string' ? separator : ' ';
     // Skip if already an array

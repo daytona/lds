@@ -1,9 +1,15 @@
 {{#if param}}
   <div class="EditForm-param">
-    {{#if param.$type}}
-      {{#with param}}
-        {{>component:EditForm/input name=../name value=../data}}
-      {{/with}}
+    {{#if (or param.$type param.$variations)}}
+      {{#if (and (equals param.$type 'Array') (isArray data))}}
+        {{#each data}}
+          {{>component:EditForm/input name=(concat ../name '.' @key) value=this $type='JSON'}}
+        {{/each}}
+      {{else}}
+        {{#with param}}
+          {{>component:EditForm/input name=../name value=../data}}
+        {{/with}}
+      {{/if}}
     {{else if (objectLength param)}}
       <div class="EditForm-group">
         <strong class="EditForm-groupTitle">{{@key}}</strong>

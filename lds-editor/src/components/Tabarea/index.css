@@ -10,7 +10,6 @@
   width: 300px;
   border: 1px solid rgba(0,0,0,0.4);
 }
-
 .Tabarea[aria-hidden="true"] {
   display: none;
   margin-bottom: 20px;

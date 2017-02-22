@@ -1,0 +1,11 @@
+<div class="Tablist{{#inline}} Tablist--inline{{/inline}}{{#right}} Tablist--right{{/right}} {{#small}} Tablist--small{{/small}}" data-controller="[{ &quot;Tablist&quot;: { {{#toggle}}&quot;toggle&quot;: true{{/toggle}} } }]">
+  <ul class="Tablist-list" aria-role="tablist">
+    {{#if items}}
+      {{#each items}}
+        {{> component:Tablist/tab id=id }}
+      {{/each}}
+    {{else}}
+      {{> @partial-block}}
+    {{/if}}
+  </ul>
+</div>

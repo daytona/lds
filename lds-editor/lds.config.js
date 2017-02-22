@@ -5,7 +5,7 @@ module.exports = {
   version: '0.0.1',             // Current semver version of library
   engine: {                     // Setup a templating engine
     render (string, data) {      // Define custom render method
-      return handlebars.compile(string)(data);
+      return handlebars.compile(string, {preventIndent: true})(data);
     },
     registerHelper (name, fn) {  // Define custom helperRegister
       return handlebars.registerHelper(name, fn);

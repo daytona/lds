@@ -5,9 +5,36 @@
         {{>component:Preview sessionid=sessionid url=(concat '/api' view.id) querystring="editmode=true" view=view id=(concat "edit" view.id)}}
       </div>
       <div class="View-editor">
-        {{#each partials}}
-          {{>component:EditForm sessionid=../sessionid  view=../view}}
-        {{/each}}
+        {{#> component:Tablist}}
+          {{#if partials}}
+            {{#> component:Tablist/tab id="cms"}}
+              CMS
+            {{/component:Tablist/tab}}
+          {{/if}}
+          {{#if view.data}}
+            {{#> component:Tablist/tab id="source"}}
+                <\>
+            {{/ component:Tablist/tab}}
+          {{/if}}
+        {{/ component:Tablist}}
+
+        {{#if partials}}
+          {{#> component:Tabarea id="cms"}}
+            {{#each ../partials}}
+              {{>component:EditForm sessionid=../sessionid  view=../view}}
+            {{/each}}
+          {{/component:Tabarea}}
+        {{/if}}
+
+        {{#if view.data}}
+          {{#> component:Tabarea id="source"}}
+            {{#each ../view.files}}
+              {{#if (or (equals @key 'index.json') (equals @key 'default.json'))}}
+                {{>component:CodeEditor language="json" code=this file=@key component=../view}}
+              {{/if}}
+            {{/each}}
+          {{/component:Tabarea}}
+        {{/if}}
       </div>
     </div>
   {{/set}}

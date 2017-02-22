@@ -18,5 +18,7 @@
     {{>component:Form type="number" label=@key name=name value=(or $default value)}}
   {{ else if (equals $type 'LongString')}}
     {{>component:Form type="textarea" label=@key name=name value=(or $default value)}}
+  {{ else }}
+    {{>component:Form type="textarea" label=@key name=name value=(or $default (json value))}}
   {{/if}}
 </div>

@@ -1,0 +1,109 @@
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.CodeEditor {
+  position: relative;
+  font-family: Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 5px;
+  background: #272822;
+}
+.CodeEditor .CodeEditor-textarea {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  overflow: hidden;
+  background: none;
+  color: transparent;
+  border: none;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  padding: 1em;
+}
+
+.CodeEditor .CodeEditor-textarea,
+.CodeEditor .CodeEditor-code,
+.CodeEditor .CodeEditor-pre,
+.CodeEditor .CodeEditor-caret {
+  box-sizing: border-box;
+  display: block;
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  white-space: pre-wrap;
+}
+
+.CodeEditor .CodeEditor-pre {
+  position: relative;
+  background: none;
+  pointer-events: none;
+}
+
+.CodeEditor .CodeEditor-code {
+  background: none;
+}
+
+.CodeEditor .CodeEditor-pre {
+  padding: 1em 1em 2em;
+}
+.CodeEditor .CodeEditor-textarea {
+  padding: 1em;
+}
+
+.CodeEditor .CodeEditor-caret {
+  color: #fff;
+  padding: 1em;
+  white-space: pre-wrap;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: none;
+  pointer-events: none;
+  color: transparent;
+}
+.CodeEditor.has-focus .CodeEditor-caret {
+  display: block;
+}
+.CodeEditor.no-caret .CodeEditor-caret {
+  display: none;
+}
+
+.CodeEditor .CodeEditor-caret::after {
+  content: attr(data-restword);
+  border-left: 1px solid #fff;
+  color: transparent;
+  animation-name: blink;
+  animation-duration: 0.85s;
+  animation-timing-function: steps(2, end);
+  animation-iteration-count: infinite;
+}
+.CodeEditor-revisionPicker {
+  position: absolute;
+  position: sticky;
+  top: 0;
+  right: 0;
+}
+
+.CodeEditor-submit {
+  position: absolute;
+  position: sticky;
+  bottom: 0;
+  right: 0;
+  width: 80px;
+}
+.CodeEditor-submit[disabled]{
+  opacity: 0;
+  pointer-events: none;
+}

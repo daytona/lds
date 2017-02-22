@@ -4,6 +4,7 @@
     data-id="{{id}}"
     data-component="{{componentId}}"
     class="Form DemoForm {{#if class}}{{class}}{{/if}}">
+    <strong class="EditForm-title">view</strong>
     {{#each schema}}
       {{> component:Demo/form/param name=@key data=(getProperty ../data @key) param=this}}
     {{/each}}

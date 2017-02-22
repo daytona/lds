@@ -5,7 +5,7 @@ module.exports = {
   version: '0.0.2',
   engine: {
     render(string, data) {
-      return handlebars.compile(string)(data);
+      return handlebars.compile(string, {preventIndent: true})(data);
     },
     registerHelper (name, fn) {
       return handlebars.registerHelper(name, fn);
