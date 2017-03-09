@@ -84,9 +84,10 @@ module.exports = function Engine(options) {
 
           // Loop through all template files and register as child path e.g. {{> component:mycomponent/child }}
           if (value.templates && value.templates.length) {
-            value.templates.forEach((template) => {
+            for (var i = 0, len = value.templates.length; i < len; i++) {
+              var template = value.templates[i];
               options.registerPartial(`${value.partialName}/${template.name}`, template.content);
-            });
+            }
           }
         }
 
