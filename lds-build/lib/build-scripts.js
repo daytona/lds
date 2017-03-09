@@ -3,8 +3,9 @@ var Browserify = require('browserify');
 var babelify = require('babelify');
 var uglifyify = require('uglifyify');
 
-module.exports = function buildScript(files, root, dest, callback) {
-  var browserify = Browserify({ debug: true });
+module.exports = function buildScript(files, root, dest, callback, sourceMaps) {
+  var debug = (typeof sourceMaps === 'boolean' ? sourceMaps : true);
+  var browserify = Browserify({ debug: debug });
 
   browserify
     .add(files, {
@@ -13,7 +14,7 @@ module.exports = function buildScript(files, root, dest, callback) {
     .transform(babelify, {
       presets: ['es2015']
     })
-    .transform({global: true, debug: true}, uglifyify);
+    .transform({global: true, debug: debug }, uglifyify);
 
   browserify
     .bundle()

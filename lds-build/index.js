@@ -34,18 +34,18 @@ var log = console.log.bind(console);
 
 // Build scripts for bundling scripts and styles, generating icon-fonts, minifying imagages and copying font files.
 module.exports = function build(type, config, callback) {
-  let taskcount = 0;
+  var taskcount = 0;
 
   function taskStart() {
     if (arguments) {
-      log.call(this, ...arguments);
+      log.call(this, Array.prototype.slice.call(arguments, 0 -1));
     }
     taskcount++;
   }
 
   function taskDone() {
     if (arguments) {
-      log.call(this, ...arguments);
+      log.call(this, Array.prototype.slice.call(arguments, 0 -1));
     }
     taskcount--;
     if (taskcount < 1 && typeof(callback) === 'function') {
@@ -112,7 +112,7 @@ module.exports = function build(type, config, callback) {
       taskStart('Bundling scripts');
       buildScripts(scripts, cfgPath.dirname, path.join(cfgPath.dirname, cfgPath.dist, config.dest.script), function(){
         taskDone('JS bundle written to disk: ', path.join(cfgPath.dirname, cfgPath.dist, config.dest.script));
-      });
+      }, config.sourceMaps);
       if (config.dest.scripts && config.dest.scripts.length) {
         config.dest.scripts.forEach(bundle => {
           taskStart('Bundling scripts', bundle.dest);
@@ -122,7 +122,7 @@ module.exports = function build(type, config, callback) {
           });
           buildScripts(bundleScripts, cfgPath.dirname, path.join(cfgPath.dirname, cfgPath.dist, bundle.dest), function(){
             taskDone('JS bundle '+ bundle.dest +' written to disk: ', path.join(cfgPath.dirname, cfgPath.dist, bundle.dest));
-          });
+          }, config.sourceMaps);
         })
       }
     },
