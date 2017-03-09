@@ -1,6 +1,6 @@
 {
   "name": "@daytona/lds-server",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "A Koa server to render views, with components as partials. Including styleguide for listing components under /components and single component under /component/:name",
   "main": "index.js",
   "scripts": {
@@ -8,6 +8,13 @@
   },
   "author": "Daytona Stockholm",
   "license": "MIT",
+  "links": [
+    "@daytona/lds-api",
+    "@daytona/lds-editor",
+    "@daytona/lds-engine",
+    "@daytona/lds-parser",
+    "@daytona/lds-styleguide"
+  ],
   "dependencies": {
     "@daytona/lds-api": "latest",
     "@daytona/lds-editor": "latest",

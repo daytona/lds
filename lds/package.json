@@ -22,6 +22,19 @@
     "url": "https://github.com/daytona/lds/issues"
   },
   "homepage": "https://github.com/daytona/lds",
+  "links": [
+    "@daytona/lds-api",
+    "@daytona/lds-build",
+    "@daytona/lds-cli",
+    "@daytona/lds-create",
+    "@daytona/lds-editor",
+    "@daytona/lds-engine",
+    "@daytona/lds-parser",
+    "@daytona/lds-parser",
+    "@daytona/lds-server",
+    "@daytona/lds-styleguide",
+    "@daytona/lds-test"
+  ],
   "dependencies": {
     "@daytona/lds-api": "latest",
     "@daytona/lds-build": "latest",

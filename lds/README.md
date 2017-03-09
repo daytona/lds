@@ -31,7 +31,7 @@ LDS consists of several vital parts to make your job easier.
  - [LDS Test](https://www.npmjs.com/package/@daytona/lds-test): Tests the status of your components and makes sure you don't commit any bugs.
  - [LDS Editor](https://www.npmjs.com/package/@daytona/lds-editor): Opens the views in edit-mode, with the possibility to  to update page data according to defined schemas.
 
-You can customize the file structure or templating engine, using the lds.config.js in your root project directory. Read more about customization in out [documentation](docs/customization.md)
+You can configure the file structure or templating engine, using the lds.config.js in your root project directory. Read more about configuration in out [documentation](docs/configuration.md)
 
 ## Installation
 
@@ -59,7 +59,7 @@ This builds your assets, creating a watch task for file changes in your project 
 * [Installation](https://github.com/daytona/lds/blob/master/lds/documentation/installation.md)
 * [Getting started](https://github.com/daytona/lds/blob/master/lds/documentation/getting-started.md)
 * [Commandline](https://github.com/daytona/lds/blob/master/lds/documentation/cli.md)
-* [Customization](https://github.com/daytona/lds/blob/master/lds/documentation/customization.md)
+* [Configuration](https://github.com/daytona/lds/blob/master/lds/documentation/configuration.md)
 * [Views & layouts](https://github.com/daytona/lds/blob/master/lds/documentation/views-layouts.md)
 * [Styleguide](https://github.com/daytona/lds/blob/master/lds/documentation/styleguide.md)
 * [API](https://github.com/daytona/lds/blob/master/lds/documentation/api.md)

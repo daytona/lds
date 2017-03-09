@@ -45,3 +45,13 @@ Some components have a lot of variations and modifications as well, so to illust
 To show how a component can be used more specifically you can also add a example file (example.hbs) where you can generate HTML describing how to use a utility, base or a component.
 
 You can also include a screenshot of the component (screenshot.png) which will be used in the styleguide instead of the automatically taken screenshots.
+```
+index.css     // Stylesheet
+index.js      // JavaScript
+index.hbs     // Template file (using the file extension defined in lds.config.js)
+default.json  // An example of the data the component expects (used in styleguide)
+config.json   // Configuration of a component with schema (data-types and values) and variations (list several version of component in styleguide)
+readme.md     // Markdown documentation of the purpose of the component and how to use it.
+screenshot.png // Custom screenshot to use in styleguide (instead of automatic screenshot)
+example.hbs   // En template example file to render in styleguide (uses the component object as data)
+```

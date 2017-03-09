@@ -1,6 +1,6 @@
 {
   "name": "@daytona/lds-styleguide",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Creating a styleguide based on LDS-structure to present all components, views and helpers in GUI ",
   "main": "index.js",
   "scripts": {
@@ -13,7 +13,8 @@
   "author": "",
   "license": "ISC",
   "links": [
-    "lds-engine"
+    "@daytona/lds-engine",
+    "@daytona/lds-parser"
   ],
   "dependencies": {
     "@daytona/lds-engine": "latest",

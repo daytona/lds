@@ -1,6 +1,6 @@
 {
   "name": "@daytona/lds-editor",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Editor playground to modify and update components",
   "main": "index.js",
   "scripts": {
@@ -8,6 +8,10 @@
   },
   "author": "Daytona Stockholm",
   "license": "MIT",
+  "links": [
+    "@daytona/lds-engine",
+    "@daytona/lds-parser"
+  ],
   "dependencies": {
     "@daytona/lds-engine": "latest",
     "@daytona/lds-parser": "latest",
