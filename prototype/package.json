@@ -1,6 +1,6 @@
 {
   "name": "daytona-proto",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Prototype LDS for daytona.se",
   "main": "index.js",
   "scripts": {
@@ -17,7 +17,7 @@
   "author": "Daytona Stockholm",
   "license": "MIT",
   "links": [
-    "living-design-system"
+    "@daytona/living-design-system"
   ],
   "dependencies": {
     "babel-core": "^6.5.2",
