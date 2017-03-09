@@ -108,7 +108,7 @@ module.exports = function build(type, config, callback) {
     },
 
     script: (config) => {
-      var scripts = findComponents(components, /index.js$/, 'src/');
+      var scripts = findComponents(components, /index.jsx?$/, 'src/');
       taskStart('Bundling scripts');
       buildScripts(scripts, cfgPath.dirname, path.join(cfgPath.dirname, cfgPath.dist, config.dest.script), function(){
         taskDone('JS bundle written to disk: ', path.join(cfgPath.dirname, cfgPath.dist, config.dest.script));
