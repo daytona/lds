@@ -1,7 +1,14 @@
 {
   "version": "0.0.1",
   "schema": {
-    "name": ["User", "World", "Fredrik"]
+    "name": {
+      "$default": "Developer",
+      "$variations": ["User", "World"]
+    },
+    "modifiers": {
+      "$default": "",
+      "$variations": ["small"]
+    }
   },
   "variations": {
     "small": {

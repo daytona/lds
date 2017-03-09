@@ -1,5 +1,7 @@
 {
   "schema": {
-    "name" : ["Långt namn", "Fredrik", "Hej"]
+    "name": {
+      "$variations": ["Långt namn", "Fredrik", "Hej"]
+    }
   }
 }

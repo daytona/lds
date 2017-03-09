@@ -1,12 +1,16 @@
 :root {
-  --variable1: blue;
-  --variable2: green;
+  --color-blue: blue;
+  --color-green: green;
 }
 .Test {
-  color: blue;
+  color: var(--color-blue);
 }
 
 .Test--small {
-  font-size: 12px;
-  color: red;
+  font-size: 0.8em;
+  color: var(--color-green);
+}
+
+.Test-name {
+  font-style: italic;
 }

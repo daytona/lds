@@ -35,14 +35,12 @@ function init(root, callback) {
       console.log('Building initial assets');
       return cmd.exec('lds build');
     }).then(function(){
-      console.log('Starting up server');
-      return cmd.exec('lds watch');
-    }).then(function(){
       callback();
     });
   });
   return;
 }
+
 function create(type, name, config) {
   var helpers = {
     name: name,
