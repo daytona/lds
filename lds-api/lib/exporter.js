@@ -41,7 +41,8 @@ module.exports = function* exporter (next) {
       html = html.replace(viewurl, '="' + relativePath + otherview.exporturl + '"');
     });
 
-    html = html.replace(/="\//g, '="' + relativePath);
+    var rootPath = new RegExp('="\/', 'g');
+    html = html.replace(rootPath, '="' + relativePath);
     fs.mkdir(dir, () => {
       fs.writeFile( dir + '/index.html', html, (err) => {
          if (err) throw err;
