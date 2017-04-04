@@ -17,7 +17,13 @@ module.exports = function buildStyles(files, src, dest, prefix, plugins, callbac
       map: {inline: true, sourcesContent: false}
     }))
     .use(cssprefix(prefix ? prefix + '-' : ''))
-    .use(cssnext())
+    .use(cssnext({
+      features: {
+        rem: {
+          html: false // postcss plugin pixrem tries to warn if font size not set on HTML element but this isn't helpful for all implementations
+        }
+      }
+    }))
     .use(cssnano());
 
   plugins.forEach(function(plugin) {
@@ -33,6 +39,11 @@ module.exports = function buildStyles(files, src, dest, prefix, plugins, callbac
       }
       if (typeof callback === 'function') {
         callback();
+      }
+    }).catch(error => {
+      if (error.message && error.plugin && error.line && error.column) {
+        console.error('Plugin "' + error.plugin + '" reported and error on line ' + error.line + ' column ' + error.column + ':\n');
+        console.error('Error message: ' + error.message);
       }
     });
 }
