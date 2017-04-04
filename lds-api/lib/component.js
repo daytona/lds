@@ -66,6 +66,14 @@ module.exports = function* component (next) {
       updateHeightScript: query._iframeid && updateIframeScript(query._iframeid),
       socketScript: socketScript((this.request.protocol.match(/https/) ? 'wss' : 'ws') +'://' + this.request.host)
     });
+  } else if (query._type === 'data') {
+    this.type = 'application/json; charset=utf-8';
+    if (query.variation && component.config && component.config.variations) {
+      this.body = JSON.stringify(component.config.variations[query.variation], null, 2);
+    } else {
+      this.body = JSON.stringify(componentData, null, 2);
+    }
+    return;
   } else if (query._standalone) {
     this.body = handlebars.compile(templates['standalone.hbs'])({
       isComponent: component.category === 'component',
