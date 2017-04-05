@@ -2,8 +2,9 @@ var fs = require('fs-extra');
 var Browserify = require('browserify');
 var babelify = require('babelify');
 var uglifyify = require('uglifyify');
+var partialify = require('partialify/custom');
 
-module.exports = function buildScript(files, root, dest, callback, sourceMaps) {
+module.exports = function buildScript(files, root, dest, sourceMaps, viewsExtension, callback) {
   var debug = (typeof sourceMaps === 'boolean' ? sourceMaps : true);
   var browserify = Browserify({ debug: debug });
 
@@ -11,6 +12,7 @@ module.exports = function buildScript(files, root, dest, callback, sourceMaps) {
     .add(files, {
       basedir: root
     })
+    .transform(partialify.alsoAllow(viewsExtension || 'hbs'))
     .transform(babelify, {
       presets: ['es2015']
     })

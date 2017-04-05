@@ -110,9 +110,9 @@ module.exports = function build(type, config, callback) {
     script: (config) => {
       var scripts = findComponents(components, /index.jsx?$/, 'src/');
       taskStart('Bundling scripts');
-      buildScripts(scripts, cfgPath.dirname, path.join(cfgPath.dirname, cfgPath.dist, config.dest.script), function(){
+      buildScripts(scripts, cfgPath.dirname, path.join(cfgPath.dirname, cfgPath.dist, config.dest.script), config.sourceMaps, config.engine.ext, function(){
         taskDone('JS bundle written to disk: ', path.join(cfgPath.dirname, cfgPath.dist, config.dest.script));
-      }, config.sourceMaps);
+      });
       if (config.dest.scripts && config.dest.scripts.length) {
         config.dest.scripts.forEach(bundle => {
           taskStart('Bundling scripts', bundle.dest);
@@ -120,9 +120,9 @@ module.exports = function build(type, config, callback) {
           bundle.src.forEach(path => {
             bundleScripts = bundleScripts.concat(findComponents(components, new RegExp(path + '.*\\.js$'), 'src/'));
           });
-          buildScripts(bundleScripts, cfgPath.dirname, path.join(cfgPath.dirname, cfgPath.dist, bundle.dest), function(){
+          buildScripts(bundleScripts, cfgPath.dirname, path.join(cfgPath.dirname, cfgPath.dist, bundle.dest), config.sourceMaps, config.engine.ext, function(){
             taskDone('JS bundle '+ bundle.dest +' written to disk: ', path.join(cfgPath.dirname, cfgPath.dist, bundle.dest));
-          }, config.sourceMaps);
+          });
         })
       }
     },
