@@ -59,7 +59,7 @@
         {{> component:Demo
               id=(concat @component.name ":" @key)
               uid=(uid)
-              title=(capitalize (concat @component.name " " name))
+              title=(capitalize (concat @component.name " " @key))
               url=(concat "/api/" @component.group "/" @component.name)
               queryString=(concat "variation=" @key)
               component=@component
