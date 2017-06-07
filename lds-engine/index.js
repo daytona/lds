@@ -124,7 +124,14 @@ module.exports = function Engine(options) {
             if ((editmode || data.editmode) && view.config && view.config.schema) {
               viewTemplate = `{{{__LDSPartialStart '${view.partialName}' this '${obj2json(view.config.schema)}' }}}${viewTemplate}{{{__LDSPartialEnd '${view.partialName}'}}}{{{__LDSEditScript}}}`;
             }
-            var template = layout ? layout.template.replace(/{{{@body}}}/, viewTemplate) : viewTemplate;
+
+            var template;
+            var bodyToken = options.bodyToken || '{{{@body}}}';
+            if (layout && layout.template.indexOf(bodyToken) !== -1) {
+              template = layout.template.replace(new RegExp(bodyToken), viewTemplate);
+            } else {
+              template = viewTemplate;
+            }
 
             var html = options.render(template, pageData);
 
